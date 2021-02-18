@@ -2,23 +2,48 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-<!--    <link href="css/style.css" rel="stylesheet">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Catlog</title>
+
+    <link rel="shortcut icon" href="./css/header/cat.svg" type="image/x-icon">
+
+    <link rel="stylesheet" href="./css/reset.css">
+    <link rel="stylesheet" href="./css/variables.css">
+
+    <link rel="stylesheet" href="./css/header/header.css">
+    <link rel="stylesheet" href="./css/search-input/search-input.css">
+    <link rel="stylesheet" href="./css/authorization-button/authorization-button.css">
+
+    <link rel="stylesheet" href="./css/content/content.css">
+    <link rel="stylesheet" href="./css/article/article.css">
 </head>
 <body>
-    <h1>Спичок клиентов</h1>
+    <header class="header">
+        <div class="header__child">
+            <div class="header__logo-wrap">
+                <div class="header__logo-image"></div>
+                <h1 class="header__title">Catlog</h1>
+            </div>
+        </div>
 
-    <ul id="listClients">
+        <div class="header__child header__child_grow">
+            <div class="search-input">
+                <input class="search-input__input" placeholder="введите тег">
+            </div>
+        </div>
 
-    </ul>
+        <div class="header__child">
+            <button class="authorization-button">Войти</button>
+        </div>
+    </header>
 
-    <form id="clientForm" method="post" action="#">
-        <input name="clientName" placeholder="имя"> <br>
-        <input name="clientEmail" placeholder="email"> <br>
-        <input name="clientPhone" placeholder="телефон"> <br>
-        <button type="submit">Создать</button>
-    </form>
-
-    <script src="js/script.js"></script>
+    <section class="content">
+        <div class="article">
+            <div class="article__author">автор</div>
+            <div class="article__time">18.02.2001</div>
+            <p class="article__text">текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст</p>
+        </div>
+    </section>
 </body>
 </html>

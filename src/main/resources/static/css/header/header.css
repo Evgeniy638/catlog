@@ -1,0 +1,29 @@
+.header {
+    background-color: #f39c12;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+.header__child {
+    margin: 0 7px;
+}
+
+.header__child_grow {
+    flex-grow: 1;
+}
+
+.header__logo-wrap {
+    display: flex;
+}
+
+.header__logo-image {
+    background-image: url("./cat.svg");
+    width: 34px;
+    height: 34px;
+}
+
+.header__title {
+    color: rgb(255, 240, 213);
+}

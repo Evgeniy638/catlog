@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController()
+@RestController("/posts")
 public class PostController {
     private final PostServiceImpl postServiceImpl;
 
@@ -18,7 +18,7 @@ public class PostController {
         this.postServiceImpl = postServiceImpl;
     }
 
-    @PostMapping(value = "/posts")
+    @PostMapping
     public ResponseEntity<?> create(@RequestBody Post post) {
         postServiceImpl.create(post);
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -51,7 +51,7 @@ public class PostController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @GetMapping(value = "")
+    @GetMapping(value = "/all")
     public ResponseEntity<List<Post>> read() {
         final List<Post> posts = postServiceImpl.findAll();
 
