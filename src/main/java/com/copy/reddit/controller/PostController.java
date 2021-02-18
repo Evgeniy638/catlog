@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/posts")
+@RestController
 public class PostController {
     private final PostServiceImpl postServiceImpl;
 
@@ -24,7 +24,7 @@ public class PostController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @GetMapping(value = "/{tagName}")
+    @GetMapping(value = "/posts/{tagName}")
     public ResponseEntity<?> findByTag(@PathVariable(name = "tagName") String tagName) {
         final List<Post> posts = postServiceImpl.findByTag(tagName);
         System.out.println(tagName + " " + posts);
@@ -33,7 +33,7 @@ public class PostController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping(value = "/posts/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
         final boolean deleted = postServiceImpl.delete(id);
 
@@ -42,7 +42,7 @@ public class PostController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping(value = "/posts/{id}")
     public ResponseEntity<?> update(@PathVariable(name = "id") int id, @RequestBody String text) {
         final boolean updated = postServiceImpl.update(text, id);
 
@@ -51,7 +51,7 @@ public class PostController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @GetMapping(value = "/all")
+    @GetMapping(value = "/posts")
     public ResponseEntity<List<Post>> read() {
         final List<Post> posts = postServiceImpl.findAll();
 
