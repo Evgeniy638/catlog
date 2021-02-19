@@ -1,0 +1,31 @@
+package com.copy.reddit.dao;
+
+import com.copy.reddit.dto.UserDTO;
+import com.copy.reddit.model.Post;
+import com.copy.reddit.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public class UserDAO {
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public UserDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public void save(User user) {
+        jdbcTemplate.update("INSERT INTO \"User\" (nickname, password) values (?, ?)",
+                user.getUsername(), user.getPassword());
+    }
+
+    public UserDTO findByUsername(String username) {
+        return jdbcTemplate.query("SELECT * FROM \"User\" WHERE nickname=?",
+                new BeanPropertyRowMapper<>(UserDTO.class), username)
+                .stream().findFirst().orElse(null);
+    }
+
+}
