@@ -8,62 +8,53 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Collection;
 import java.util.Set;
 
-public class User implements UserDetails {
+
+public class User {
     public static final PasswordEncoder PASSWORD_ENCODER = new BCryptPasswordEncoder();
-
-    private int id;
-    private String username;
+    private String nickname;
     private String password;
-    private Set<Role> roles;
+    private String encodePassword;
+    private String[] roles = new String[] {"ROLE_USER"};
 
-    public int getId() {
-        return id;
+    public User() {
+        super();
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public User(String nickname, String password) {
+        this.nickname = nickname;
+        setPassword(password);
+        setEncodePassword(password);
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getEncodePassword() {
+        return encodePassword;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setEncodePassword(String password) {
+        this.encodePassword = PASSWORD_ENCODER.encode(password);
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public String[] getRoles() {
         return roles;
     }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public void setRoles(String[] roles) {
+        this.roles = roles;
     }
 }

@@ -19,12 +19,12 @@ public class UserDAO {
 
     public void save(User user) {
         jdbcTemplate.update("INSERT INTO \"User\" (nickname, password) values (?, ?)",
-                user.getUsername(), user.getPassword());
+                user.getNickname(), user.getEncodePassword());
     }
 
-    public UserDTO findByUsername(String username) {
+    public User findByUsername(String username) {
         return jdbcTemplate.query("SELECT * FROM \"User\" WHERE nickname=?",
-                new BeanPropertyRowMapper<>(UserDTO.class), username)
+                new BeanPropertyRowMapper<>(User.class), username)
                 .stream().findFirst().orElse(null);
     }
 
