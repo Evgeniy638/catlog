@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="./css/authorization-button/authorization-button.css">
 
     <link rel="stylesheet" href="./css/content/content.css">
+    <link rel="stylesheet" href="./css/login/login.css">
     <link rel="stylesheet" href="./css/article/article.css">
 </head>
 <body>
@@ -33,10 +34,65 @@
             </div>
         </div>
 
-        <div class="header__child">
+        <div id="authorization-wrap" class="header__child">
             <button class="authorization-button">Войти</button>
         </div>
     </header>
+
+    <section class="login login_hidden">
+        <form class="login__form" id="loginForm" action="#">
+            <div class="login__form-element">
+                <h2 class="login__title">Войти</h2>
+            </div> 
+
+            <label class="login__form-element">
+                Логин:
+                <input class="login__input" name="nickname" placeholder="логин"/>
+            </label>
+
+            <label class="login__form-element">
+                Пароль:
+                <input class="login__input" name="password" placeholder="пароль" type="password"/>
+            </label>
+                
+            <div class="login__error login__error_hidden"></div>
+
+            <div class="login__form-element">
+                <button class="login__main-button " type="submit">Войти</button>
+
+                <button id="transitionToRegistration" class="login__additional-button">Регистрация</button>
+            </div>
+        </form>
+
+        <form class="login__form login__form_hidden" id="registrationForm" action="#">
+            <div class="login__form-element">
+                <h2 class="login__title">Войти</h2>
+            </div> 
+
+            <label class="login__form-element">
+                Логин:
+                <input class="login__input" name="nickname" placeholder="логин"/>
+            </label>
+
+            <label class="login__form-element">
+                Пароль:
+                <input class="login__input" name="password" placeholder="пароль" type="password"/>
+            </label>
+
+            <label class="login__form-element">
+                Повторите пароль:
+                <input class="login__input" name="passwordAgain" placeholder="пароль" type="password"/>
+            </label>
+                
+            <div class="login__error login__error_hidden"></div>
+
+            <div class="login__form-element">
+                <button class="login__main-button" type="submit">Зарегистрироваться</button>
+
+                <button id="transitionToLogin" class="login__additional-button">Войти</button>
+            </div>
+        </form>
+    </section>
 
     <section class="content">
         <div class="article">
@@ -77,6 +133,39 @@
                 <div class="article__tag"><a href="">тег 2</a></div>
             </div>
         </div>
+        <div class="article">
+            <div class="article__info">
+                <div class="article__author">автор</div>
+                <div class="article__time">18.02.2001</div>
+            </div>
+            <input type="checkbox" class="article__hiddenchecker" id="article__hiddenchecker" />
+            <div class="article__text"><p>текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст тексттекст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+                текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
+            </p>
+            <div class="article__bottom"></div>
+            </div>
+            <label for="article__hiddenchecker" class="article__hiddenbutton"></label>
+            <div class="article__tags">
+                <div class="article__tag"><a href="">тег 1</a></div>
+                <div class="article__tag"><a href="">тег 2</a></div>
+            </div>
+        </div>
     </section>
+
+    <script src="./js/store.js"></script>
+
+    <script src="./js/api/apiUser.js"></script>
+
+    <script src="./js/components/login.js"></script>
 </body>
 </html>

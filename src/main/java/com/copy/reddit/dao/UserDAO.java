@@ -17,9 +17,15 @@ public class UserDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void save(User user) {
-        jdbcTemplate.update("INSERT INTO \"User\" (nickname, password) values (?, ?)",
-                user.getNickname(), user.getEncodePassword());
+    public boolean save(User user) {
+        try {
+            jdbcTemplate.update("INSERT INTO \"User\" (nickname, password) values (?, ?)",
+                    user.getNickname(), user.getEncodePassword());
+
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public User findByUsername(String username) {

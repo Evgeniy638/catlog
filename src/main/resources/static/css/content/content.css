@@ -2,7 +2,7 @@
     display: flex;
     flex-wrap: wrap;
     width: 100%;
-    margin: 30px auto 0 auto;
+    margin: calc(var(--height-header) + 30px) auto 0 auto;
 }
 
 @media (min-width: 1000px) {

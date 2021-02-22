@@ -1,9 +1,15 @@
 .header {
+    top: 0;
+    left: 0;
     background-color: #f39c12;
     height: 50px;
     display: flex;
     align-items: center;
     padding: 0 10px;
+    position: fixed;
+    z-index: 5;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .header__child {
