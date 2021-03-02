@@ -1,10 +1,22 @@
 package com.copy.reddit.model;
 
+import java.util.List;
+
 public class Post {
     private Integer id;
     private String text;
-    private Integer userid;
+    private Integer userId;
     private Integer time;
+    private List<Tag> tagList;
+
+
+    public List<Tag> getTagList() {
+        return tagList;
+    }
+
+    public void setTagList(List<Tag> tagList) {
+        this.tagList = tagList;
+    }
 
     public Integer getId() {
         return id;
@@ -23,11 +35,11 @@ public class Post {
     }
 
     public Integer getUserId() {
-        return userid;
+        return userId;
     }
 
     public void setUserId(Integer userId) {
-        this.userid = userId;
+        this.userId = userId;
     }
 
     public Integer getTime() {

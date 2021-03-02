@@ -2,24 +2,29 @@ package com.copy.reddit.controller;
 
 import com.copy.reddit.model.Post;
 import com.copy.reddit.service.PostServiceImpl;
+import com.copy.reddit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @RestController
 public class PostController {
     private final PostServiceImpl postServiceImpl;
+    private final UserService userService;
 
     @Autowired
-    public PostController(PostServiceImpl postServiceImpl) {
+    public PostController(PostServiceImpl postServiceImpl, UserService userService) {
         this.postServiceImpl = postServiceImpl;
+        this.userService = userService;
     }
 
-    @PostMapping
-    public ResponseEntity<?> create(@RequestBody Post post) {
+    @PostMapping(value = "/posts")
+    public ResponseEntity<?> create(@RequestHeader("Authorization") String authorization, @RequestBody Post post) throws UnsupportedEncodingException {
+        post.setUserId(userService.getUserByAuthorization(authorization).getId());
         postServiceImpl.create(post);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

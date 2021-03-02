@@ -39,4 +39,8 @@ public class UserService {
         String code = authorization.replace("Basic ", "");
         return new String(Base64.decodeBase64(code), "US-ASCII").split(":")[0];
     }
+
+    public User getUserByAuthorization(String authorization) throws UnsupportedEncodingException {
+        return userDAO.findByUsername(getNameByAuthorization(authorization));
+    }
 }
