@@ -8,7 +8,33 @@ public class Post {
     private Integer userId;
     private Integer time;
     private List<Tag> tagList;
+    private int countLikes;
+    private boolean hasLike;
+    private List<Image> images;
 
+    public List<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(List<Image> images) {
+        this.images = images;
+    }
+
+    public boolean isHasLike() {
+        return hasLike;
+    }
+
+    public void setHasLike(boolean hasLike) {
+        this.hasLike = hasLike;
+    }
+
+    public int getCountLikes() {
+        return countLikes;
+    }
+
+    public void setCountLikes(int countLikes) {
+        this.countLikes = countLikes;
+    }
 
     public List<Tag> getTagList() {
         return tagList;

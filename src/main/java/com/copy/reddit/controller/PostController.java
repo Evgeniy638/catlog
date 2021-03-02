@@ -25,13 +25,23 @@ public class PostController {
     @PostMapping(value = "/posts")
     public ResponseEntity<?> create(@RequestHeader("Authorization") String authorization, @RequestBody Post post) throws UnsupportedEncodingException {
         post.setUserId(userService.getUserByAuthorization(authorization).getId());
+        post.setCountLikes(0);
         postServiceImpl.create(post);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/posts/{tagName}")
-    public ResponseEntity<?> findByTag(@PathVariable(name = "tagName") String tagName) {
-        final List<Post> posts = postServiceImpl.findByTag(tagName);
+    public ResponseEntity<?> findByTag(
+            @PathVariable(name = "tagName") String tagName,
+            @RequestHeader(value = "Authorization", required = false) String authorization
+    ) throws UnsupportedEncodingException {
+        Integer userId = null;
+
+        if (authorization != null) {
+            userId = userService.getUserByAuthorization(authorization).getId();
+        }
+
+        final List<Post> posts = postServiceImpl.findByTag(tagName, userId);
         System.out.println(tagName + " " + posts);
         return posts != null
                 ? new ResponseEntity<>(posts, HttpStatus.OK)
@@ -57,13 +67,41 @@ public class PostController {
     }
 
     @GetMapping(value = "/posts")
-    public ResponseEntity<List<Post>> read() {
-        final List<Post> posts = postServiceImpl.findAll();
+    public ResponseEntity<List<Post>> read(
+            @RequestHeader(value = "Authorization", required = false) String authorization
+    ) throws UnsupportedEncodingException {
+        Integer userId = null;
+
+        if (authorization != null) {
+            userId = userService.getUserByAuthorization(authorization).getId();
+        }
+
+        final List<Post> posts = postServiceImpl.findAll(userId);
 
         return posts != null &&  !posts.isEmpty()
                 ? new ResponseEntity<>(posts, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PostMapping(value = "posts/likes/{postId}")
+    public ResponseEntity<Integer> createLike(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable(name = "postId") int postId
+    ) throws UnsupportedEncodingException {
+        int userId = userService.getUserByAuthorization(authorization).getId();
+        int countId = postServiceImpl.createLike(userId, postId);
+        return new ResponseEntity<>(countId, HttpStatus.CREATED);
+    }
 
+    @DeleteMapping(value = "posts/likes/{postId}")
+    public ResponseEntity<Integer> deleteLike(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable(name = "postId") int postId
+    ) throws UnsupportedEncodingException {
+        int userId = userService.getUserByAuthorization(authorization).getId();
+        int countId = postServiceImpl.deleteLike(userId, postId);
+        return new ResponseEntity<>(countId, HttpStatus.OK);
+    }
+
+    @GetMapping(value = "posts/comments/{commentId}")
 }

@@ -33,12 +33,24 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findByTag(String tagName) {
-        return postDAO.findByTag(tagName);
+    public List<Post> findByTag(String tagName, Integer userId) {
+        return postDAO.findByTag(tagName, userId);
     }
 
     @Override
-    public List<Post> findAll() {
-        return postDAO.findAll();
+    public List<Post> findAll(Integer userId) {
+        return postDAO.findAll(userId);
+    }
+
+    @Override
+    public int createLike(int userId, int postId) {
+        postDAO.createLike(userId, postId);
+        return postDAO.getLikes(postId, userId).countLikes;
+    }
+
+    @Override
+    public int deleteLike(int userId, int postId) {
+        postDAO.deleteLike(userId, postId);
+        return postDAO.getLikes(postId, userId).countLikes;
     }
 }
