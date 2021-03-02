@@ -9,8 +9,17 @@ public class Post {
     private Integer time;
     private List<Tag> tagList;
     private int countLikes;
+    private Integer countComments;
     private boolean hasLike;
     private List<Image> images;
+
+    public Integer getCountComments() {
+        return countComments;
+    }
+
+    public void setCountComments(Integer countComments) {
+        this.countComments = countComments;
+    }
 
     public List<Image> getImages() {
         return images;

@@ -1,9 +1,6 @@
 package com.copy.reddit.dao;
 
-import com.copy.reddit.model.Image;
-import com.copy.reddit.model.Like;
-import com.copy.reddit.model.Post;
-import com.copy.reddit.model.Tag;
+import com.copy.reddit.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -109,6 +106,7 @@ public class PostDAO{
         for (Post post : posts) {
             post.setTagList(getTags(post.getId()));
             post.setImages(getImages(post.getId()));
+            post.setCountComments(getCountComments(post.getId()));
 
             AnswerLikes answerLikes = getLikes(post.getId(), userId);
             post.setCountLikes(answerLikes.countLikes);
@@ -164,5 +162,10 @@ public class PostDAO{
         }
 
         return answerLikes;
+    }
+
+    public Integer getCountComments(int postId) {
+        String SQL_SELECT = "SELECT id FROM comment WHERE postid = ?";
+        return jdbcTemplate.query(SQL_SELECT, new BeanPropertyRowMapper<>(Comment.class), postId).size();
     }
 }

@@ -1,6 +1,8 @@
 package com.copy.reddit.controller;
 
+import com.copy.reddit.model.Comment;
 import com.copy.reddit.model.Post;
+import com.copy.reddit.service.CommentService;
 import com.copy.reddit.service.PostServiceImpl;
 import com.copy.reddit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,13 @@ import java.util.List;
 public class PostController {
     private final PostServiceImpl postServiceImpl;
     private final UserService userService;
+    private final CommentService commentService;
 
     @Autowired
-    public PostController(PostServiceImpl postServiceImpl, UserService userService) {
+    public PostController(PostServiceImpl postServiceImpl, UserService userService, CommentService commentService) {
         this.postServiceImpl = postServiceImpl;
         this.userService = userService;
+        this.commentService = commentService;
     }
 
     @PostMapping(value = "/posts")
@@ -103,5 +107,38 @@ public class PostController {
         return new ResponseEntity<>(countId, HttpStatus.OK);
     }
 
-    @GetMapping(value = "posts/comments/{commentId}")
+    @GetMapping(value = "posts/comments/{postId}")
+    public ResponseEntity<List<Comment>> getCommentsByPostId(
+            @PathVariable(name = "postId") Integer postId
+    ) {
+        return new ResponseEntity<>(commentService.getCommentsByPostId(postId), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "posts/comments/answers/{commentId}")
+    public ResponseEntity<List<Comment>> getAnswersByCommentId(
+            @PathVariable(name = "commentId") Integer commentId
+    ) {
+        return new ResponseEntity<>(commentService.getAnswersByCommentId(commentId), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "posts/comments/create_comment")
+    public ResponseEntity<Integer> createComment(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody Comment comment
+    ) throws UnsupportedEncodingException {
+        comment.setHeadCommentId(null);
+        comment.setAuthorId(userService.getUserByAuthorization(authorization).getId());
+        Integer countComments = commentService.createComment(comment);
+        return new ResponseEntity<>(countComments, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "posts/comments/create_answer")
+    public ResponseEntity<Integer> createAnswers(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody Comment comment
+    ) throws UnsupportedEncodingException {
+        comment.setAuthorId(userService.getUserByAuthorization(authorization).getId());
+        Integer countComments = commentService.createComment(comment);
+        return new ResponseEntity<>(countComments, HttpStatus.CREATED);
+    }
 }
