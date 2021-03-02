@@ -25,6 +25,28 @@
     position: relative;
 }
 
+.article__like-and-comment-area{
+    color: #545454;
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0
+}
+
+.article__like-and-comment-area button{
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    outline: none;
+}
+
+.article__like-button{
+    display: inline-flex;
+    align-items: center;
+    font-size: 18px;
+    color: #545454;
+}
+
+
 /* Кнопка "Читать дальше" и скрытие части поста */
 .article__text .article__bottom {
     position: absolute;

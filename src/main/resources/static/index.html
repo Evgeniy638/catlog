@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="./css/content/content.css">
     <link rel="stylesheet" href="./css/login/login.css">
     <link rel="stylesheet" href="./css/article/article.css">
+    <link rel="stylesheet" href="./css/submit-box/submit-box.css">
 </head>
 <body>
     <header class="header">
@@ -95,6 +96,18 @@
     </section>
 
     <section class="content">
+        <div class="submit-box">
+            <div class="submit-box__author">автор</div>
+            <div>
+                <textarea class="submit-box__post-field" placeholder="Введите текст..."></textarea>
+            </div>
+            <div class="submit-box__submit-area">
+                <button class="submit-box__photo-button"><img src="./css/submit-box/photo-camera-icon.svg" alt="photo"></button>
+                <input class="submit-box__tag-field" type="text" placeholder="добавьте теги через пробел">
+                <button class="submit-box__submit-button">Опубликовать</button>
+            </div>
+        </div>
+
         <div class="article">
             <div class="article__info">
                 <div class="article__author">автор</div>
@@ -138,7 +151,7 @@
                 <div class="article__author">автор</div>
                 <div class="article__time">18.02.2001</div>
             </div>
-            <input type="checkbox" class="article__hiddenchecker" id="article__hiddenchecker" />
+            <input type="checkbox" class="article__hiddenchecker" id="article__hiddenchecker1" />
             <div class="article__text"><p>текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст тексттекст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
                 текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
                 текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст текст
@@ -154,10 +167,16 @@
             </p>
             <div class="article__bottom"></div>
             </div>
-            <label for="article__hiddenchecker" class="article__hiddenbutton"></label>
+            <label for="article__hiddenchecker1" class="article__hiddenbutton"></label>
             <div class="article__tags">
                 <div class="article__tag"><a href="">тег 1</a></div>
                 <div class="article__tag"><a href="">тег 2</a></div>
+            </div>
+            <div class="article__like-and-comment-area">30 комментариев
+                <div>
+                <button class="article__comment-button"><img src="./css/article/comment.svg" alt="comment"></button>
+                <button class="article__like-button"><img src="./css/article/active_like.svg" alt="like">123</button>
+                </div>
             </div>
         </div>
     </section>
