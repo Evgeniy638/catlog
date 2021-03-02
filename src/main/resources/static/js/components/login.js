@@ -40,3 +40,27 @@ loginForm.addEventListener("submit", async (e) => {
         showLoginErrorMessage(loginError, e.message);
     }
 });
+
+registrationForm.addEventListener("submit", async (e) => {
+    e.preventDefault()
+
+    const loginError = registrationForm.querySelector(".login__error");
+
+    try {
+        const password =  registrationForm.elements.password.value;
+        const passwordAgain = registrationForm.elements.passwordAgain.value;
+
+        if (password !== passwordAgain) {
+            throw Error(`пароль и повтор пароля отличаются`);
+        }
+
+        const {authorization, nickname} = await apiUser
+            .registration(registrationForm.elements.nickname.value, password);
+        store.authorization = authorization;
+        store.nickname = nickname;
+        authorizationWrap.innerHTML = nickname;
+        loginWrap.classList.add("login_hidden");
+    } catch (e) {
+        showLoginErrorMessage(loginError, e.message);
+    }
+});

@@ -15,6 +15,7 @@ public class User {
     private String password;
     private String encodePassword;
     private String[] roles = new String[] {"ROLE_USER"};
+    private int id;
 
     public User() {
         super();
@@ -24,6 +25,14 @@ public class User {
         this.nickname = nickname;
         setPassword(password);
         setEncodePassword(password);
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNickname() {
