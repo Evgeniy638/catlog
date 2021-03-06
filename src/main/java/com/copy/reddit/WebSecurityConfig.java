@@ -28,6 +28,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(detailsService).passwordEncoder(User.PASSWORD_ENCODER);
     }
 
+    // по url: "/clients", "posts/likes/**", "posts/comments/create_comment", "posts/comments/create_answer"
+    // может перйти только авторизованный пользователь
+    // и для авторизации используется базовая авторизация
+    // и блокировать csrf
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()

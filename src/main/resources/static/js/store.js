@@ -1,4 +1,4 @@
 const store = {
-    authorization: "",
+    authorization: "Basic bmFtZTM6MQ==",
     nickname: ""
 }

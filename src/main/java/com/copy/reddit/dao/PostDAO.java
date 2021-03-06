@@ -1,6 +1,7 @@
 package com.copy.reddit.dao;
 
 import com.copy.reddit.model.*;
+import com.copy.reddit.row.mapper.BeanPropertyPost;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -9,10 +10,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +36,7 @@ public class PostDAO{
                     PreparedStatement ps = connection.prepareStatement(POST_INSERT_SQL, Statement.RETURN_GENERATED_KEYS);
                     ps.setString(1, post.getText());
                     ps.setInt(2, post.getUserId());
-                    ps.setInt(3, post.getTime());
+                    ps.setTimestamp(3, new Timestamp(post.getTime()));
                     return ps;
                 },
                 postKeyHolder);
@@ -55,8 +53,12 @@ public class PostDAO{
             saveTagAndPost(tagId, postId);
         }
 
-        for (Image image: post.getImages()) {
-            saveImage(image, postId);
+        List<Image> imageList = post.getImages();
+
+        if (imageList != null) {
+            for (Image image :imageList) {
+                saveImage(image, postId);
+            }
         }
     }
 
@@ -93,12 +95,12 @@ public class PostDAO{
     }
 
     public List<Post> findByTag(String tagName, Integer userId) {
-        List<Post> posts = jdbcTemplate.query("SELECT post.id, post.text, post.userid, post.time FROM tag JOIN tagandpost ON tag.id = tagandpost.tagid JOIN post ON  post.id = tagandpost.postid where tag.name=?", new BeanPropertyRowMapper<>(Post.class), tagName);
+        List<Post> posts = jdbcTemplate.query("SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM tag JOIN tagandpost ON tag.id = tagandpost.tagid JOIN post ON  post.id = tagandpost.postid JOIN \"User\" on \"User\".id = post.userid where tag.name=?", new BeanPropertyPost(), tagName);
         return addAdditionalInformationToPosts(posts, userId);
     }
 
     public List<Post> findAll(Integer userId) {
-        List<Post> posts = jdbcTemplate.query("SELECT * FROM post",  new BeanPropertyRowMapper<>(Post.class));
+        List<Post> posts = jdbcTemplate.query("SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post JOIN \"User\" on \"User\".id = post.userid",  new BeanPropertyPost());
         return addAdditionalInformationToPosts(posts, userId);
     }
 

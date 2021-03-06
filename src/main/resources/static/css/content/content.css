@@ -1,6 +1,5 @@
 .content {
-    display: flex;
-    flex-wrap: wrap;
+    box-sizing: border-box;
     width: 100%;
     margin: calc(var(--height-header) + 30px) auto 0 auto;
 }

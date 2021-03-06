@@ -6,12 +6,21 @@ public class Post {
     private Integer id;
     private String text;
     private Integer userId;
-    private Integer time;
+    private Long time;
     private List<Tag> tagList;
     private int countLikes;
     private Integer countComments;
     private boolean hasLike;
     private List<Image> images;
+    private String authorNickname;
+
+    public String getAuthorNickname() {
+        return authorNickname;
+    }
+
+    public void setAuthorNickname(String authorNickname) {
+        this.authorNickname = authorNickname;
+    }
 
     public Integer getCountComments() {
         return countComments;
@@ -77,11 +86,11 @@ public class Post {
         this.userId = userId;
     }
 
-    public Integer getTime() {
+    public Long getTime() {
         return time;
     }
 
-    public void setTime(Integer time) {
+    public void setTime(Long time) {
         this.time = time;
     }
 }

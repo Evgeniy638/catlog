@@ -98,19 +98,20 @@
     </section>
 
     <section class="content">
-        <div class="submit-box">
+        <form class="submit-box" id="postForm" action="#">
             <div class="submit-box__author">автор</div>
             <div>
-                <textarea class="submit-box__post-field" placeholder="Введите текст..."></textarea>
+                <textarea name="postText" class="submit-box__post-field" placeholder="Введите текст..."></textarea>
             </div>
             <div class="submit-box__submit-area">
                 <button class="submit-box__photo-button"><img src="./css/submit-box/photo-camera-icon.svg" alt="photo"></button>
-                <input class="submit-box__tag-field" type="text" placeholder="добавьте теги через пробел">
-                <button class="submit-box__submit-button">Опубликовать</button>
+                <input name="postTags" class="submit-box__tag-field" type="text" placeholder="добавьте теги через пробел">
+                <button class="submit-box__submit-button" type="submit">Опубликовать</button>
             </div>
-        </div>
+        </form>
 
-        <div class="article">
+        
+        <!-- <div class="article">
             <div class="article__info">
                 <div class="article__author">автор</div>
                 <div class="article__time">18.02.2001</div>
@@ -180,13 +181,16 @@
                 <button class="article__like-button"><img src="./css/article/active_like.svg" alt="like">123</button>
                 </div>
             </div>
-        </div>
+        </div> -->
     </section>
 
     <script src="./js/store.js"></script>
 
     <script src="./js/api/apiUser.js"></script>
+    <script src="./js/api/apiPost.js"></script>
 
     <script src="./js/components/login.js"></script>
+    <script src="./js/components/postForm.js"></script>
+    <script src="./js/components/postArticle.js"></script>
 </body>
 </html>
