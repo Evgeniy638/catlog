@@ -3,6 +3,7 @@ package com.copy.reddit.controller;
 import com.copy.reddit.model.Comment;
 import com.copy.reddit.model.Post;
 import com.copy.reddit.service.CommentService;
+import com.copy.reddit.service.FileHelper;
 import com.copy.reddit.service.PostServiceImpl;
 import com.copy.reddit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 
@@ -27,9 +29,13 @@ public class PostController {
     }
 
     @PostMapping(value = "/posts")
-    public ResponseEntity<?> create(@RequestHeader("Authorization") String authorization, @RequestBody Post post) throws UnsupportedEncodingException {
+    public ResponseEntity<?> create(
+            @RequestHeader("Authorization") String authorization,
+            @RequestBody Post post
+    ) throws IOException {
         post.setUserId(userService.getUserByAuthorization(authorization).getId());
         post.setCountLikes(0);
+        System.out.println(post);
         postServiceImpl.create(post);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

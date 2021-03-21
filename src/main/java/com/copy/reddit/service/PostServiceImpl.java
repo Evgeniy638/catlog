@@ -1,6 +1,7 @@
 package com.copy.reddit.service;
 
 import com.copy.reddit.dao.PostDAO;
+import com.copy.reddit.model.Image;
 import com.copy.reddit.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,14 +12,21 @@ import java.util.List;
 public class PostServiceImpl implements PostService {
 
     private final PostDAO postDAO;
+    private final FileHelper fileHelper;
 
     @Autowired
-    public PostServiceImpl(PostDAO postDAO) {
+    public PostServiceImpl(PostDAO postDAO, FileHelper fileHelper) {
         this.postDAO = postDAO;
+        this.fileHelper = fileHelper;
     }
 
     @Override
     public void create(Post post) {
+        for (Image image: post.getImages()) {
+            String src = fileHelper.saveDataUrlToFile(image.getDataUrl(), image.getName());
+            image.setSrc(src);
+        }
+
         postDAO.save(post);
     }
 

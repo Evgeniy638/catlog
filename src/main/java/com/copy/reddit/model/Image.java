@@ -1,9 +1,16 @@
 package com.copy.reddit.model;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+
 public class Image {
     private Integer id;
     private Integer postId;
     private String src;
+    private String dataUrl;
+    private String name;
+    private String type;
 
     public Integer getId() {
         return id;
@@ -27,5 +34,29 @@ public class Image {
 
     public void setSrc(String src) {
         this.src = src;
+    }
+
+    public String getDataUrl() {
+        return dataUrl;
+    }
+
+    public void setDataUrl(String dataUrl) {
+        this.dataUrl = dataUrl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

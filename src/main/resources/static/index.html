@@ -98,13 +98,16 @@
     </section>
 
     <section class="content">
-        <form class="submit-box" id="postForm" action="#">
+        <form class="submit-box" enctype="multipart/form-data" id="postForm" action="#">
             <div class="submit-box__author">автор</div>
             <div>
                 <textarea name="postText" class="submit-box__post-field" placeholder="Введите текст..."></textarea>
             </div>
             <div class="submit-box__submit-area">
-                <button class="submit-box__photo-button"><img src="./css/submit-box/photo-camera-icon.svg" alt="photo"></button>
+                <label class="submit-box__photo-button">
+                    <img src="./css/submit-box/photo-camera-icon.svg" alt="photo">
+                    <input type="file" name="postFile" style="display: none;">
+                </label>
                 <input name="postTags" class="submit-box__tag-field" type="text" placeholder="добавьте теги через пробел">
                 <button class="submit-box__submit-button" type="submit">Опубликовать</button>
             </div>

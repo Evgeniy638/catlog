@@ -1,5 +1,29 @@
 const postForm = document.getElementById('postForm');
 
+function readFilesAsDataURL(arrFiles, callback=results=>{}) {
+    const arrResults = [];
+
+    arrFiles.forEach(file => {
+        const reader = new FileReader();
+
+        reader.readAsDataURL(file);
+
+        reader.onload = () => {
+            arrResults.push(reader.result);
+
+            if (arrResults.length === arrFiles.length) {
+                callback(
+                    arrResults.map((dataUrl, i) => ({
+                        dataUrl,
+                        name: arrFiles[i].name,
+                        type: arrFiles[i].type
+                    }))
+                );
+            }
+        }
+    });
+}
+
 postForm.addEventListener("submit", (e) => {
     e.preventDefault();
 
@@ -8,6 +32,7 @@ postForm.addEventListener("submit", (e) => {
     const tagList = postForm.postTags.value
         .split(" ").map((tag) => ({name: tag}));
 
-    console.log(text, tagList);
-    apiPost.createPost(text, tagList);
+    readFilesAsDataURL([...postForm.postFile.files], (images) => {
+        apiPost.createPost(text, tagList, images);
+    });
 });

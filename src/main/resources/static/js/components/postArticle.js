@@ -13,7 +13,7 @@ async function showPosts(){
         let mm = time.getMonth() + 1;
         mm = mm < 10 ?`0${mm}` :mm; 
 
-        let yyyy = time.getFullYear() + 1; 
+        let yyyy = time.getFullYear(); 
 
         article.innerHTML = `
             <div class="article__info">
@@ -21,7 +21,8 @@ async function showPosts(){
                 <div class="article__time">${dd}.${mm}.${yyyy}</div>
             </div>
             <input type="checkbox" class="article__hiddenchecker" id="article__hiddenchecker${posts[i].id}" />
-            <div class="article__text"><p>${posts[i].text}</p>
+            <div class="article__text"><p>${posts[i].text}</p></div>
+            <div class="article__images"></div>
             <div class="article__bottom"></div>
             </div>
             <label for="article__hiddenchecker${posts[i].id}" class="article__hiddenbutton"></label>
@@ -43,6 +44,14 @@ async function showPosts(){
             tagsArea.appendChild(tag);
         }
 
+        const wrapImages = article.querySelector(".article__images");
+
+        posts[i].images.forEach(({src, name}) => {
+           const img =  document.createElement("img");
+           img.src = src;
+           img.alt = name;
+           wrapImages.appendChild(img);
+        });
 
         let textPost = article.querySelector('.article__text');
         let bottomPost = article.querySelector('.article__bottom');

@@ -1,5 +1,5 @@
 const apiPost = {
-    async createPost(text, tagList) {
+    async createPost(text, tagList, images) {
         const responce = await fetch("/posts", {
             method: "POST",
             headers: {
@@ -9,9 +9,10 @@ const apiPost = {
             body: JSON.stringify({
                 text,
                 time: Date.now(),
-                tagList
+                tagList,
+                images
             })
-        });    
+        });
     },
 
     async getAllPosts() {
