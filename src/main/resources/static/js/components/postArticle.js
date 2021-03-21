@@ -28,10 +28,10 @@ async function showPosts(){
             <label for="article__hiddenchecker${posts[i].id}" class="article__hiddenbutton"></label>
             <div class="article__tags">
             </div>
-            <div class="article__like-and-comment-area">${posts[i].countLikes} комментариев
+            <div class="article__like-and-comment-area">${posts[i].countComments} комментариев
                 <div>
                 <button class="article__comment-button"><img src="./css/article/comment.svg" alt="comment"></button>
-                <button class="article__like-button"><img src="./css/article/active_like.svg" alt="like">${posts[i].countComments}</button>
+                <button class="article__like-button"><img src="./css/article/active_like.svg" alt="like">${posts[i].countLikes}</button>
                 </div>
             </div>
         `;
