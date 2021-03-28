@@ -3,6 +3,10 @@ const postForm = document.getElementById('postForm');
 function readFilesAsDataURL(arrFiles, callback=results=>{}) {
     const arrResults = [];
 
+    if (arrFiles.length === 0) {
+        callback(arrResults);
+    }
+
     arrFiles.forEach(file => {
         const reader = new FileReader();
 
@@ -32,7 +36,8 @@ postForm.addEventListener("submit", (e) => {
     const tagList = postForm.postTags.value
         .split(" ").map((tag) => ({name: tag}));
 
-    readFilesAsDataURL([...postForm.postFile.files], (images) => {
-        apiPost.createPost(text, tagList, images);
+    readFilesAsDataURL([...postForm.postFile.files], async (images) => {
+        await apiPost.createPost(text, tagList, images);
+        showPosts();
     });
 });

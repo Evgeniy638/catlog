@@ -1,5 +1,5 @@
-async function showPosts(){
-    let posts = await apiPost.getAllPosts();
+function createPosts(posts) {
+    document.querySelector('.article-wrap').innerHTML = "";
 
     for(let i = 0; i < posts.length; i++){
         const article = document.createElement("div");
@@ -8,12 +8,12 @@ async function showPosts(){
         const time = new Date(posts[i].time);
 
         let dd = time.getDate();
-        dd = dd < 10 ?`0${dd}` :dd; 
+        dd = dd < 10 ?`0${dd}` :dd;
 
         let mm = time.getMonth() + 1;
-        mm = mm < 10 ?`0${mm}` :mm; 
+        mm = mm < 10 ?`0${mm}` :mm;
 
-        let yyyy = time.getFullYear(); 
+        let yyyy = time.getFullYear();
 
         article.innerHTML = `
             <div class="article__info">
@@ -35,7 +35,7 @@ async function showPosts(){
                 </div>
             </div>
         `;
-        document.querySelector('.content').appendChild(article);
+        document.querySelector('.article-wrap').appendChild(article);
         let tagsArea = article.querySelector('.article__tags');
         for(let j = 0; posts[i].tagList && j < posts[i].tagList.length; j++){
             const wrap = document.createElement("div");
@@ -47,10 +47,10 @@ async function showPosts(){
         const wrapImages = article.querySelector(".article__images");
 
         posts[i].images.forEach(({src, name}) => {
-           const img =  document.createElement("img");
-           img.src = src;
-           img.alt = name;
-           wrapImages.appendChild(img);
+            const img =  document.createElement("img");
+            img.src = src;
+            img.alt = name;
+            wrapImages.appendChild(img);
         });
 
         let textPost = article.querySelector('.article__text');
@@ -63,6 +63,11 @@ async function showPosts(){
             }
         }, 100);
     }
+}
+
+async function showPosts() {
+    let posts = await apiPost.getAllPosts();
+    createPosts(posts);
 }
 
 window.addEventListener("load", showPosts);

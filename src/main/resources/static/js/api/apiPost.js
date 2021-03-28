@@ -18,5 +18,10 @@ const apiPost = {
     async getAllPosts() {
         const responce = await fetch("/posts");
         return await responce.json();
+    },
+
+    async filterPostsByTag(tag) {
+        const responce = await fetch(`/posts/${tag}`);
+        return await responce.json();
     }
 }

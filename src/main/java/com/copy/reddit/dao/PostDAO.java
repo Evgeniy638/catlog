@@ -95,12 +95,19 @@ public class PostDAO{
     }
 
     public List<Post> findByTag(String tagName, Integer userId) {
-        List<Post> posts = jdbcTemplate.query("SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM tag JOIN tagandpost ON tag.id = tagandpost.tagid JOIN post ON  post.id = tagandpost.postid JOIN \"User\" on \"User\".id = post.userid where tag.name=?", new BeanPropertyPost(), tagName);
+        String SQL_SELECT = "SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM tag " +
+                "JOIN tagandpost ON tag.id = tagandpost.tagid " +
+                "JOIN post ON  post.id = tagandpost.postid " +
+                "JOIN \"User\" on \"User\".id = post.userid " +
+                "where tag.name LIKE ? " +
+                "ORDER BY post.\"time\" DESC " +
+                "LIMIT 1 OFFSET 1";
+        List<Post> posts = jdbcTemplate.query(SQL_SELECT, new BeanPropertyPost(), "%" + tagName + "%");
         return addAdditionalInformationToPosts(posts, userId);
     }
 
     public List<Post> findAll(Integer userId) {
-        List<Post> posts = jdbcTemplate.query("SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post JOIN \"User\" on \"User\".id = post.userid",  new BeanPropertyPost());
+        List<Post> posts = jdbcTemplate.query("SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post JOIN \"User\" on \"User\".id = post.userid ORDER BY post.\"time\" DESC LIMIT 1 OFFSET 1",  new BeanPropertyPost());
         return addAdditionalInformationToPosts(posts, userId);
     }
 
