@@ -107,7 +107,7 @@ public class PostDAO{
     }
 
     public List<Post> findAll(Integer userId) {
-        List<Post> posts = jdbcTemplate.query("SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post JOIN \"User\" on \"User\".id = post.userid ORDER BY post.\"time\" DESC LIMIT 1 OFFSET 1",  new BeanPropertyPost());
+        List<Post> posts = jdbcTemplate.query("SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post JOIN \"User\" on \"User\".id = post.userid ORDER BY post.\"time\" DESC LIMIT ALL OFFSET 0",  new BeanPropertyPost());
         return addAdditionalInformationToPosts(posts, userId);
     }
 

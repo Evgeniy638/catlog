@@ -5,7 +5,7 @@ import com.copy.reddit.model.Post;
 import java.util.List;
 
 public interface PostService {
-    void create(Post post);
+    void create(Post post, String authorization);
     boolean update(String text, int id);
     boolean delete(int id);
     List<Post> findByTag(String tagName, Integer userId);

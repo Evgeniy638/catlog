@@ -28,3 +28,6 @@ Catlog - это веб-сервис для ведения блогов. Он п�
 - org.springframework.boot:spring-boot-starter-security
 
    Стартер для использования Spring Security
+
+### mvnw javadoc:javadoc   
+генерирует джава док

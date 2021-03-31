@@ -36,7 +36,7 @@ public class PostController {
         post.setUserId(userService.getUserByAuthorization(authorization).getId());
         post.setCountLikes(0);
         System.out.println(post);
-        postServiceImpl.create(post);
+        postServiceImpl.create(post, authorization);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

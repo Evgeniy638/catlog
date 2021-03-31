@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PostServiceImpl implements PostService {
@@ -21,9 +22,11 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void create(Post post) {
+    public void create(Post post, String authorization) {
         for (Image image: post.getImages()) {
-            String src = fileHelper.saveDataUrlToFile(image.getDataUrl(), image.getName());
+            String imageName = UUID.randomUUID().toString() +
+                    authorization.replace(" ", "_") + image.getName();
+            String src = fileHelper.saveDataUrlToFile(image.getDataUrl(), imageName);
             image.setSrc(src);
         }
 

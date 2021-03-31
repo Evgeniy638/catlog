@@ -1,4 +1,4 @@
-package com.copy.reddit;
+package com.copy.reddit.config;
 
 import com.copy.reddit.model.User;
 import com.copy.reddit.service.DetailsService;
