@@ -23,11 +23,22 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
+    /**
+     * Сохраняет пользователя
+     * @param userDTO экземпляр класса UserDTO, в котором должны быть password и nickname
+     * @return true если сохранился, иначе false
+     */
     public boolean saveUser(UserDTO userDTO) {
         User user = new User(userDTO.getNickname(), userDTO.getPassword());
         return userDAO.save(user);
     }
 
+    /**
+     * переводит имя и пароль пользователя в кодировку Base64
+     * @param nickname имя пользователя
+     * @param password его пароль
+     * @return токен для авторизации (authorization)
+     */
     public String codeBase64(String nickname, String password) {
         String auth = nickname + ":" + password;
         byte[] encodedAuth = Base64.encodeBase64(
@@ -35,11 +46,21 @@ public class UserService {
         return "Basic " + new String( encodedAuth );
     }
 
+    /**
+     * возращает имя пользователя закодированное в authorization
+     * @param authorization токен для авторизации
+     * @return имя пользователя
+     */
     public String getNameByAuthorization(String authorization) throws UnsupportedEncodingException {
         String code = authorization.replace("Basic ", "");
         return new String(Base64.decodeBase64(code), "US-ASCII").split(":")[0];
     }
 
+    /**
+     * возращает объект класса User на основе имени пользователя закодированного в authorization
+     * @param authorization токен для авторизации
+     * @return экзмепляр класса User
+     */
     public User getUserByAuthorization(String authorization) throws UnsupportedEncodingException {
         return userDAO.findByUsername(getNameByAuthorization(authorization));
     }

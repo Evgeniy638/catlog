@@ -25,6 +25,11 @@ public class UserController {
         this.detailsService = detailsService;
     }
 
+    /**
+     * регистрирует пользователя
+     * @param userDTO принимает nickname и password
+     * @return возвращает authorization и nickname или HttpStatus.BAD_REQUEST, если nickname уже есть
+     */
     @PostMapping(value = "/users/registration")
     public ResponseEntity<LoginDTO> registration(@RequestBody UserDTO userDTO) {
         if (!userService.saveUser(userDTO)) {
@@ -38,6 +43,11 @@ public class UserController {
         return new ResponseEntity<>(loginDTO, HttpStatus.OK);
     }
 
+    /**
+     * логинит пользователя
+     * @param userDTO принимает nickname и password
+     * @return возвращает authorization и nickname или HttpStatus.UNAUTHORIZED, если nickname или пароль неправильный
+     */
     @PostMapping(value = "/users/login")
     public ResponseEntity<LoginDTO> login(@RequestBody UserDTO userDTO){
         PasswordEncoder encoder = User.PASSWORD_ENCODER;
@@ -55,6 +65,11 @@ public class UserController {
         return new ResponseEntity<>(loginDTO, HttpStatus.OK);
     }
 
+    /**
+     * по токену для авторизации возвращает никнейм пользователя
+     * @param authorization токен для авторизации
+     * @return никнеём пользователя, которому соответствует authorization
+     */
     @GetMapping(value = "users/nickname")
     public ResponseEntity<String> getNickname(@RequestHeader("Authorization") String authorization) throws UnsupportedEncodingException {
         return new ResponseEntity<>(userService.getNameByAuthorization(authorization), HttpStatus.OK);

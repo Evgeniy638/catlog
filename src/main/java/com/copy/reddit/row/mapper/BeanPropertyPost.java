@@ -7,7 +7,11 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+/**
+ * Нужен для перевода таблицы post в экземпляр класса Post.
+ * Обычный не подходит, так как нужно timestamp перевести в long, так как на клиенте время принимается в миллисекундах
+ * прошедших с 1 января 1970 года UTC+0.
+ */
 public class BeanPropertyPost implements RowMapper<Post> {
     @Override
     public Post mapRow(ResultSet resultSet, int i) throws SQLException {

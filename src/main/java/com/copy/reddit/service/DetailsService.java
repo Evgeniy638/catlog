@@ -18,6 +18,12 @@ public class DetailsService implements UserDetailsService {
         this.userDAO = userDAO;
     }
 
+    /**
+     * Нужен для настройки поиска пользователя по имени в SpringSecurity
+     * @param username имя пользователя
+     * @return экземпляр класса org.springframework.security.core.userdetails.User
+     * @throws UsernameNotFoundException если пользователь не найден, то выкидывает эту ошибку
+     */
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDAO.findByUsername(username);

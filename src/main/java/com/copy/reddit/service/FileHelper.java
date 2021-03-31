@@ -15,6 +15,12 @@ public class FileHelper {
     @Value("${app.path.upload.img}")
     private String pathUploadImg;
 
+    /**
+     * сохраняет картинку в ${app.path.upload.img} папку
+     * @param dataUrl картинка в формате base64
+     * @param name название файла
+     * @return возвращает url по которому можно получить этот файл
+     */
     public String saveDataUrlToFile(String dataUrl, String name) {
         String src = pathUploadImg + "\\" + name;
 

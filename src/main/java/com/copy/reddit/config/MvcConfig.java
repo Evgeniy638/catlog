@@ -10,6 +10,11 @@ public class MvcConfig implements WebMvcConfigurer {
     @Value("${app.path.upload.img}")
     private String pathUploadImg;
 
+    /**
+     * Настраивает статические папки
+     * при запросе /img/** ищутся файлы в папке ${app.path.upload.img}
+     * при запросе /** ищет в папке static
+     */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String projectDir = System.getProperty("user.dir");
