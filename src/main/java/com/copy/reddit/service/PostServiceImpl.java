@@ -21,6 +21,11 @@ public class PostServiceImpl implements PostService {
         this.fileHelper = fileHelper;
     }
 
+    /**
+     * Создание поста
+     * @param post Объект поста
+     * @param authorization Токен для авторизации
+     */
     @Override
     public void create(Post post, String authorization) {
         for (Image image: post.getImages()) {
@@ -33,32 +38,66 @@ public class PostServiceImpl implements PostService {
         postDAO.save(post);
     }
 
+    /**
+     * Обновление текста поста
+     * @param text новый тест поста
+     * @param id id поста
+     * @return true, если пост обновлен
+     */
     @Override
     public boolean update(String text, int id) {
         return postDAO.update(text, id);
     }
 
+    /**
+     * Удаление поста
+     * @param id id поста
+     * @return true, если пост успешно удалён
+     */
     @Override
     public boolean delete(int id) {
         return postDAO.delete(id);
     }
 
+    /**
+     * Поиск по тегу
+     * @param tagName имя тега
+     * @param userId id пользователя
+     * @return Список постов с данным тегом
+     */
     @Override
     public List<Post> findByTag(String tagName, Integer userId) {
         return postDAO.findByTag(tagName, userId);
     }
 
+    /**
+     * Возвращает все посты
+     * @param userId id пользователя
+     * @return Список постов
+     */
     @Override
     public List<Post> findAll(Integer userId) {
         return postDAO.findAll(userId);
     }
 
+    /**
+     * Добавление лайка к посту
+     * @param userId id пользователя
+     * @param postId id поста
+     * @return Количество лайков под данным постом
+     */
     @Override
     public int createLike(int userId, int postId) {
         postDAO.createLike(userId, postId);
         return postDAO.getLikes(postId, userId).countLikes;
     }
 
+    /**
+     * Удаление лайка с поста
+     * @param userId id пользователя
+     * @param postId id поста
+     * @return Количество лайков на посте
+     */
     @Override
     public int deleteLike(int userId, int postId) {
         postDAO.deleteLike(userId, postId);

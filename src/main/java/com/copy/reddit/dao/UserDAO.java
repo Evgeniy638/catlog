@@ -17,6 +17,11 @@ public class UserDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Добавление пользователя в базу данных
+     * @param user Объект пользователя
+     * @return true, если пользователь добавлен успешно
+     */
     public boolean save(User user) {
         try {
             jdbcTemplate.update("INSERT INTO \"User\" (nickname, password) values (?, ?)",
@@ -28,6 +33,11 @@ public class UserDAO {
         }
     }
 
+    /**
+     * Поиск пользователя по нику
+     * @param username Ник пользователя
+     * @return Пользователь или null
+     */
     public User findByUsername(String username) {
         return jdbcTemplate.query("SELECT * FROM \"User\" WHERE nickname=?",
                 new BeanPropertyRowMapper<>(User.class), username)

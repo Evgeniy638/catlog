@@ -18,6 +18,11 @@ public class CommentDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * Получение комментариев к посту из баззы данных по его id
+     * @param postId id поста
+     * @return Список комментариев
+     */
     public List<Comment> getCommentsByPostId(Integer postId) {
         String SQL_SELECT = "SELECT * FROM comment WHERE postid = ? AND headcommentid IS NULL";
         List<Comment> comments = jdbcTemplate.query(SQL_SELECT, new BeanPropertyRowMapper<>(Comment.class), postId);
@@ -31,11 +36,20 @@ public class CommentDAO {
         return comments;
     }
 
+    /**
+     * Получение ответов к комментарию из базы данных по id комментария
+     * @param headCommentId id комментария
+     * @return Список ответов к комментарию
+     */
     public List<Comment> getAnswersByCommentId(Integer headCommentId) {
         String SQL_SELECT = "SELECT * FROM comment WHERE headcommentid = ?";
         return jdbcTemplate.query(SQL_SELECT, new BeanPropertyRowMapper<>(Comment.class), headCommentId);
     }
 
+    /**
+     * Добавление комментария в базу данных здесь был Данил
+     * @param comment Комментарий со всей информацией о нём
+     */
     public void createComment(Comment comment) {
         String SQL_INSERT = "INSERT INTO comment (text, authorid, postid, headcommentid) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(SQL_INSERT, comment.getText(), comment.getAuthorId(), comment.getPostId(), comment.getHeadCommentId());

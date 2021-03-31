@@ -20,14 +20,29 @@ public class CommentService {
     }
 
 
+    /**
+     * Получение комментариев по id поста
+     * @param postId id поста
+     * @return Список комментариев к посту
+     */
     public List<Comment> getCommentsByPostId(Integer postId) {
         return commentDAO.getCommentsByPostId(postId);
     }
 
+    /**
+     * Получение ответов на данный комментарий
+     * @param headCommentId id комментария
+     * @return Список ответов на комментарий
+     */
     public List<Comment> getAnswersByCommentId(Integer headCommentId) {
         return commentDAO.getAnswersByCommentId(headCommentId);
     }
 
+    /**
+     * Добавление комментария
+     * @param comment Комментарий со всей информацией
+     * @return Количество комментарией под постом с данным
+     */
     public int createComment(Comment comment) {
         commentDAO.createComment(comment);
         return postDAO.getCountComments(comment.getPostId());
