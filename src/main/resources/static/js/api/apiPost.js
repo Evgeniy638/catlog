@@ -23,5 +23,27 @@ const apiPost = {
     async filterPostsByTag(tag) {
         const responce = await fetch(`/posts/${tag}`);
         return await responce.json();
+    },
+
+    async createLike(authorization, postId){
+        const responce = await fetch(`/posts/likes/${postId}`, {
+            method: "POST",
+            headers: {
+                "Authorization": store.authorization
+            }
+        });
+
+        return await responce.json();
+    },
+
+    async deleteLike(authorization, postId){
+        const responce = await fetch(`/posts/likes/${postId}`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": store.authorization
+            }
+        });
+
+        return await responce.json();
     }
 }

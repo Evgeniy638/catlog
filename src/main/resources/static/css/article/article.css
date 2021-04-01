@@ -46,6 +46,23 @@
     color: #545454;
 }
 
+.article__like-span{
+    display: inline-flex;
+    align-items: center;
+}
+
+.article__like-button_has-like{
+    background-image: url(./active_like.svg);
+    width: 35px; 
+    height: 35px;
+}
+
+.article__like-button_no-like{
+    background-image: url(./void_like.svg);
+    width: 35px; 
+    height: 35px;
+}
+
 /* Отделяющая черта */
 .article hr{
     background-color: #B07400;

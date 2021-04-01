@@ -1,3 +1,4 @@
+let posts = [];
 function createPosts(posts) {
     document.querySelector('.article-wrap').innerHTML = "";
 
@@ -30,8 +31,11 @@ function createPosts(posts) {
             </div>
             <div class="article__like-and-comment-area">${posts[i].countComments} комментариев
                 <div>
-                <button class="article__comment-button"><img src="./css/article/comment.svg" alt="comment"></button>
-                <button class="article__like-button"><img src="./css/article/active_like.svg" alt="like">${posts[i].countLikes}</button>
+                    <button class="article__comment-button"><img src="./css/article/comment.svg" alt="comment"></button>
+                    <button class="article__like-button">
+                        <span class="article__like-span ${posts[i].hasLike ? "article__like-button_has-like" : "article__like-button_no-like"}"></span>
+                        <span class="article__count-like-span">${posts[i].countLikes}</span> 
+                    </button>
                 </div>
             </div>
         `;
@@ -43,6 +47,22 @@ function createPosts(posts) {
             const tag = wrap.firstChild;
             tagsArea.appendChild(tag);
         }
+        article.querySelector('.article__like-button').addEventListener("click", async (e) => {
+            let spLike = e.currentTarget.querySelector('.article__like-span');
+            let spCount = e.currentTarget.querySelector('.article__count-like-span');
+            if(!posts[i].hasLike){
+                spCount.textContent = await apiPost.createLike(store.authorization, posts[i].id);
+                posts[i].hasLike = true;
+                spLike.classList.remove('article__like-button_no-like');
+                spLike.classList.add('article__like-button_has-like');
+            }
+            else{
+                spCount.textContent = await apiPost.deleteLike(store.authorization, posts[i].id);
+                posts[i].hasLike = false;
+                spLike.classList.remove('article__like-button_has-like');
+                spLike.classList.add('article__like-button_no-like')
+            }
+        });
 
         const wrapImages = article.querySelector(".article__images");
 
@@ -66,8 +86,10 @@ function createPosts(posts) {
 }
 
 async function showPosts() {
-    let posts = await apiPost.getAllPosts();
+    posts = [...await apiPost.getAllPosts()];
     createPosts(posts);
 }
 
 window.addEventListener("load", showPosts);
+
+
