@@ -1,13 +1,22 @@
 import React from "react";
+import {userThunkCreators} from "../../../bll/reducers/reducerUser";
+import {connect} from "react-redux";
 
-const RegistrationForm = ({isVisible, goToLoginForm}) => {
+const RegistrationForm = ({isVisible, goToLoginForm, registration}) => {
     const onClickGoTo = (e) => {
         e.preventDefault();
         goToLoginForm();
     }
 
+    const onSubmit = async (e) => {
+        e.preventDefault();
+        const loginForm = e.currentTarget;
+        registration(loginForm.elements.nickname.value, loginForm.elements.password.value);
+    }
+
     return (
         <form
+            onSubmit={onSubmit}
             className={`login__form ${!isVisible && "login__form_hidden"}`}
             id="registrationForm"
             action="#"
@@ -45,4 +54,12 @@ const RegistrationForm = ({isVisible, goToLoginForm}) => {
     );
 }
 
-export default RegistrationForm;
+const mapStateToProps = (state) => ({});
+
+const mapDispatchToProps = (dispatch) => ({
+    registration(nickname, password) {
+        dispatch(userThunkCreators.registration(nickname, password));
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

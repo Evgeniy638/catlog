@@ -51,5 +51,14 @@ export const userThunkCreators = {
             dispatch(userActionCreator.login(authorization, nickname));
             dispatch(loginActionCreators.close());
         }
+    },
+
+    registration(nickname, password) {
+        return async (dispatch) => {
+            const {authorization} = await apiUser
+                .registration(registrationForm.elements.nickname.value, password);
+            dispatch(userActionCreator.login(authorization, nickname));
+            dispatch(loginActionCreators.close());
+        }
     }
 }
