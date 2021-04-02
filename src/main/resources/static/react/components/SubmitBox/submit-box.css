@@ -1,0 +1,65 @@
+.submit-box{
+    padding: 5px;
+    margin: 15px 30px;
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+.submit-box__author{
+    background: #FFA71C;
+    border-radius: 10px 10px 0px 0px;
+    color: white;
+    padding: 3px;
+    padding-left: 10px;
+}
+
+.submit-box__submit-area{
+    border-radius: 0 0 10px 10px;
+    background: #E4E1E1;
+    border: 0.5px solid rgba(0, 0, 0, 0.17);
+    display: grid;
+    grid-template-columns: 0.2fr 3fr 1.2fr;
+}
+
+.submit-box__photo-button{
+    background: #E4E1E1;
+    box-sizing: border-box;
+    border-radius: 0px 0px 0px 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 4px 4px;
+    border-right: 0.5px solid rgba(0, 0, 0, 0.17);
+}
+
+.submit-box__submit-button{
+    background: #FFC569;
+    border-radius: 7px;
+    border: none;
+    outline: none;
+    padding: 4px;
+    color: white;
+    cursor: pointer;
+    height: 70%;
+    margin: 5px;
+}
+
+.submit-box__tag-field{
+    background: #E4E1E1;
+    box-sizing: border-box;
+    height: 100%;
+    outline: none;
+    border: none;
+    margin-left: 4px;
+    color: rgb(125, 124, 124);
+}
+
+.submit-box__post-field{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    height: 77px;
+    border: 0px;
+    outline: none;
+    resize: none;
+    padding: 5px;
+}

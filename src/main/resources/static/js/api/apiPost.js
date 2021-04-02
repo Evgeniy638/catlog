@@ -1,10 +1,10 @@
 const apiPost = {
-    async createPost(text, tagList, images) {
+    async createPost(text, tagList, images, authorization) {
         const responce = await fetch("/posts", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": store.authorization
+                "Authorization": authorization
             },
             body: JSON.stringify({
                 text,
@@ -40,7 +40,7 @@ const apiPost = {
         const responce = await fetch(`/posts/likes/${postId}`, {
             method: "DELETE",
             headers: {
-                "Authorization": store.authorization
+                "Authorization": authorization
             }
         });
 
