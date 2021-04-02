@@ -1,3 +1,21 @@
-.App {
-    color: blue;
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed&display=swap');
+
+:root {
+    --height-header: 50px;
+    --init-color: rgb(56, 56, 56);
+}
+
+button{
+    font-family: 'Roboto Condensed', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    color: var(--init-color);
+}
+
+body {
+    font-size: 12pt;
+    background-color: rgb(248, 217, 159);
 }
