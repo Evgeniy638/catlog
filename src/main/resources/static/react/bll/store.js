@@ -2,10 +2,12 @@ import {applyMiddleware, combineReducers, createStore} from "redux";
 import thunk from "redux-thunk";
 import reducerUser from "./reducers/reducerUser";
 import reducerLogin from "./reducers/reducerLogin";
+import reducerPost from "./reducers/reducerPost";
 
 const reducer = combineReducers({
     reducerUser,
-    reducerLogin
+    reducerLogin,
+    reducerPost
 });
 
 const store = createStore(reducer, applyMiddleware(thunk));
