@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./submit-box.css";
 import photoCameraIcon from "./photo-camera-icon.svg";
 import apiPost from "../../api/apiPost";
@@ -45,7 +45,11 @@ const createPost = (postForm, authorization) => {
 }
 
 const SubmitBox = (props) => {
-    console.log("SubmitBox", props);
+    const [imageNames, setImageNames] = useState([]);
+
+    const onChangeImages = (e) => {
+        setImageNames([...e.currentTarget.files].map(f => f.name));
+    }
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -67,10 +71,27 @@ const SubmitBox = (props) => {
             <div>
                 <textarea name="postText" className="submit-box__post-field" placeholder="Введите текст..."></textarea>
             </div>
+            {
+                imageNames.length > 0 &&
+                <p className="submit-box__image-names">
+                    {
+                        imageNames.map(n => (
+                            <span className="submit-box__image-name-span">{n}</span>
+                        ))
+                    }
+                </p>
+            }
             <div className="submit-box__submit-area">
                 <label className="submit-box__photo-button">
                     <img src={photoCameraIcon} alt="photo"/>
-                    <input type="file" name="postFile" style={{display: "none"}}/>
+                    <input
+                        type="file"
+                        name="postFile"
+                        style={{display: "none"}}
+                        onChange={onChangeImages}
+                        multiple
+                        accept="image/jpg, image/jpeg, image/png"
+                    />
                 </label>
                 <input
                     name="postTags"

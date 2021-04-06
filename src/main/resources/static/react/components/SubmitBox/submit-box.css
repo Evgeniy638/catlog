@@ -12,6 +12,19 @@
     padding-left: 10px;
 }
 
+.submit-box__image-names {
+    background: rgb(201, 201, 201);
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    padding: 2px 10px;
+}
+
+.submit-box__image-name-span {
+    padding: 0 5px;
+}
+
 .submit-box__submit-area{
     border-radius: 0 0 10px 10px;
     background: #E4E1E1;
