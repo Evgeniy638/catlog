@@ -2,18 +2,21 @@ import React from "react";
 import "../article.css";
 import CommentPic from "../comment.svg";
 import apiPost from "../../../api/apiPost";
-import {postGetters, postThunkCreators} from "../../../bll/reducers/reducerPost";
+import {postActionCreator, postGetters, postThunkCreators} from "../../../bll/reducers/reducerPost";
 import {userGetters} from "../../../bll/reducers/reducerUser";
 import {connect} from "react-redux";
 
-const likeCheck = (post, authorization) => {
+const likeCheck = async (post, authorization) => {
+    let countLikes;
     if(post.hasLike) {
-        apiPost.deleteLike(authorization, post.id);
+        countLikes = await apiPost.deleteLike(authorization, post.id);
     }
     else {
-        apiPost.createLike(authorization, post.id);
+        countLikes = await apiPost.createLike(authorization, post.id);
     }
-    post.getLikesInfo(authorization, [post.id])
+
+    post.getLikesInfo(authorization, [post.id]);
+    post.changeCountLikes(countLikes, post.id);
 }
 
 const Post = (props) => {
@@ -77,6 +80,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     getLikesInfo(authorization, postsIds) {
         dispatch(postThunkCreators.getLikesInfo(authorization, postsIds));
+    },
+    changeCountLikes(countLikes, postId) {
+        dispatch(postActionCreator.changeCountLikes(countLikes, postId))
     }
 });
 

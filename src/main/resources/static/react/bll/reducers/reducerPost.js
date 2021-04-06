@@ -6,14 +6,33 @@ const initialState = {
 
 const CHANGE_POSTS = "CHANGE_POSTS";
 const UPDATE_LIKES = "UPDATE_LIKES";
+const CHANGE_COUNT_LIKES = "CHANGE_COUNT_LIKES";
 
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
+        case CHANGE_COUNT_LIKES:
+            const newPosts = state.posts.map(p =>
+                p.id === action.postId
+                    ?{
+                        ...p,
+                        countLikes: action.countLikes
+                    }
+                    :p
+            );
+
+            return {
+                ...state,
+                posts: newPosts
+            }
         case UPDATE_LIKES:
-            const posts = state.posts.map(post=>({
-                ...post,
-                hasLike: action.likesById.find(info => info.postId === post.id).hasLike
-            }));
+            const posts = state.posts.map(post=>{
+                const info = action.likesById.find(info => info.postId === post.id);
+                const hasLike = info !== undefined ?info.hasLike :post.hasLike
+                return {
+                    ...post,
+                    hasLike
+                }
+            });
 
             return {
                 ...state,
@@ -44,6 +63,14 @@ export const postActionCreator = {
         return {
             type: UPDATE_LIKES,
             likesById
+        }
+    },
+
+    changeCountLikes(countLikes, postId) {
+        return {
+            type: CHANGE_COUNT_LIKES,
+            countLikes,
+            postId
         }
     }
 }
