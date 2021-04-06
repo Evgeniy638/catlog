@@ -1,5 +1,6 @@
 package com.copy.reddit.controller;
 
+import com.copy.reddit.dto.LikeByIdDTO;
 import com.copy.reddit.model.Comment;
 import com.copy.reddit.model.Post;
 import com.copy.reddit.service.CommentService;
@@ -210,5 +211,13 @@ public class PostController {
         comment.setAuthorId(userService.getUserByAuthorization(authorization).getId());
         Integer countComments = commentService.createComment(comment);
         return new ResponseEntity<>(countComments, HttpStatus.CREATED);
+    }
+
+    @PostMapping(value = "posts/likes/get_own")
+    public ResponseEntity<List<LikeByIdDTO>> getLikesInfo(
+            @RequestHeader("Authorization") String authorization, @RequestBody List<Integer> postsIds
+    ) throws UnsupportedEncodingException {
+        return new ResponseEntity<>(postServiceImpl.getLikesInfo(postsIds,
+                userService.getUserByAuthorization(authorization).getId()), HttpStatus.OK);
     }
 }

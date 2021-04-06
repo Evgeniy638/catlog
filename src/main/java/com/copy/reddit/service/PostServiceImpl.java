@@ -1,11 +1,14 @@
 package com.copy.reddit.service;
 
 import com.copy.reddit.dao.PostDAO;
+import com.copy.reddit.dto.LikeByIdDTO;
 import com.copy.reddit.model.Image;
+import com.copy.reddit.model.Like;
 import com.copy.reddit.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -92,6 +95,8 @@ public class PostServiceImpl implements PostService {
         return postDAO.getLikes(postId, userId).countLikes;
     }
 
+
+
     /**
      * Удаление лайка с поста
      * @param userId id пользователя
@@ -102,5 +107,15 @@ public class PostServiceImpl implements PostService {
     public int deleteLike(int userId, int postId) {
         postDAO.deleteLike(userId, postId);
         return postDAO.getLikes(postId, userId).countLikes;
+    }
+
+    @Override
+    public List<LikeByIdDTO> getLikesInfo(List<Integer> postsIds, int userId) {
+        List<LikeByIdDTO> likesInfo = new ArrayList<>(postsIds.size());
+        for(Integer p: postsIds)
+        {
+            likesInfo.add(new LikeByIdDTO(p, postDAO.getLikes(p, userId).hasLike));
+        }
+        return likesInfo;
     }
 }

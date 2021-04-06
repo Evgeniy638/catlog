@@ -1,6 +1,20 @@
 import React from "react";
 import "../article.css";
 import CommentPic from "../comment.svg";
+import apiPost from "../../../api/apiPost";
+import {postGetters, postThunkCreators} from "../../../bll/reducers/reducerPost";
+import {userGetters} from "../../../bll/reducers/reducerUser";
+import {connect} from "react-redux";
+
+const likeCheck = (post, authorization) => {
+    if(post.hasLike) {
+        apiPost.deleteLike(authorization, post.id);
+    }
+    else {
+        apiPost.createLike(authorization, post.id);
+    }
+    post.getLikesInfo(authorization, [post.id])
+}
 
 const Post = (props) => {
    const time = new Date(props.time);
@@ -13,6 +27,12 @@ const Post = (props) => {
 
    let yyyy = time.getFullYear();
    console.log(props, props.images);
+
+    const likeClick = (e) => {
+        e.preventDefault();
+        likeCheck(props, props.authorization);
+    }
+
    return(
        <div className="article">
             <div className="article__info">
@@ -40,7 +60,7 @@ const Post = (props) => {
             <div className="article__like-and-comment-area">{props.countComments} комментариев
                 <div>
                     <button className="article__comment-button"><img src={CommentPic} alt="comment"/></button>
-                    <button className="article__like-button">
+                    <button className="article__like-button" onClick={likeClick}>
                         <span className={`article__like-span ${props.hasLike ? "article__like-button_has-like" : "article__like-button_no-like"}`}></span>
                         <span className="article__count-like-span">{props.countLikes}</span>
                     </button>
@@ -50,4 +70,14 @@ const Post = (props) => {
     );
 }
 
-export default Post;
+const mapStateToProps = (state) => ({
+    authorization: userGetters.getAuthorization(state)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    getLikesInfo(authorization, postsIds) {
+        dispatch(postThunkCreators.getLikesInfo(authorization, postsIds));
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Post);

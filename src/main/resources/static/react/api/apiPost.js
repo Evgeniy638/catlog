@@ -29,7 +29,7 @@ const apiPost = {
         const responce = await fetch(`/posts/likes/${postId}`, {
             method: "POST",
             headers: {
-                "Authorization": store.authorization
+                "Authorization": authorization
             }
         });
 
@@ -42,6 +42,19 @@ const apiPost = {
             headers: {
                 "Authorization": authorization
             }
+        });
+
+        return await responce.json();
+    },
+
+    async getLikesInfo(authorization, postsIds){
+        const responce = await fetch(`/posts/likes/get_own`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization" : authorization
+            },
+            body: JSON.stringify(postsIds)
         });
 
         return await responce.json();
