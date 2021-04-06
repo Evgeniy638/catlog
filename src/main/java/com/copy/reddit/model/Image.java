@@ -8,7 +8,6 @@ public class Image {
     private Integer id;
     private Integer postId;
     private String src;
-    private String dataUrl;
     private String name;
     private String type;
 
@@ -34,14 +33,6 @@ public class Image {
 
     public void setSrc(String src) {
         this.src = src;
-    }
-
-    public String getDataUrl() {
-        return dataUrl;
-    }
-
-    public void setDataUrl(String dataUrl) {
-        this.dataUrl = dataUrl;
     }
 
     public String getName() {

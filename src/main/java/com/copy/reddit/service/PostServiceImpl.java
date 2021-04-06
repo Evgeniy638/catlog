@@ -16,12 +16,10 @@ import java.util.UUID;
 public class PostServiceImpl implements PostService {
 
     private final PostDAO postDAO;
-    private final FileHelper fileHelper;
 
     @Autowired
-    public PostServiceImpl(PostDAO postDAO, FileHelper fileHelper) {
+    public PostServiceImpl(PostDAO postDAO) {
         this.postDAO = postDAO;
-        this.fileHelper = fileHelper;
     }
 
     /**
@@ -31,13 +29,6 @@ public class PostServiceImpl implements PostService {
      */
     @Override
     public void create(Post post, String authorization) {
-        for (Image image: post.getImages()) {
-            String imageName = UUID.randomUUID().toString() +
-                    authorization.replace(" ", "_") + image.getName();
-            String src = fileHelper.saveDataUrlToFile(image.getDataUrl(), imageName);
-            image.setSrc(src);
-        }
-
         postDAO.save(post);
     }
 

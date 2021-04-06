@@ -23,7 +23,7 @@ function readFilesAsDataURL(arrFiles, callback=results=>{}) {
             if (arrResults.length === arrFiles.length) {
                 callback(
                     arrResults.map((dataUrl, i) => ({
-                        dataUrl,
+                        src: dataUrl,
                         name: arrFiles[i].name,
                         type: arrFiles[i].type
                     }))

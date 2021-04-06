@@ -4,7 +4,6 @@ import com.copy.reddit.dto.LikeByIdDTO;
 import com.copy.reddit.model.Comment;
 import com.copy.reddit.model.Post;
 import com.copy.reddit.service.CommentService;
-import com.copy.reddit.service.FileHelper;
 import com.copy.reddit.service.PostServiceImpl;
 import com.copy.reddit.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
