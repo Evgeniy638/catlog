@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import "../article.css";
 import CommentPic from "../comment.svg";
 import apiPost from "../../../api/apiPost";
 import {postActionCreator, postGetters, postThunkCreators} from "../../../bll/reducers/reducerPost";
 import {userGetters} from "../../../bll/reducers/reducerUser";
 import {connect} from "react-redux";
+import ListComments from "./ListComments/ListComments";
 
 const likeCheck = async (post, authorization) => {
     let countLikes;
@@ -20,6 +21,7 @@ const likeCheck = async (post, authorization) => {
 }
 
 const Post = (props) => {
+    const [isActiveComment, setIsActiveComment] = useState(false);
    const time = new Date(props.time);
 
    let dd = time.getDate();
@@ -62,13 +64,21 @@ const Post = (props) => {
                 </div>
             <div className="article__like-and-comment-area">{props.countComments} комментариев
                 <div>
-                    <button className="article__comment-button"><img src={CommentPic} alt="comment"/></button>
+                    <button className="article__comment-button" onClick={()=>setIsActiveComment(!isActiveComment)}>
+                        <img src={CommentPic} alt="comment"/>
+                    </button>
                     <button className="article__like-button" onClick={likeClick}>
                         <span className={`article__like-span ${props.hasLike ? "article__like-button_has-like" : "article__like-button_no-like"}`}></span>
                         <span className="article__count-like-span">{props.countLikes}</span>
                     </button>
                 </div>
             </div>
+           {
+               isActiveComment &&
+               <ListComments
+                    postId={props.id}
+               />
+           }
         </div>
     );
 }

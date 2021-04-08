@@ -32,8 +32,10 @@
     "react-helmet": "^6.1.0",
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
+    "react-stomp": "^5.1.0",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
+    "sockjs-client": "^1.5.1",
     "svg-url-loader": "^6.0.0"
   }
 }
