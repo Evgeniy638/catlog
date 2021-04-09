@@ -25,6 +25,11 @@
     position: relative;
 }
 
+.article__image {
+    display: block;
+    width: 100%;
+}
+
 .article__like-and-comment-area{
     color: #545454;
     display: flex;
@@ -87,7 +92,7 @@
     position: absolute;
 }
 
-.article__hiddenchecker:checked ~ .article__text{
+.article__hiddenchecker:checked ~ .article__text {
     max-height: 9999px;
     transition: 10s;
 }

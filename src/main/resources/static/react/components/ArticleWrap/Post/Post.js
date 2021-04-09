@@ -6,6 +6,7 @@ import {postActionCreator, postGetters, postThunkCreators} from "../../../bll/re
 import {userGetters} from "../../../bll/reducers/reducerUser";
 import {connect} from "react-redux";
 import ListComments from "./ListComments/ListComments";
+import {loginActionCreators} from "../../../bll/reducers/reducerLogin";
 
 const likeCheck = async (post, authorization) => {
     let countLikes;
@@ -35,7 +36,12 @@ const Post = (props) => {
 
     const likeClick = (e) => {
         e.preventDefault();
-        likeCheck(props, props.authorization);
+        if(props.authorization) {
+            likeCheck(props, props.authorization);
+        }
+        else{
+            props.toggleOpenLogin();
+        }
     }
 
    return(
@@ -45,14 +51,16 @@ const Post = (props) => {
                 <div className="article__time">{dd}.{mm}.{yyyy}</div>
             </div>
             <input type="checkbox" className="article__hiddenchecker" id={`article__hiddenchecker${props.id}`} />
-                <div className="article__text"><p>{props.text}</p></div>
+                <div className="article__content">
+            <div className="article__text"><p>{props.text}</p></div>
             <div className="article__images">
                 {
                     props.images &&
                     props.images.map((image) => (
-                    <img src={image.src} alt={image.name} key={image.id}/>
+                    <img className="article__image" src={image.src} alt={image.name} key={image.id}/>
                 ))}
             </div>
+                </div>
             <div className="article__bottom"></div>
             <label htmlFor={`article__hiddenchecker${props.id}`} className="article__hiddenbutton"></label>
             <div className="article__tags">
@@ -93,6 +101,9 @@ const mapDispatchToProps = (dispatch) => ({
     },
     changeCountLikes(countLikes, postId) {
         dispatch(postActionCreator.changeCountLikes(countLikes, postId))
+    },
+    toggleOpenLogin() {
+        dispatch(loginActionCreators.toggleOpen());
     }
 });
 
