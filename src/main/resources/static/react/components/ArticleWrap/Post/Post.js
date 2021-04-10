@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import "../article.css";
 import CommentPic from "../comment.svg";
 import apiPost from "../../../api/apiPost";
@@ -34,6 +34,8 @@ const Post = (props) => {
    let yyyy = time.getFullYear();
    console.log(props, props.images);
 
+   const [bottomVisible, setBottomVisible] = useState(false);
+
     const likeClick = (e) => {
         e.preventDefault();
         if(props.authorization) {
@@ -44,25 +46,31 @@ const Post = (props) => {
         }
     }
 
+   useEffect(() => {
+       const heightContent = document.getElementById(`article__content${props.id}`).scrollHeight;
+       if(heightContent > 350){
+           setBottomVisible(true);
+       }
+   }, [])
    return(
        <div className="article">
             <div className="article__info">
                 <div className="article__author">{props.authorNickname}</div>
                 <div className="article__time">{dd}.{mm}.{yyyy}</div>
             </div>
-            <input type="checkbox" className="article__hiddenchecker" id={`article__hiddenchecker${props.id}`} />
-                <div className="article__content">
-            <div className="article__text"><p>{props.text}</p></div>
-            <div className="article__images">
-                {
-                    props.images &&
-                    props.images.map((image) => (
-                    <img className="article__image" src={image.src} alt={image.name} key={image.id}/>
-                ))}
-            </div>
+            <input type="checkbox" className="article__hiddenchecker" id={`article__hiddenchecker${props.id}`}/>
+                <div className="article__content" id={`article__content${props.id}`}>
+                    <div className="article__text"><p>{props.text}</p></div>
+                    <div className="article__images">
+                        {
+                            props.images &&
+                            props.images.map((image) => (
+                            <img className="article__image" src={image.src} alt={image.name} key={image.id}/>
+                        ))}
+                    </div>
+                    {bottomVisible ? <div className="article__bottom"></div> : null}
                 </div>
-            <div className="article__bottom"></div>
-            <label htmlFor={`article__hiddenchecker${props.id}`} className="article__hiddenbutton"></label>
+            {bottomVisible ? <label htmlFor={`article__hiddenchecker${props.id}`} className="article__hiddenbutton"></label> : null}
             <div className="article__tags">
                 {
                     props.tags &&

@@ -4,6 +4,8 @@ import photoCameraIcon from "./photo-camera-icon.svg";
 import apiPost from "../../api/apiPost";
 import {connect} from "react-redux";
 import {userGetters} from "../../bll/reducers/reducerUser";
+import {postActionCreator, postThunkCreators} from "../../bll/reducers/reducerPost";
+import {loginActionCreators} from "../../bll/reducers/reducerLogin";
 
 function readFilesAsDataURL(arrFiles, callback=results=>{}) {
     const arrResults = [];
@@ -33,7 +35,7 @@ function readFilesAsDataURL(arrFiles, callback=results=>{}) {
     });
 }
 
-const createPost = (postForm, authorization) => {
+const createPost = (props, postForm, authorization) => {
     const text = postForm.postText.value;
 
     const tagList = postForm.postTags.value
@@ -41,6 +43,7 @@ const createPost = (postForm, authorization) => {
 
     readFilesAsDataURL([...postForm.postFile.files], async (images) => {
         await apiPost.createPost(text, tagList, images, authorization);
+        props.getPosts();
     });
 }
 
@@ -53,7 +56,7 @@ const SubmitBox = (props) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        createPost(e.currentTarget, props.authorization);
+        createPost(props, e.currentTarget, props.authorization);
     }
 
     if (!props.authorization) {
@@ -109,4 +112,14 @@ const mapStateToProps = (state) => ({
     nickname: userGetters.getNickname(state)
 });
 
-export default connect(mapStateToProps)(SubmitBox);
+const mapDispatchToProps = (dispatch) => ({
+    updateNewPosts(post) {
+        dispatch(postActionCreator.updateNewPosts(post))
+    },
+
+    getPosts(){
+        dispatch(postThunkCreators.getPosts())
+    }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(SubmitBox);
