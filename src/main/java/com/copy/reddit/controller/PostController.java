@@ -3,6 +3,7 @@ package com.copy.reddit.controller;
 import com.copy.reddit.dto.LikeByIdDTO;
 import com.copy.reddit.model.Comment;
 import com.copy.reddit.model.Post;
+import com.copy.reddit.model.User;
 import com.copy.reddit.service.CommentService;
 import com.copy.reddit.service.PostServiceImpl;
 import com.copy.reddit.service.UserService;
@@ -35,15 +36,18 @@ public class PostController {
      * @return Статус запроса
      */
     @PostMapping(value = "/posts")
-    public ResponseEntity<?> create(
+    public ResponseEntity<Post> create(
             @RequestHeader("Authorization") String authorization,
             @RequestBody Post post
     ) throws IOException {
-        post.setUserId(userService.getUserByAuthorization(authorization).getId());
+        User user = userService.getUserByAuthorization(authorization);
+        post.setUserId(user.getId());
         post.setCountLikes(0);
-        System.out.println(post);
-        postServiceImpl.create(post, authorization);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        post.setCountComments(0);
+
+        Post newPost = postServiceImpl.create(post, authorization);
+        newPost.setAuthorNickname(user.getNickname());
+        return new ResponseEntity<>(newPost, HttpStatus.CREATED);
     }
 
     /**

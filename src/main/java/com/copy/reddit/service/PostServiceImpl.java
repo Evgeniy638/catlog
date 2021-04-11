@@ -28,8 +28,8 @@ public class PostServiceImpl implements PostService {
      * @param authorization Токен для авторизации
      */
     @Override
-    public void create(Post post, String authorization) {
-        postDAO.save(post);
+    public Post create(Post post, String authorization) {
+        return postDAO.save(post);
     }
 
     /**

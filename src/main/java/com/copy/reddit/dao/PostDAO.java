@@ -32,7 +32,7 @@ public class PostDAO{
      * Добавление поста в базу данных
      * @param post Пост
      */
-    public void save(Post post) {
+    public Post save(Post post) {
         String POST_INSERT_SQL = "INSERT INTO Post (text, userid, time) values (?, ?, ?)";
         KeyHolder postKeyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(
@@ -46,6 +46,7 @@ public class PostDAO{
                 postKeyHolder);
 
         Integer postId = (Integer) postKeyHolder.getKeyList().get(0).get("id");
+        post.setId(postId);
 
         ArrayList<Integer> tagsId = new ArrayList<>();
 
@@ -64,6 +65,8 @@ public class PostDAO{
                 saveImage(image, postId);
             }
         }
+
+        return post;
     }
 
     /**

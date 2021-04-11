@@ -13,6 +13,8 @@ const apiPost = {
                 images
             })
         });
+
+        return await responce.json();
     },
 
     async getAllPosts() {
