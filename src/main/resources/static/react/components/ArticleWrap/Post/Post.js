@@ -93,6 +93,7 @@ const Post = (props) => {
                isActiveComment &&
                <ListComments
                     postId={props.id}
+                    comments={props.comments}
                />
            }
         </div>

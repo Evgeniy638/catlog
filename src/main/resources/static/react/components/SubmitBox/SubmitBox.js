@@ -42,7 +42,7 @@ const createPost = (props, postForm, authorization) => {
         .split(" ").map((tag) => ({name: tag}));
 
     readFilesAsDataURL([...postForm.postFile.files], async (images) => {
-        console.log(await apiPost.createPost(text, tagList, images, authorization));
+        props.updateNewPosts(await apiPost.createPost(text, tagList, images, authorization));
     });
 }
 

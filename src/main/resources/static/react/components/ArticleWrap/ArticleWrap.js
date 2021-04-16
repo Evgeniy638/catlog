@@ -29,7 +29,8 @@ const ArticleWrap = (props) => {
                           time={post.time}
                           images={post.images}
                           tags={post.tagList}
-                          key={post.id}/>
+                          key={post.id}
+                          comments={post.comments}/>
                 ))
             }
         </div>

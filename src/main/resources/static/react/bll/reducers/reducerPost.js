@@ -1,7 +1,42 @@
 import apiPost from "../../api/apiPost";
+import Post from "../../components/ArticleWrap/Post/Post";
+import React from "react";
 
 const initialState = {
-    posts: []
+    posts: [
+        {
+            id: 1,
+            text: "text",
+            authorNickname: "nick",
+            countLikes: 1,
+            countComments: 2,
+            hasLike: false,
+            time: 0,
+            images: [],
+            tags: [
+                {
+                    name: "tag"
+                }
+            ],
+            comments: [
+                {
+                    id: 12,
+                    text: "com",
+                    authorNickname: "nick",
+                    postId: 1,
+                    hasAnswers: true,
+                    replies: [
+                        {
+                            id: 13,
+                            text: "reply",
+                            authorNickname: "nick",
+                            postId: 1,
+                        }
+                    ]
+                }
+                ]
+        }
+        ]
 };
 
 const CHANGE_POSTS = "CHANGE_POSTS";
@@ -14,7 +49,7 @@ const reducerPost = (state=initialState, action) => {
         case UPDATE_NEW_POSTS:
             return {
                 ...state,
-                posts: [action.post, ...posts]
+                posts: [action.post, ...state.posts]
             }
         case CHANGE_COUNT_LIKES:
             const newPosts = state.posts.map(p =>
@@ -47,7 +82,7 @@ const reducerPost = (state=initialState, action) => {
         case CHANGE_POSTS:
             return {
                 ...state,
-                posts: action.posts
+                posts: [...state.posts, ...action.posts]
             }
         default: {
             return state;
