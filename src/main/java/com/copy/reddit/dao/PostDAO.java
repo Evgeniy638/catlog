@@ -12,7 +12,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Repository
 public class PostDAO{
@@ -129,20 +132,41 @@ public class PostDAO{
 
     /**
      * Поиск постов по тегу и пользователю
-     * @param tagName Имя тега
+     * @param tagsNames Имена тегов
      * @param userId id пользователя
      * @return Список постов, найденных по тегу
      */
-    public List<Post> findByTag(String tagName, Integer userId) {
+    public List<Post> findByTag(List<String> tagsNames, Integer userId) {
+        if (tagsNames.size() == 0) return new ArrayList<>();
+
+        String condition = "tag.name LIKE ? " + "OR tag.name LIKE ? ".repeat(tagsNames.size() - 1);
+
         String SQL_SELECT = "SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM tag " +
                 "JOIN tagandpost ON tag.id = tagandpost.tagid " +
                 "JOIN post ON  post.id = tagandpost.postid " +
                 "JOIN \"User\" on \"User\".id = post.userid " +
-                "where tag.name LIKE ? " +
-                "ORDER BY post.\"time\" DESC " +
-                "LIMIT 1 OFFSET 1";
-        List<Post> posts = jdbcTemplate.query(SQL_SELECT, new BeanPropertyPost(), "%" + tagName + "%");
-        return addAdditionalInformationToPosts(posts, userId);
+                "where " +
+                condition +
+                "ORDER BY post.\"time\" DESC ";
+
+        List<Post> posts = jdbcTemplate.query(SQL_SELECT,
+                new BeanPropertyPost(),
+                tagsNames.stream().map(tag -> "%" + tag + "%").toArray());
+
+        posts = addAdditionalInformationToPosts(posts, userId);
+        return filterPosts(new HashSet<>(posts), tagsNames);
+    }
+
+    private List<Post> filterPosts(Set<Post> postSet, List<String> tagsNames) {
+        return postSet.stream().filter(post -> {
+            boolean flag = true;
+
+            for (String tagName :tagsNames) {
+                flag = flag && post.getTagList().stream().anyMatch(tag -> tag.getName().equals(tagName));
+            }
+
+            return flag;
+        }).collect(Collectors.toList());
     }
 
     /**

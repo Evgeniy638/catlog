@@ -93,4 +93,14 @@ public class Post {
     public void setTime(Long time) {
         this.time = time;
     }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return ((Post) obj).getId().equals(id);
+    }
 }

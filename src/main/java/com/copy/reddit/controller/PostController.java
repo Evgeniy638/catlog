@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Arrays;
 import java.util.List;
 
 @RestController
@@ -52,13 +53,13 @@ public class PostController {
 
     /**
      * Поиск постов по тегу
-     * @param tagName Имя тега
+     * @param tagsNames Имя тега
      * @param authorization Необязательный токен для авторизации
      * @return Статус о выполнении запроса и посты с данным тегом, если они есть
      */
-    @GetMapping(value = "/posts/{tagName}")
+    @GetMapping(value = "/posts/tags/{tagsNames}")
     public ResponseEntity<?> findByTag(
-            @PathVariable(name = "tagName") String tagName,
+            @PathVariable(name = "tagsNames") String tagsNames,
             @RequestHeader(value = "Authorization", required = false) String authorization
     ) throws UnsupportedEncodingException {
         Integer userId = null;
@@ -67,8 +68,9 @@ public class PostController {
             userId = userService.getUserByAuthorization(authorization).getId();
         }
 
-        final List<Post> posts = postServiceImpl.findByTag(tagName, userId);
-        System.out.println(tagName + " " + posts);
+        List<String> listTags = Arrays.asList(tagsNames.split("\\+"));
+        final List<Post> posts = postServiceImpl.findByTags(listTags, userId);
+
         return posts != null
                 ? new ResponseEntity<>(posts, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);

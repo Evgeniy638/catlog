@@ -9,7 +9,7 @@ public interface PostService {
     Post create(Post post, String authorization);
     boolean update(String text, int id);
     boolean delete(int id);
-    List<Post> findByTag(String tagName, Integer userId);
+    List<Post> findByTags(List<String> tagsNames, Integer userId);
     List<Post> findAll(Integer userId);
     int createLike(int userId, int postId);
     int deleteLike(int userId, int postId);

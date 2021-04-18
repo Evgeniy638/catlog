@@ -5,8 +5,12 @@ import com.copy.reddit.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -50,8 +54,23 @@ public class CommentDAO {
      * Добавление комментария в базу данных здесь был Данил
      * @param comment Комментарий со всей информацией о нём
      */
-    public void createComment(Comment comment) {
+    public Comment createComment(Comment comment) {
         String SQL_INSERT = "INSERT INTO comment (text, authorid, postid, headcommentid) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(SQL_INSERT, comment.getText(), comment.getAuthorId(), comment.getPostId(), comment.getHeadCommentId());
+
+        KeyHolder key = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+                connection -> {
+                    PreparedStatement ps = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
+                    ps.setString(1, comment.getText());
+                    ps.setInt(2, comment.getAuthorId());
+                    ps.setInt(3, comment.getPostId());
+                    ps.setInt(4, comment.getHeadCommentId());
+                    return ps;
+                },
+                key);
+
+        comment.setId((int) key.getKeyList().get(0).get("id"));
+
+        return comment;
     }
 }

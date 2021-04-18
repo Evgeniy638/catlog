@@ -55,13 +55,13 @@ public class PostServiceImpl implements PostService {
 
     /**
      * Поиск по тегу
-     * @param tagName имя тега
+     * @param tagsNames имя тега
      * @param userId id пользователя
      * @return Список постов с данным тегом
      */
     @Override
-    public List<Post> findByTag(String tagName, Integer userId) {
-        return postDAO.findByTag(tagName, userId);
+    public List<Post> findByTags(List<String> tagsNames, Integer userId) {
+        return postDAO.findByTag(tagsNames, userId);
     }
 
     /**
