@@ -109,4 +109,9 @@ public class PostServiceImpl implements PostService {
         }
         return likesInfo;
     }
+
+    @Override
+    public List<String> findMatchesByTags(List<String> tagsNames) {
+        return postDAO.findMatchesByTags(tagsNames);
+    }
 }

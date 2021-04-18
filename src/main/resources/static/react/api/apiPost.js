@@ -1,6 +1,6 @@
 const apiPost = {
     async createPost(text, tagList, images, authorization) {
-        const responce = await fetch("/posts", {
+        const response = await fetch("/posts", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -14,28 +14,33 @@ const apiPost = {
             })
         });
 
-        return await responce.json();
+        return await response.json();
+    },
+
+    async findMatchesByTags(tagArr) {
+        const response = fetch(`/posts/tags/matches/${tagArr.join("+")}`);
+        return (await response).json();
     },
 
     async getAllPosts() {
-        const responce = await fetch("/posts");
-        return await responce.json();
+        const response = await fetch("/posts");
+        return await response.json();
     },
 
     async filterPostsByTag(tag) {
-        const responce = await fetch(`/posts/${tag}`);
-        return await responce.json();
+        const response = await fetch(`/posts/${tag}`);
+        return await response.json();
     },
 
     async createLike(authorization, postId){
-        const responce = await fetch(`/posts/likes/${postId}`, {
+        const response = await fetch(`/posts/likes/${postId}`, {
             method: "POST",
             headers: {
                 "Authorization": authorization
             }
         });
 
-        return await responce.json();
+        return await response.json();
     },
 
     async deleteLike(authorization, postId){

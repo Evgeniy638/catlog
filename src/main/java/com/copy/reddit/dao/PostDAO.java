@@ -157,6 +157,22 @@ public class PostDAO{
         return filterPosts(new HashSet<>(posts), tagsNames);
     }
 
+    public List<String> findMatchesByTags(List<String> tagsNames) {
+        if (tagsNames.size() == 0) return new ArrayList<>();
+
+        String condition = "tag.name LIKE ? " + "OR tag.name LIKE ? ".repeat(tagsNames.size() - 1);
+
+        String SQL_SELECT = "SELECT tag.name FROM tag WHERE " +
+                condition +
+                "LIMIT 10 OFFSET 0";
+
+        List<Tag> tagList = jdbcTemplate.query(SQL_SELECT,
+                new BeanPropertyRowMapper<>(Tag.class),
+                tagsNames.stream().map(tag -> "%" + tag + "%").toArray());
+
+        return tagList.stream().map(Tag::getName).collect(Collectors.toList());
+    }
+
     private List<Post> filterPosts(Set<Post> postSet, List<String> tagsNames) {
         return postSet.stream().filter(post -> {
             boolean flag = true;

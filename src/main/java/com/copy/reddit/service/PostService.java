@@ -14,4 +14,5 @@ public interface PostService {
     int createLike(int userId, int postId);
     int deleteLike(int userId, int postId);
     List<LikeByIdDTO> getLikesInfo(List<Integer> postsIds, int userId);
+    List<String> findMatchesByTags(List<String> tagsNames);
 }

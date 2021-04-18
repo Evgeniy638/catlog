@@ -76,6 +76,14 @@ public class PostController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping(value = "/posts/tags/matches/{tagsNames}")
+    public ResponseEntity<?> findMatchesByTags(
+            @PathVariable(name = "tagsNames") String tagsNames
+    ) {
+        List<String> foundTags = postServiceImpl.findMatchesByTags(Arrays.asList(tagsNames.split("\\+")));
+        return new ResponseEntity<>(foundTags, HttpStatus.OK);
+    }
+
     /**
      * Удаления поста по его id
      * @param id id поста

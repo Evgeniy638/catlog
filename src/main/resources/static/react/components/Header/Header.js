@@ -1,10 +1,10 @@
 import React from "react";
 import "./header.css";
-import "./search-input.css";
 import "./authorization.css";
 import {loginActionCreators} from "../../bll/reducers/reducerLogin";
 import {connect} from "react-redux";
 import {userGetters} from "../../bll/reducers/reducerUser";
+import SearchInput from "./SearchInput/SearchInput";
 
 const Header = (props) => {
     return (
@@ -17,9 +17,7 @@ const Header = (props) => {
             </div>
 
             <div className="header__child header__child_grow">
-                <div className="search-input">
-                    <input className="search-input__input" placeholder="введите тег"/>
-                </div>
+                <SearchInput/>
             </div>
 
             <div className="header__child">
