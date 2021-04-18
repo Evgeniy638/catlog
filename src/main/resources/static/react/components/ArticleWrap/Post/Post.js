@@ -7,6 +7,7 @@ import {userGetters} from "../../../bll/reducers/reducerUser";
 import {connect} from "react-redux";
 import ListComments from "./ListComments/ListComments";
 import {loginActionCreators} from "../../../bll/reducers/reducerLogin";
+import {Link} from "react-router-dom";
 
 const likeCheck = async (post, authorization) => {
     let countLikes;
@@ -75,7 +76,11 @@ const Post = (props) => {
                 {
                     props.tags &&
                     props.tags.map((tag) => (
-                        <div className="article__tag" key={tag.id}><a href="">{tag.name}</a></div>
+                        <div className="article__tag" key={tag.id}>
+                            <Link style={{ textDecoration: 'none' }} to={`/home/${tag.name}`}>
+                                {tag.name}
+                            </Link>
+                        </div>
                     ))}
                 </div>
             <div className="article__like-and-comment-area">{props.countComments} комментариев

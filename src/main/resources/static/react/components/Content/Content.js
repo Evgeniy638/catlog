@@ -1,15 +1,14 @@
 import React from "react";
 import "./content.css";
-import SubmitBox from "../SubmitBox/SubmitBox";
-import ArticleWrap from "../ArticleWrap/ArticleWrap";
+import {Route, withRouter } from "react-router-dom";
+import Home from "../Home/Home";
 
-const Content = () => {
+const Content = (props) => {
     return (
         <section className="content">
-            <SubmitBox/>
-            <ArticleWrap/>
+            <Route path={["/home/:tags", "/home"]} component={Home}/>
         </section>
     );
 }
 
-export default Content;
+export default withRouter(Content);

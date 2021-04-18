@@ -1,8 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import "./search-input.css";
 import apiPost from "../../../api/apiPost";
+import {Link} from "react-router-dom";
 
 const SearchInput = () => {
+    const refSearchInput = useRef(null);
+
     const [tags, setTags] = useState("");
     const onChange = (e) => {
         setTags(e.target.value);
@@ -18,8 +21,21 @@ const SearchInput = () => {
 
     const [isActive, setIsActive] = useState(false);
 
+    const onFocus = () => {
+        setIsActive(true);
+
+        window.addEventListener("click", onBlur);
+    }
+
+    const onBlur = (e) => {
+        const clickedSearchField = e.target.closest(".search-input");
+        if (clickedSearchField === refSearchInput.current) return;
+        setIsActive(false);
+        window.removeEventListener("click", onBlur);
+    }
+
     return (
-        <div className="search-input">
+        <div className="search-input" ref={refSearchInput}>
             <input
                 className={`search-input__input 
                     ${isActive && "search-input__input_active"}
@@ -27,15 +43,16 @@ const SearchInput = () => {
                 placeholder="введите тег"
                 value={tags}
                 onChange={onChange}
-                onFocus={() => setIsActive(true)}
-                onBlur={() => setIsActive(false)}
+                onFocus={onFocus}
             />
 
             <ul className={`search-input__list ${!isActive && "search-input__list_close"}`}>
                 {
                     tagMatches.map(tag => (
                         <li key={tag} className="search-input__item-list">
-                            {tag}
+                            <Link className="search-input__item-link" to={`/home/${tag}`}>
+                                {tag}
+                            </Link>
                         </li>
                     ))
                 }

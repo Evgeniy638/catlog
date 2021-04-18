@@ -39,6 +39,7 @@ const initialState = {
         ]
 };
 
+const CLEAN_POSTS = "CLEAN_POSTS";
 const CHANGE_POSTS = "CHANGE_POSTS";
 const UPDATE_LIKES = "UPDATE_LIKES";
 const CHANGE_COUNT_LIKES = "CHANGE_COUNT_LIKES";
@@ -46,6 +47,11 @@ const UPDATE_NEW_POSTS = "UPDATE_NEW_POSTS";
 
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
+        case CLEAN_POSTS:
+            return {
+                ...state,
+                posts: []
+            }
         case UPDATE_NEW_POSTS:
             return {
                 ...state,
@@ -93,6 +99,12 @@ const reducerPost = (state=initialState, action) => {
 export default reducerPost;
 
 export const postActionCreator = {
+    cleanPosts() {
+        return {
+            type: CLEAN_POSTS
+        }
+    },
+
     changePosts(posts) {
         return {
             type: CHANGE_POSTS,
@@ -130,9 +142,11 @@ export const postGetters = {
 }
 
 export const postThunkCreators = {
-    getPosts() {
+    getPosts(tags) {
         return async (dispatch) => {
-            const posts = await apiPost.getAllPosts();
+            const posts = tags
+                ?await apiPost.findPostsByTags(tags)
+                :await apiPost.getAllPosts();
             dispatch(postActionCreator.changePosts(posts));
         }
     },

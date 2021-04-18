@@ -22,6 +22,11 @@ const apiPost = {
         return (await response).json();
     },
 
+    async findPostsByTags(tagArr) {
+        const response = fetch(`/posts/tags/${tagArr.join("+")}`);
+        return (await response).json();
+    },
+
     async getAllPosts() {
         const response = await fetch("/posts");
         return await response.json();

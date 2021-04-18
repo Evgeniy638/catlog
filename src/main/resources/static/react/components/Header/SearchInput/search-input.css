@@ -57,14 +57,20 @@
 .search-input__item-not-found,
 .search-input__item-list {
     list-style: none;
-    font-family: 'Roboto Condensed', sans-serif;
-    height: 30px;
-    padding: 0 15px;
-    display: flex;
-    align-items: center;
 }
 
 .search-input__item-list:hover {
     cursor: pointer;
     background-color: #eee;
+}
+
+.search-input__item-link {
+    font-family: 'Roboto Condensed', sans-serif;
+    height: 30px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    width: 100%;
+    box-sizing: border-box;
 }
