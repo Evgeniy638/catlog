@@ -34,6 +34,11 @@ const SearchInput = () => {
         window.removeEventListener("click", onBlur);
     }
 
+    const onClickByLink = () => {
+        setIsActive(false);
+        window.removeEventListener("click", onBlur);
+    }
+
     return (
         <div className="search-input" ref={refSearchInput}>
             <input
@@ -50,7 +55,11 @@ const SearchInput = () => {
                 {
                     tagMatches.map(tag => (
                         <li key={tag} className="search-input__item-list">
-                            <Link className="search-input__item-link" to={`/home/${tag}`}>
+                            <Link
+                                className="search-input__item-link"
+                                to={`/home/${tag}`}
+                                onClick={onClickByLink}
+                            >
                                 {tag}
                             </Link>
                         </li>

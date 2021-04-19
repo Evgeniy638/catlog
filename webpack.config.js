@@ -1,15 +1,15 @@
 const path = require("path");
 const webpack = require("webpack");
-const ASSET_PATH = process.env.ASSET_PATH || '/';
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 require("babel-polyfill");
 
-module.exports = {
-    entry: ["babel-polyfill", path.join(__dirname, 'src', 'main', 'resources', 'static', 'react', 'index.js')],
+module.exports = (env, argv) => ({
+    mode: argv.mode,
+    entry: ["babel-polyfill", path.join(__dirname, 'src', 'main', 'webapp', 'index.js')],
     output: {
         path: path.join(__dirname, 'target', 'classes', 'static'),
         filename: "index-bundle.js",
-        publicPath: ASSET_PATH
+        publicPath: argv.mode === 'production' ?'/' :'http://localhost:8000/'
     },
     devtool: 'inline-source-map',
     plugins: [
@@ -62,4 +62,4 @@ module.exports = {
             'localhost:8080'
         ]
     },
-}
+});

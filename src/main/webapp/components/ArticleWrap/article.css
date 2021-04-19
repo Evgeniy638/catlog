@@ -60,13 +60,13 @@
 }
 
 .article__like-button_has-like{
-    background-image: url(./active_like.svg);
+    background-image: url("./active_like.svg");
     width: 35px; 
     height: 35px;
 }
 
 .article__like-button_no-like{
-    background-image: url(./void_like.svg);
+    background-image: url("./void_like.svg");
     width: 35px; 
     height: 35px;
 }
