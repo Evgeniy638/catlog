@@ -34,9 +34,10 @@ const SearchInput = () => {
         window.removeEventListener("click", onBlur);
     }
 
-    const onClickByLink = () => {
+    const createOnClickByLink = (tag) => () => {
         setIsActive(false);
         window.removeEventListener("click", onBlur);
+        setTags(tag);
     }
 
     return (
@@ -58,7 +59,7 @@ const SearchInput = () => {
                             <Link
                                 className="search-input__item-link"
                                 to={`/home/${tag}`}
-                                onClick={onClickByLink}
+                                onClick={createOnClickByLink(tag)}
                             >
                                 {tag}
                             </Link>
