@@ -128,7 +128,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
 
     getComments(postId) {
-        return dispatch(postThunkCreators.getComments(postId));
+        dispatch(postThunkCreators.getComments(postId));
     }
 });
 

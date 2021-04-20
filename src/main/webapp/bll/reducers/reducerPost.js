@@ -51,7 +51,7 @@ const reducerPost = (state=initialState, action) => {
         case UPDATE_COMMENTS:
             return {
                 ...state,
-                comments: [action.comments, ...state.comments.filter((c) => c.postId !== action.postId)]
+                comments: [...action.comments, ...state.comments.filter((c) => c.postId !== action.postId)]
             }
         case CLEAN_POSTS:
             return {
@@ -178,7 +178,7 @@ export const postThunkCreators = {
 
     getComments(postId) {
         return async (dispatch) => {
-            const comments = apiPost.getCommentsByPostId(postId);
+            const comments = await apiPost.getCommentsByPostId(postId);
             dispatch(postActionCreator.updateComments(comments, postId));
         }
     }
