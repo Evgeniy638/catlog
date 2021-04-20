@@ -55,16 +55,16 @@ public class CommentDAO {
      * @param comment Комментарий со всей информацией о нём
      */
     public Comment createComment(Comment comment) {
-        String SQL_INSERT = "INSERT INTO comment (text, authorid, postid, headcommentid) VALUES (?, ?, ?, ?)";
+        String SQL_INSERT = "INSERT INTO comment (text, postid, headcommentid, author_nickname) VALUES (?, ?, ?, ?)";
 
         KeyHolder key = new GeneratedKeyHolder();
         jdbcTemplate.update(
                 connection -> {
                     PreparedStatement ps = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
                     ps.setString(1, comment.getText());
-                    ps.setInt(2, comment.getAuthorId());
-                    ps.setInt(3, comment.getPostId());
-                    ps.setInt(4, comment.getHeadCommentId());
+                    ps.setInt(2, comment.getPostId());
+                    ps.setInt(3, comment.getHeadCommentId());
+                    ps.setString(4, comment.getAuthorNickname());
                     return ps;
                 },
                 key);

@@ -3,10 +3,18 @@ package com.copy.reddit.model;
 public class Comment {
     private Integer id;
     private String text;
-    private Integer authorId;
+    private String authorNickname;
     private Integer postId;
     private Integer headCommentId;
     private Boolean hasAnswers;
+
+    public String getAuthorNickname() {
+        return authorNickname;
+    }
+
+    public void setAuthorNickname(String authorNickname) {
+        this.authorNickname = authorNickname;
+    }
 
     public Boolean getHasAnswers() {
         return hasAnswers;
@@ -30,14 +38,6 @@ public class Comment {
 
     public void setText(String text) {
         this.text = text;
-    }
-
-    public Integer getAuthorId() {
-        return authorId;
-    }
-
-    public void setAuthorId(Integer authorId) {
-        this.authorId = authorId;
     }
 
     public Integer getPostId() {
