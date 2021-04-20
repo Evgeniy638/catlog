@@ -31,7 +31,7 @@ const ArticleWrap = (props) => {
                           images={post.images}
                           tags={post.tagList}
                           key={post.id}
-                          comments={post.comments}/>
+                          comments={props.comments.filter((c) => c.postId === post.id)}/>
                 ))
             }
         </div>
@@ -40,7 +40,8 @@ const ArticleWrap = (props) => {
 
 const mapStateToProps = (state) => ({
     posts: postGetters.getPosts(state),
-    authorization: userGetters.getAuthorization(state)
+    authorization: userGetters.getAuthorization(state),
+    comments: postGetters.getComments(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -51,6 +52,7 @@ const mapDispatchToProps = (dispatch) => ({
     getPosts(tags) {
         dispatch(postThunkCreators.getPosts(tags));
     },
+
     cleanPosts() {
         return dispatch(postActionCreator.cleanPosts());
     }

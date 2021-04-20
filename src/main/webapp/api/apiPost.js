@@ -49,18 +49,18 @@ const apiPost = {
     },
 
     async deleteLike(authorization, postId){
-        const responce = await fetch(`/posts/likes/${postId}`, {
+        const response = await fetch(`/posts/likes/${postId}`, {
             method: "DELETE",
             headers: {
                 "Authorization": authorization
             }
         });
 
-        return await responce.json();
+        return await response.json();
     },
 
     async getLikesInfo(authorization, postsIds){
-        const responce = await fetch(`/posts/likes/get_own`, {
+        const response = await fetch(`/posts/likes/get_own`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -69,7 +69,12 @@ const apiPost = {
             body: JSON.stringify(postsIds)
         });
 
-        return await responce.json();
+        return await response.json();
+    },
+
+    async getCommentsByPostId(postId){
+        const response = await fetch(`posts/comments/${postId}`);
+        return await response.json();
     }
 }
 

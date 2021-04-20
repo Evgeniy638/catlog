@@ -23,7 +23,7 @@ const likeCheck = async (post, authorization) => {
 }
 
 const Post = (props) => {
-    const [isActiveComment, setIsActiveComment] = useState(false);
+   const [isActiveComment, setIsActiveComment] = useState(false);
    const time = new Date(props.time);
 
    let dd = time.getDate();
@@ -45,6 +45,11 @@ const Post = (props) => {
         else{
             props.toggleOpenLogin();
         }
+    }
+
+    const commentClick = () => {
+        setIsActiveComment(!isActiveComment);
+        props.getComments(props.id);
     }
 
    useEffect(() => {
@@ -85,7 +90,7 @@ const Post = (props) => {
                 </div>
             <div className="article__like-and-comment-area">{props.countComments} комментариев
                 <div>
-                    <button className="article__comment-button" onClick={()=>setIsActiveComment(!isActiveComment)}>
+                    <button className="article__comment-button" onClick={commentClick}>
                         <img src={CommentPic} alt="comment"/>
                     </button>
                     <button className="article__like-button" onClick={likeClick}>
@@ -113,11 +118,17 @@ const mapDispatchToProps = (dispatch) => ({
     getLikesInfo(authorization, postsIds) {
         dispatch(postThunkCreators.getLikesInfo(authorization, postsIds));
     },
+
     changeCountLikes(countLikes, postId) {
         dispatch(postActionCreator.changeCountLikes(countLikes, postId))
     },
+
     toggleOpenLogin() {
         dispatch(loginActionCreators.toggleOpen());
+    },
+
+    getComments(postId) {
+        return dispatch(postThunkCreators.getComments(postId));
     }
 });
 

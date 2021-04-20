@@ -18,25 +18,25 @@ const initialState = {
                     name: "tag"
                 }
             ],
-            comments: [
+        }
+        ],
+    comments: [
+        {
+            id: 12,
+            text: "com",
+            authorNickname: "nick",
+            postId: 1,
+            hasAnswers: true,
+            replies: [
                 {
-                    id: 12,
-                    text: "com",
+                    id: 13,
+                    text: "reply",
                     authorNickname: "nick",
                     postId: 1,
-                    hasAnswers: true,
-                    replies: [
-                        {
-                            id: 13,
-                            text: "reply",
-                            authorNickname: "nick",
-                            postId: 1,
-                        }
-                    ]
                 }
-                ]
+            ]
         }
-        ]
+    ]
 };
 
 const CLEAN_POSTS = "CLEAN_POSTS";
@@ -44,9 +44,15 @@ const CHANGE_POSTS = "CHANGE_POSTS";
 const UPDATE_LIKES = "UPDATE_LIKES";
 const CHANGE_COUNT_LIKES = "CHANGE_COUNT_LIKES";
 const UPDATE_NEW_POSTS = "UPDATE_NEW_POSTS";
+const UPDATE_COMMENTS = "UPDATE_COMMENTS";
 
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
+        case UPDATE_COMMENTS:
+            return {
+                ...state,
+                comments: [action.comments, ...state.comments.filter((c) => c.postId !== action.postId)]
+            }
         case CLEAN_POSTS:
             return {
                 ...state,
@@ -132,12 +138,24 @@ export const postActionCreator = {
             type: UPDATE_NEW_POSTS,
             post
         }
+    },
+
+    updateComments(comments, postId){
+        return {
+            type: UPDATE_COMMENTS,
+            comments,
+            postId
+        }
     }
 }
 
 export const postGetters = {
     getPosts(state) {
         return state.reducerPost.posts;
+    },
+
+    getComments(state) {
+        return state.reducerPost.comments;
     }
 }
 
@@ -155,6 +173,13 @@ export const postThunkCreators = {
         return async (dispatch) => {
             const likesById = await apiPost.getLikesInfo(authorization, postsIds);
             dispatch(postActionCreator.getLikesInfo(likesById));
+        }
+    },
+
+    getComments(postId) {
+        return async (dispatch) => {
+            const comments = apiPost.getCommentsByPostId(postId);
+            dispatch(postActionCreator.updateComments(comments, postId));
         }
     }
 }
