@@ -44,4 +44,9 @@ public class UserDAO {
                 .stream().findFirst().orElse(null);
     }
 
+    public User findById(Integer id) {
+        return jdbcTemplate.query("SELECT * FROM \"User\" WHERE id=?",
+                new BeanPropertyRowMapper<>(User.class), id)
+                .stream().findFirst().orElse(null);
+    }
 }

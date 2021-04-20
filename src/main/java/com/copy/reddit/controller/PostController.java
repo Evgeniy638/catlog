@@ -1,5 +1,6 @@
 package com.copy.reddit.controller;
 
+import com.copy.reddit.dto.HeadCommentDTO;
 import com.copy.reddit.dto.LikeByIdDTO;
 import com.copy.reddit.model.Comment;
 import com.copy.reddit.model.Post;
@@ -174,10 +175,13 @@ public class PostController {
      * @return Статут выполнения запроса и комментарии к посту
      */
     @GetMapping(value = "posts/comments/{postId}")
-    public ResponseEntity<List<Comment>> getCommentsByPostId(
+    public ResponseEntity<List<HeadCommentDTO>> getCommentsByPostId(
             @PathVariable(name = "postId") Integer postId
     ) {
-        return new ResponseEntity<>(commentService.getCommentsByPostId(postId), HttpStatus.OK);
+        return new ResponseEntity<>(
+                commentService.getCommentsByPostId(postId),
+                HttpStatus.OK
+        );
     }
 
     /**
@@ -204,7 +208,7 @@ public class PostController {
             @RequestBody Comment comment
     ) throws UnsupportedEncodingException {
         comment.setHeadCommentId(null);
-        comment.setAuthorId(userService.getUserByAuthorization(authorization).getId());
+        comment.setAuthorNickname(userService.getNameByAuthorization(authorization));
         Integer countComments = commentService.createComment(comment);
         return new ResponseEntity<>(countComments, HttpStatus.CREATED);
     }
@@ -221,7 +225,7 @@ public class PostController {
             @RequestHeader("Authorization") String authorization,
             @RequestBody Comment comment
     ) throws UnsupportedEncodingException {
-        comment.setAuthorId(userService.getUserByAuthorization(authorization).getId());
+        comment.setAuthorNickname(userService.getNameByAuthorization(authorization));
         Integer countComments = commentService.createComment(comment);
         return new ResponseEntity<>(countComments, HttpStatus.CREATED);
     }
