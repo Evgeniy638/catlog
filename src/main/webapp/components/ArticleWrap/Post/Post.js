@@ -57,7 +57,7 @@ const Post = (props) => {
        if(heightContent > 350){
            setBottomVisible(true);
        }
-   }, [])
+   }, [props.images])
    return(
        <div className="article">
             <div className="article__info">

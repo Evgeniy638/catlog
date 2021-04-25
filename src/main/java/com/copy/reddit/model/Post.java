@@ -8,7 +8,7 @@ public class Post {
     private Integer userId;
     private Long time;
     private List<Tag> tagList;
-    private int countLikes;
+    private Integer countLikes;
     private Integer countComments;
     private boolean hasLike;
     private List<Image> images;
@@ -46,11 +46,11 @@ public class Post {
         this.hasLike = hasLike;
     }
 
-    public int getCountLikes() {
+    public Integer getCountLikes() {
         return countLikes;
     }
 
-    public void setCountLikes(int countLikes) {
+    public void setCountLikes(Integer countLikes) {
         this.countLikes = countLikes;
     }
 

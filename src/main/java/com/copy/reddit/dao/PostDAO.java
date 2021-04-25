@@ -204,12 +204,12 @@ public class PostDAO{
     public List<Post> addAdditionalInformationToPosts(List<Post> posts, Integer userId) {
         for (Post post : posts) {
             post.setTagList(getTags(post.getId()));
-            post.setImages(getImages(post.getId()));
-            post.setCountComments(getCountComments(post.getId()));
-
-            AnswerLikes answerLikes = getLikes(post.getId(), userId);
-            post.setCountLikes(answerLikes.countLikes);
-            post.setHasLike(answerLikes.hasLike);
+//            post.setImages(getImages(post.getId()));
+//            post.setCountComments(getCountComments(post.getId()));
+//
+//            AnswerLikes answerLikes = getLikes(post.getId(), userId);
+//            post.setCountLikes(answerLikes.countLikes);
+//            post.setHasLike(answerLikes.hasLike);
         }
         return posts;
     }
@@ -220,7 +220,7 @@ public class PostDAO{
      * @return Список изображений, прикрепленных к посту
      */
     public List<Image> getImages(Integer postId) {
-        String SQL_SELECT = "SELECT * FROM image WHERE postid=?";
+        String SQL_SELECT = "SELECT id, postid, src FROM image WHERE postid=?";
         return jdbcTemplate.query(SQL_SELECT, new BeanPropertyRowMapper<>(Image.class), postId);
     }
 

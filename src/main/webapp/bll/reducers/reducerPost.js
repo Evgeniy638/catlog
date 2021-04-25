@@ -45,9 +45,42 @@ const UPDATE_LIKES = "UPDATE_LIKES";
 const CHANGE_COUNT_LIKES = "CHANGE_COUNT_LIKES";
 const UPDATE_NEW_POSTS = "UPDATE_NEW_POSTS";
 const UPDATE_COMMENTS = "UPDATE_COMMENTS";
+const ADD_IMAGES = "ADD_IMAGES";
+const ADD_INFO_ABOUT_COMMENTS_AND_LIKES = "ADD_INFO_ABOUT_COMMENTS_AND_LIKES";
 
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
+        case ADD_INFO_ABOUT_COMMENTS_AND_LIKES:
+            return {
+                ...state,
+                posts: state.posts.map(post => {
+                    if (post.id !== action.postId) {
+                        return post;
+                    }
+
+                    return {
+                        ...post,
+                        countLikes: action.countLikes,
+                        countComments: action. countComments,
+                        hasLike: action.hasLike
+                    }
+                })
+            }
+        case ADD_IMAGES:
+            return {
+                ...state,
+                posts: state.posts.map(post => {
+                    if (post.id !== action.postId) {
+                        return post;
+                    }
+
+                    return {
+                        ...post,
+                        images: action.images
+                    }
+                })
+            }
+
         case UPDATE_COMMENTS:
             return {
                 ...state,
@@ -105,6 +138,21 @@ const reducerPost = (state=initialState, action) => {
 export default reducerPost;
 
 export const postActionCreator = {
+    getInfoAboutCommentsAndLikes(info) {
+        return {
+            type: ADD_INFO_ABOUT_COMMENTS_AND_LIKES,
+            ...info
+        }
+    },
+
+    addImages(postId, images) {
+        return {
+            type: ADD_IMAGES,
+            postId,
+            images
+        }
+    },
+
     cleanPosts() {
         return {
             type: CLEAN_POSTS
@@ -160,12 +208,22 @@ export const postGetters = {
 }
 
 export const postThunkCreators = {
-    getPosts(tags) {
+    getPosts(authorization, tags) {
         return async (dispatch) => {
             const posts = tags
                 ?await apiPost.findPostsByTags(tags)
                 :await apiPost.getAllPosts();
             dispatch(postActionCreator.changePosts(posts));
+
+            posts.forEach((post) => {
+                (async () => {
+                    const images = await apiPost.getImagesByPostId(post.id);
+                    dispatch(postActionCreator.addImages(post.id, images));
+
+                    const info = await apiPost.getInfoAboutCommentsAndLikes(post.id, authorization);
+                    dispatch(postActionCreator.getInfoAboutCommentsAndLikes(info));
+                })();
+            });
         }
     },
 

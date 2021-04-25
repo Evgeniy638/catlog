@@ -1,6 +1,8 @@
 package com.copy.reddit.service;
 
+import com.copy.reddit.dto.InfoAboutCommentsAndLikesDTO;
 import com.copy.reddit.dto.LikeByIdDTO;
+import com.copy.reddit.model.Image;
 import com.copy.reddit.model.Post;
 
 import java.util.List;
@@ -15,4 +17,6 @@ public interface PostService {
     int deleteLike(int userId, int postId);
     List<LikeByIdDTO> getLikesInfo(List<Integer> postsIds, int userId);
     List<String> findMatchesByTags(List<String> tagsNames);
+    List<Image> getImage(Integer postId);
+    InfoAboutCommentsAndLikesDTO getInfoAboutCommentsAndLikes (Integer postId, Integer userId);
 }

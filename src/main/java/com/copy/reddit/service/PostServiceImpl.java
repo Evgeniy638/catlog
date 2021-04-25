@@ -1,6 +1,7 @@
 package com.copy.reddit.service;
 
 import com.copy.reddit.dao.PostDAO;
+import com.copy.reddit.dto.InfoAboutCommentsAndLikesDTO;
 import com.copy.reddit.dto.LikeByIdDTO;
 import com.copy.reddit.model.Image;
 import com.copy.reddit.model.Like;
@@ -113,5 +114,24 @@ public class PostServiceImpl implements PostService {
     @Override
     public List<String> findMatchesByTags(List<String> tagsNames) {
         return postDAO.findMatchesByTags(tagsNames);
+    }
+
+    @Override
+    public List<Image> getImage(Integer postId) {
+        return postDAO.getImages(postId);
+    }
+
+    @Override
+    public InfoAboutCommentsAndLikesDTO getInfoAboutCommentsAndLikes(Integer postId, Integer userId) {
+        PostDAO.AnswerLikes answerLikes = postDAO.getLikes(postId, userId);
+        Integer countComments = postDAO.getCountComments(postId);
+
+        InfoAboutCommentsAndLikesDTO info = new InfoAboutCommentsAndLikesDTO();
+        info.setPostId(postId);
+        info.setCountComments(countComments);
+        info.setCountLikes(answerLikes.countLikes);
+        info.setHasLike(answerLikes.hasLike);
+
+        return info;
     }
 }

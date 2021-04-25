@@ -75,6 +75,20 @@ const apiPost = {
     async getCommentsByPostId(postId){
         const response = await fetch(`posts/comments/${postId}`);
         return await response.json();
+    },
+
+    async getImagesByPostId(postId) {
+        const response = await fetch(`/posts/images/${postId}`);
+        return await response.json();
+    },
+
+    async getInfoAboutCommentsAndLikes(postId, authorization) {
+        const response = await fetch(`/posts/info_about_comments_and_likes/${postId}`, {
+            headers: {
+                "Authorization": authorization
+            }
+        });
+        return await response.json();
     }
 }
 
