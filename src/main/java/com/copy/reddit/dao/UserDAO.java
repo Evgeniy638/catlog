@@ -24,8 +24,8 @@ public class UserDAO {
      */
     public boolean save(User user) {
         try {
-            jdbcTemplate.update("INSERT INTO \"User\" (nickname, password) values (?, ?)",
-                    user.getNickname(), user.getEncodePassword());
+            jdbcTemplate.update("INSERT INTO \"User\" (nickname, password, avatar) values (?, ?, ?)",
+                    user.getNickname(), user.getEncodePassword(), user.getAvatar());
 
             return true;
         } catch (Exception e) {
@@ -48,5 +48,12 @@ public class UserDAO {
         return jdbcTemplate.query("SELECT * FROM \"User\" WHERE id=?",
                 new BeanPropertyRowMapper<>(User.class), id)
                 .stream().findFirst().orElse(null);
+    }
+
+    public String getAvatarImg(String nickname) {
+        return jdbcTemplate.query(
+                "SELECT avatar FROM \"User\" WHERE nickname=? LIMIT 1 OFFSET 0",
+                new BeanPropertyRowMapper<>(User.class), nickname
+        ).get(0).getAvatar();
     }
 }

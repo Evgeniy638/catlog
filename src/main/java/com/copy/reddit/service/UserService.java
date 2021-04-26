@@ -29,7 +29,7 @@ public class UserService {
      * @return true если сохранился, иначе false
      */
     public boolean saveUser(UserDTO userDTO) {
-        User user = new User(userDTO.getNickname(), userDTO.getPassword());
+        User user = new User(userDTO.getNickname(), userDTO.getPassword(), userDTO.getAvatar());
         return userDAO.save(user);
     }
 
@@ -63,5 +63,9 @@ public class UserService {
      */
     public User getUserByAuthorization(String authorization) throws UnsupportedEncodingException {
         return userDAO.findByUsername(getNameByAuthorization(authorization));
+    }
+
+    public String getAvatarImg(String nickname) {
+        return userDAO.getAvatarImg(nickname);
     }
 }

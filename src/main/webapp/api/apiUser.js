@@ -15,13 +15,13 @@ const apiUser = {
         return await response.json();
     },
 
-    async registration(nickname, password) {
+    async registration(nickname, password, avatar) {
         const response = await fetch("/users/registration", {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({nickname, password})
+            body: JSON.stringify({nickname, password, avatar})
         });
 
         if (!response.ok) {
@@ -29,6 +29,11 @@ const apiUser = {
         }
 
         return await response.json();
+    },
+
+    async getImage(nickname) {
+        const response = await fetch(`/users/avatar/${nickname}`);
+        return await response.text();
     }
 }
 

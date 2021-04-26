@@ -1,6 +1,7 @@
 import React from "react";
 import {userThunkCreators} from "../../../bll/reducers/reducerUser";
 import {connect} from "react-redux";
+import {util} from "../../../util/util";
 
 const RegistrationForm = ({isVisible, goToLoginForm, registration}) => {
     const onClickGoTo = (e) => {
@@ -11,7 +12,13 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration}) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         const loginForm = e.currentTarget;
-        registration(loginForm.elements.nickname.value, loginForm.elements.password.value);
+        util.readFilesAsDataURL([...loginForm.elements.avatar.files], (results) => {
+            registration(
+                loginForm.elements.nickname.value,
+                loginForm.elements.password.value,
+                results[0].src
+            );
+        });
     }
 
     return (
@@ -40,6 +47,11 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration}) => {
                 <input className="login__input" name="passwordAgain" placeholder="пароль" type="password"/>
             </label>
 
+            <label>
+                Аватар:
+                <input name="avatar" type="file"/>
+            </label>
+
             <div className="login__error login__error_hidden"></div>
 
             <div className="login__form-element">
@@ -57,8 +69,8 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration}) => {
 const mapStateToProps = (state) => ({});
 
 const mapDispatchToProps = (dispatch) => ({
-    registration(nickname, password) {
-        dispatch(userThunkCreators.registration(nickname, password));
+    registration(nickname, password, avatar) {
+        dispatch(userThunkCreators.registration(nickname, password, avatar));
     }
 });
 

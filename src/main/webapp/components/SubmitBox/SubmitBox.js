@@ -5,35 +5,8 @@ import apiPost from "../../api/apiPost";
 import {connect} from "react-redux";
 import {userGetters} from "../../bll/reducers/reducerUser";
 import {postActionCreator, postThunkCreators} from "../../bll/reducers/reducerPost";
-import {loginActionCreators} from "../../bll/reducers/reducerLogin";
+import {util} from "../../util/util";
 
-function readFilesAsDataURL(arrFiles, callback=results=>{}) {
-    const arrResults = [];
-
-    if (arrFiles.length === 0) {
-        callback(arrResults);
-    }
-
-    arrFiles.forEach(file => {
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-
-        reader.onload = () => {
-            arrResults.push(reader.result);
-
-            if (arrResults.length === arrFiles.length) {
-                callback(
-                    arrResults.map((dataUrl, i) => ({
-                        src: dataUrl,
-                        name: arrFiles[i].name,
-                        type: arrFiles[i].type
-                    }))
-                );
-            }
-        }
-    });
-}
 
 const createPost = (props, postForm, authorization) => {
     const text = postForm.postText.value;
@@ -41,7 +14,7 @@ const createPost = (props, postForm, authorization) => {
     const tagList = postForm.postTags.value
         .split(" ").map((tag) => ({name: tag}));
 
-    readFilesAsDataURL([...postForm.postFile.files], async (images) => {
+    util.readFilesAsDataURL([...postForm.postFile.files], async (images) => {
         props.updateNewPosts(await apiPost.createPost(text, tagList, images, authorization));
     });
 }

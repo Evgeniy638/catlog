@@ -74,4 +74,9 @@ public class UserController {
     public ResponseEntity<String> getNickname(@RequestHeader("Authorization") String authorization) throws UnsupportedEncodingException {
         return new ResponseEntity<>(userService.getNameByAuthorization(authorization), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/users/avatar/{nickname}")
+    public ResponseEntity<String> getImageByNickname(@PathVariable("nickname") String nickname) {
+        return new ResponseEntity<>(userService.getAvatarImg(nickname), HttpStatus.OK);
+    }
 }

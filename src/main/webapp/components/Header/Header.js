@@ -26,6 +26,10 @@ const Header = (props) => {
             <div className="header__child">
                 <div id="authorization-wrap" className="authorization">
                     {
+                        props.avatar &&
+                        <img className="header__avatar" src={props.avatar}/>
+                    }
+                    {
                         props.nickname
                             ?props.nickname
                             :<button
@@ -40,7 +44,8 @@ const Header = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    nickname: userGetters.getNickname(state)
+    nickname: userGetters.getNickname(state),
+    avatar: userGetters.getAvatar(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({

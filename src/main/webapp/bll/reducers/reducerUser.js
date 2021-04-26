@@ -3,10 +3,11 @@ import {loginActionCreators} from "./reducerLogin";
 
 const initialState = {
     authorization: "",
-    nickname: ""
+    nickname: "",
+    avatar: undefined
 };
 
-const LOGIN = "LOGIN"
+const LOGIN = "LOGIN";
 
 const reducerUser = (state=initialState, action) => {
     switch (action.type) {
@@ -14,7 +15,8 @@ const reducerUser = (state=initialState, action) => {
             return {
                 ...state,
                 authorization: action.authorization,
-                nickname: action.nickname
+                nickname: action.nickname,
+                avatar: action.avatar
             }
         default: {
             return state;
@@ -25,11 +27,12 @@ const reducerUser = (state=initialState, action) => {
 export default reducerUser;
 
 export const userActionCreator = {
-    login(authorization, nickname) {
+    login(authorization, nickname, avatar) {
         return {
             type: LOGIN,
             authorization,
-            nickname
+            nickname,
+            avatar
         }
     }
 }
@@ -41,6 +44,10 @@ export const userGetters = {
 
     getAuthorization(state) {
         return state.reducerUser.authorization;
+    },
+
+    getAvatar(state) {
+        return state.reducerUser.avatar;
     }
 }
 
@@ -48,16 +55,17 @@ export const userThunkCreators = {
     login(nickname, password) {
         return async (dispatch) => {
             const {authorization} = await apiUser.login(nickname, password);
-            dispatch(userActionCreator.login(authorization, nickname));
+            const avatar = await apiUser.getImage(nickname);
+            dispatch(userActionCreator.login(authorization, nickname, avatar));
             dispatch(loginActionCreators.close());
         }
     },
 
-    registration(nickname, password) {
+    registration(nickname, password, avatar) {
         return async (dispatch) => {
             const {authorization} = await apiUser
-                .registration(registrationForm.elements.nickname.value, password);
-            dispatch(userActionCreator.login(authorization, nickname));
+                .registration(nickname, password, avatar);
+            dispatch(userActionCreator.login(authorization, nickname, avatar));
             dispatch(loginActionCreators.close());
         }
     }

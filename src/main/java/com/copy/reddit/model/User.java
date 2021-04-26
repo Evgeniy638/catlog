@@ -16,15 +16,25 @@ public class User {
     private String encodePassword;
     private String[] roles = new String[] {"ROLE_USER"};
     private int id;
+    private String avatar;
 
     public User() {
         super();
     }
 
-    public User(String nickname, String password) {
+    public User(String nickname, String password, String avatar) {
         this.nickname = nickname;
         setPassword(password);
         setEncodePassword(password);
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public int getId() {

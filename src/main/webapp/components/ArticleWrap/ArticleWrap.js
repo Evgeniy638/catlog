@@ -31,6 +31,7 @@ const ArticleWrap = (props) => {
                           images={post.images}
                           tags={post.tagList}
                           key={post.id}
+                          avatar={post.avatar}
                           comments={props.comments.filter((c) => c.postId === post.id)}/>
                 ))
             }

@@ -61,7 +61,13 @@ const Post = (props) => {
    return(
        <div className="article">
             <div className="article__info">
-                <div className="article__author">{props.authorNickname}</div>
+                <div className="article__author-wrap">
+                    {
+                        props.avatar &&
+                        <img className="article__avatar" src={props.avatar}/>
+                    }
+                    <div className="article__author">{props.authorNickname}</div>
+                </div>
                 <div className="article__time">{dd}.{mm}.{yyyy}</div>
             </div>
             <input type="checkbox" className="article__hiddenchecker" id={`article__hiddenchecker${props.id}`}/>

@@ -13,6 +13,19 @@
     padding-top: 10px;
 }
 
+.article__author-wrap {
+    display: flex;
+    align-items: center;
+}
+
+.article__avatar {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin-right: 7px;
+    border-radius: 100%;
+}
+
 .article__author {
     font-weight: bold;
 }

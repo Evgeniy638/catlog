@@ -1,6 +1,7 @@
 import apiPost from "../../api/apiPost";
 import Post from "../../components/ArticleWrap/Post/Post";
 import React from "react";
+import apiUser from "../../api/apiUser";
 
 const initialState = {
     posts: [
@@ -47,9 +48,24 @@ const UPDATE_NEW_POSTS = "UPDATE_NEW_POSTS";
 const UPDATE_COMMENTS = "UPDATE_COMMENTS";
 const ADD_IMAGES = "ADD_IMAGES";
 const ADD_INFO_ABOUT_COMMENTS_AND_LIKES = "ADD_INFO_ABOUT_COMMENTS_AND_LIKES";
+const ADD_AVATAR = "AVATAR";
 
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
+        case ADD_AVATAR:
+            return {
+                ...state,
+                posts: state.posts.map(post => {
+                    if (post.id !== action.postId) {
+                        return post;
+                    }
+
+                    return {
+                        ...post,
+                        avatar: action.avatar
+                    }
+                })
+            }
         case ADD_INFO_ABOUT_COMMENTS_AND_LIKES:
             return {
                 ...state,
@@ -138,6 +154,14 @@ const reducerPost = (state=initialState, action) => {
 export default reducerPost;
 
 export const postActionCreator = {
+    addAvatar(postId, avatar) {
+        return {
+            type: ADD_AVATAR,
+            postId,
+            avatar
+        }
+    },
+
     getInfoAboutCommentsAndLikes(info) {
         return {
             type: ADD_INFO_ABOUT_COMMENTS_AND_LIKES,
@@ -219,6 +243,9 @@ export const postThunkCreators = {
                 (async () => {
                     const images = await apiPost.getImagesByPostId(post.id);
                     dispatch(postActionCreator.addImages(post.id, images));
+
+                    const avatar = await apiUser.getImage(post.authorNickname);
+                    dispatch(postActionCreator.addAvatar(post.id, avatar));
 
                     const info = await apiPost.getInfoAboutCommentsAndLikes(post.id, authorization);
                     dispatch(postActionCreator.getInfoAboutCommentsAndLikes(info));
