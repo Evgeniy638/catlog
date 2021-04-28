@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.List;
 
 @Repository
@@ -63,7 +64,7 @@ public class CommentDAO {
                     PreparedStatement ps = connection.prepareStatement(SQL_INSERT, Statement.RETURN_GENERATED_KEYS);
                     ps.setString(1, comment.getText());
                     ps.setInt(2, comment.getPostId());
-                    ps.setInt(3, comment.getHeadCommentId());
+                    ps.setObject(3, comment.getHeadCommentId(), Types.INTEGER);
                     ps.setString(4, comment.getAuthorNickname());
                     return ps;
                 },

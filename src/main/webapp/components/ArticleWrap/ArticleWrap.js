@@ -32,7 +32,9 @@ const ArticleWrap = (props) => {
                           tags={post.tagList}
                           key={post.id}
                           avatar={post.avatar}
-                          comments={props.comments.filter((c) => c.postId === post.id)}/>
+                          comments={props.comments.filter((c) => c.postId === post.id)}
+                          headCommentId={post.headCommentId}
+                          />
                 ))
             }
         </div>

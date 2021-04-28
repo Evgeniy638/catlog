@@ -33,7 +33,6 @@ const Post = (props) => {
    mm = mm < 10 ?`0${mm}` :mm;
 
    let yyyy = time.getFullYear();
-   console.log(props, props.images);
 
    const [bottomVisible, setBottomVisible] = useState(false);
 
@@ -49,6 +48,7 @@ const Post = (props) => {
 
     const commentClick = () => {
         setIsActiveComment(!isActiveComment);
+        console.log("COMMENT VISIBLE ", isActiveComment, props.id)
         props.getComments(props.id);
     }
 
@@ -110,6 +110,8 @@ const Post = (props) => {
                <ListComments
                     postId={props.id}
                     comments={props.comments}
+                    authorNickname={props.authorNickname}
+                    headCommentId={props.headCommentId}
                />
            }
         </div>

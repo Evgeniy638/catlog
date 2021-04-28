@@ -49,9 +49,16 @@ const UPDATE_COMMENTS = "UPDATE_COMMENTS";
 const ADD_IMAGES = "ADD_IMAGES";
 const ADD_INFO_ABOUT_COMMENTS_AND_LIKES = "ADD_INFO_ABOUT_COMMENTS_AND_LIKES";
 const ADD_AVATAR = "AVATAR";
+const ADD_NEW_COOMMENT = "ADD_NEW_COMMENT";
+
 
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
+        case ADD_NEW_COOMMENT:
+            return {
+              ...state,
+              comments: [...state.comments, action.comment],
+            }
         case ADD_AVATAR:
             return {
                 ...state,
@@ -218,7 +225,15 @@ export const postActionCreator = {
             comments,
             postId
         }
+    },
+
+    addNewComment(comment) {
+      return {
+        type: ADD_NEW_COOMMENT,
+        comment,
+      }
     }
+  
 }
 
 export const postGetters = {

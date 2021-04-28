@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import * as SockJSClient from 'sockjs-client';
 import Post from "../Post";
+import {postActionCreator} from "../../../../bll/reducers/reducerPost";
+import { connect } from 'react-redux';
 
 const SESSION_ITEM_COMMENTS = "SESSION_ITEM_COMMENTS";
 
@@ -49,19 +51,23 @@ const ListComments = (props) => {
 
     const onCommendReceived = (msg) => {
         const comment = JSON.parse(msg.body);
-        saveComments([...getComments(), comment]);
+        console.log("THERE TWO ->", comment);
+        props.addNewComment(comment);
     };
 
     const sendComment = () => {
         const comment = {
             text: newComment,
-            postId: props.postId
+            postId: props.postId,
+            authorNickname: props.authorNickname
         };
+        console.log("THERE djfosjfoidsj ->", comment);
         stompClient.send("/app/comments", {}, JSON.stringify(comment));
     };
     if(props.comments.length === 0){
         return null;
     }
+    console.log("INSIDE LIST CHECK", props.postId)
     return (
         <div className="article__comment-section">
             ListComments
@@ -107,5 +113,10 @@ const ListComments = (props) => {
     );
 };
 
+const mapDispatchToProps = (dispatch) => ({
+    addNewComment(comment) {
+        dispatch(postActionCreator.addNewComment(comment));
+    }
+});
 
-export default ListComments;
+export default connect(null, mapDispatchToProps)(ListComments);
