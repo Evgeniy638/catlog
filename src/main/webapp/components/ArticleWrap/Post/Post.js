@@ -48,7 +48,6 @@ const Post = (props) => {
 
     const commentClick = () => {
         setIsActiveComment(!isActiveComment);
-        console.log("COMMENT VISIBLE ", isActiveComment, props.id)
         props.getComments(props.id);
     }
 

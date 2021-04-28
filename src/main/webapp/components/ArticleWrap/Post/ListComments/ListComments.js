@@ -6,21 +6,10 @@ import { connect } from 'react-redux';
 
 const SESSION_ITEM_COMMENTS = "SESSION_ITEM_COMMENTS";
 
-var stompClient = null;
+let stompClient = null;
 
 const ListComments = (props) => {
-    const [comments, setComments] = useState([]);
-
     const [newComment, setNewComment] = useState("");
-
-    const saveComments = (comments) => {
-        sessionStorage.setItem(SESSION_ITEM_COMMENTS, JSON.stringify(comments));
-        setComments(comments);
-    }
-
-    const getComments = () => {
-        return JSON.parse(sessionStorage.getItem(SESSION_ITEM_COMMENTS)) || [];
-    }
 
     useEffect(() => {
         connect();
@@ -37,8 +26,6 @@ const ListComments = (props) => {
     };
 
     const onConnected = () => {
-        console.log("connected");
-        console.log(props.postId);
         stompClient.subscribe(
             "/topic/" + props.postId + "/comments",
             onCommendReceived
@@ -51,7 +38,6 @@ const ListComments = (props) => {
 
     const onCommendReceived = (msg) => {
         const comment = JSON.parse(msg.body);
-        console.log("THERE TWO ->", comment);
         props.addNewComment(comment);
     };
 
@@ -61,21 +47,12 @@ const ListComments = (props) => {
             postId: props.postId,
             authorNickname: props.authorNickname
         };
-        console.log("THERE djfosjfoidsj ->", comment);
         stompClient.send("/app/comments", {}, JSON.stringify(comment));
     };
-    if(props.comments.length === 0){
-        return null;
-    }
-    console.log("INSIDE LIST CHECK", props.postId)
+
     return (
         <div className="article__comment-section">
             ListComments
-            <div>
-                {
-                    comments.map((c, i) => (<div key={i}>{c.text}</div>))
-                }
-            </div>
             <input
                 value={newComment}
                 onChange={e => setNewComment(e.target.value)}
