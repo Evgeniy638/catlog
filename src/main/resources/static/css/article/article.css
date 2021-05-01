@@ -186,6 +186,11 @@
     margin: 25px 25px;
 }
 
+.article__comments{
+    overflow: auto;
+    max-height: 800px;
+}
+
 .article__comment{
     background: #FFC569;
     border-radius: 7px;

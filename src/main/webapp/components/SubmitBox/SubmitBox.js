@@ -9,10 +9,19 @@ import {util} from "../../util/util";
 
 
 const createPost = (props, postForm, authorization) => {
+    if(postForm.postText.value == ""){
+        let inputField = document.querySelector(".submit-box__post-field");
+        alert("Введите текст поста!");
+        inputField.placeholder = "Пост не может быть пустым";
+        return;
+    }
     const text = postForm.postText.value;
 
     const tagList = postForm.postTags.value
         .split(" ").map((tag) => ({name: tag}));
+
+    postForm.postText.value = "";
+    postForm.postTags.value = "";
 
     util.readFilesAsDataURL([...postForm.postFile.files], async (images) => {
         props.updateNewPosts(await apiPost.createPost(text, tagList, images, authorization));
@@ -28,7 +37,13 @@ const SubmitBox = (props) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+        let button = document.querySelector(".submit-box__submit-button");
+        let inputField = document.querySelector(".submit-box__post-field");
+        button.disabled = true;
+        inputField.disabled = true;
         createPost(props, e.currentTarget, props.authorization);
+        button.disabled = false;
+        inputField.disabled = false;
     }
 
     if (!props.authorization) {

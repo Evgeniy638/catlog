@@ -59,55 +59,55 @@ const ListComments = (props) => {
         const comment = {
             text: newComment,
             postId: props.postId,
-            authorNickname: props.authorNickname
+            authorNickname: props.authorNickname,
+            headCommentId: props.headCommentId
         };
-        console.log("THERE djfosjfoidsj ->", comment);
         stompClient.send("/app/comments", {}, JSON.stringify(comment));
     };
     if(props.comments.length === 0){
         return null;
     }
-    console.log("INSIDE LIST CHECK", props.postId)
     return (
         <div className="article__comment-section">
-            ListComments
-            <div>
+            <div className="article__comments">
+                ListComments
+                <div>
+                    {
+                        comments.map((c, i) => (<div key={i}>{c.text}</div>))
+                    }
+                </div>
+
                 {
-                    comments.map((c, i) => (<div key={i}>{c.text}</div>))
+                    props.comments.map((comment) => (
+                        <>
+                        <div className="article__first-level-comment">
+                            <div className="article__author">{comment.authorNickname}</div>
+                            <div className="article__comment-content">{comment.text}
+                            </div>
+                            <div style= {{display: "flex", justifyContent: "flex-end"}}>
+                                <button className="article__reply-button">Ответить</button>
+                            </div>
+                        </div>
+                            {comment.hasAnswers ? comment.replies.map((reply) =>
+                                (
+                                    <div className="article__second-level-comment">
+                                        <div className="article__author">{reply.authorNickname}</div>
+                                        <div className="article__comment-content">{reply.text}</div>
+                                    </div>
+                                )): null}
+                        </>
+                    ))
                 }
             </div>
-            <input
-                value={newComment}
-                onChange={e => setNewComment(e.target.value)}
-            />
-            <button onClick={sendComment}>Отправить</button>
 
-            {
-                props.comments.map((comment) => (
-                    <>
-                    <div className="article__first-level-comment">
-                        <div className="article__author">{comment.authorNickname}</div>
-                        <div className="article__comment-content">{comment.text}
-                        </div>
-                        <div style= {{display: "flex", justifyContent: "flex-end"}}>
-                            <button className="article__reply-button">Ответить</button>
-                        </div>
-                    </div>
-                        {comment.hasAnswers ? comment.replies.map((reply) =>
-                            (
-                                <div className="article__second-level-comment">
-                                    <div className="article__author">{reply.authorNickname}</div>
-                                    <div className="article__comment-content">{reply.text}</div>
-                                </div>
-                            )): null}
-                    </>
-                ))
-            }
 
             <div className="article__comment-area">
                 <textarea name="commentText" className="article__comment-field"
-                          placeholder="введите комментарий"></textarea>
-                <button className="article__comment" type="submit">Отправить</button>
+                          placeholder="введите комментарий">
+                    value={newComment}
+                    onChange={e => setNewComment(e.target.value)}
+                </textarea>
+                <button className="article__comment" type="submit" onClick={sendComment}>Отправить</button>
             </div>
         </div>
     );
