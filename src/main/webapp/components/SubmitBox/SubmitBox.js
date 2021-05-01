@@ -9,7 +9,7 @@ import {util} from "../../util/util";
 
 
 const createPost = (props, postForm, authorization) => {
-    if(postForm.postText.value == ""){
+    if(postForm.postText.value === ""){
         let inputField = document.querySelector(".submit-box__post-field");
         alert("Введите текст поста!");
         inputField.placeholder = "Пост не может быть пустым";

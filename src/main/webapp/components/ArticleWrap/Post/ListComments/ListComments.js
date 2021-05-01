@@ -41,30 +41,30 @@ const ListComments = (props) => {
         props.addNewComment(comment);
     };
 
-    const sendComment = () => {
+    const sendComment = (e) => {
+        e.preventDefault();
+        let field = e.currentTarget;
+        field.commentText.disabled = true;
+        if(field.commentText.value === ""){
+            return;
+        }
         const comment = {
-            text: newComment,
+            text: field.commentText.value,
             postId: props.postId,
             authorNickname: props.authorNickname,
             headCommentId: props.headCommentId
         };
+        field.commentText.value = "";
         stompClient.send("/app/comments", {}, JSON.stringify(comment));
+        field.commentText.disabled = false;
     };
-
     return (
         <div className="article__comment-section">
             <div className="article__comments">
-                ListComments
-                <div>
-                    {
-                        comments.map((c, i) => (<div key={i}>{c.text}</div>))
-                    }
-                </div>
-
                 {
-                    props.comments.map((comment) => (
+                    props.comments ? props.comments.map((comment) => (
                         <>
-                        <div className="article__first-level-comment">
+                        <div key={comment.id} className="article__first-level-comment">
                             <div className="article__author">{comment.authorNickname}</div>
                             <div className="article__comment-content">{comment.text}
                             </div>
@@ -80,19 +80,23 @@ const ListComments = (props) => {
                                     </div>
                                 )): null}
                         </>
-                    ))
+                    )) : null
                 }
             </div>
 
-
+            <form
+                onSubmit={sendComment}
+                className="comment-area"
+                encType="multipart/form-data"
+                action="#"
+            >
             <div className="article__comment-area">
                 <textarea name="commentText" className="article__comment-field"
                           placeholder="введите комментарий">
-                    value={newComment}
-                    onChange={e => setNewComment(e.target.value)}
                 </textarea>
-                <button className="article__comment" type="submit" onClick={sendComment}>Отправить</button>
+                <button className="article__comment" type="submit">Отправить</button>
             </div>
+            </form>
         </div>
     );
 };
