@@ -54,6 +54,11 @@ public class PostServiceImpl implements PostService {
         return postDAO.delete(id);
     }
 
+    @Override
+    public List<Post> findByNickname(String nickname, Integer userId) {
+        return postDAO.findByNickname(nickname, userId);
+    }
+
     /**
      * Поиск по тегу
      * @param tagsNames имя тега
@@ -86,8 +91,6 @@ public class PostServiceImpl implements PostService {
         postDAO.createLike(userId, postId);
         return postDAO.getLikes(postId, userId).countLikes;
     }
-
-
 
     /**
      * Удаление лайка с поста

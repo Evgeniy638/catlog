@@ -164,6 +164,20 @@ public class PostDAO{
         return posts;
     }
 
+    public List<Post> findByNickname(String nickname, Integer userId) {
+        String SQL_SELECT = "SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post " +
+                "JOIN \"User\" on \"User\".id = post.userid " +
+                "WHERE \"User\".nickname = ?"+
+                "ORDER BY post.time DESC";
+
+        List<Post> posts = jdbcTemplate.query(SQL_SELECT,
+                new BeanPropertyPost(),
+                nickname);
+
+        posts = addAdditionalInformationToPosts(posts, userId);
+        return posts;
+    }
+
     public List<String> findMatchesByTags(List<String> tagsNames) {
         if (tagsNames.size() == 0) return new ArrayList<>();
 

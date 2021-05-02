@@ -77,6 +77,24 @@ public class PostController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping(value = "/posts/user/{nickname}")
+    public ResponseEntity<?> findByNickname(
+            @PathVariable(name = "nickname") String nickname,
+            @RequestHeader(value = "Authorization", required = false) String authorization
+    ) throws UnsupportedEncodingException {
+        Integer userId = null;
+
+        if (authorization != null) {
+            userId = userService.getUserByAuthorization(authorization).getId();
+        }
+
+        final List<Post> posts = postServiceImpl.findByNickname(nickname, userId);
+
+        return posts != null
+                ? new ResponseEntity<>(posts, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @GetMapping(value = "/posts/tags/matches/{tagsNames}")
     public ResponseEntity<?> findMatchesByTags(
             @PathVariable(name = "tagsNames") String tagsNames
