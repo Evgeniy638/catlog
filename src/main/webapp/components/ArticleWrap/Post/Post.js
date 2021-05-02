@@ -87,7 +87,11 @@ const Post = (props) => {
                     props.tags &&
                     props.tags.map((tag) => (
                         <div className="article__tag" key={tag.id}>
-                            <Link style={{ textDecoration: 'none' }} to={`/home/${tag.name}`}>
+                            <Link
+                                style={{ textDecoration: 'none' }}
+                                to={`/home/${tag.name}`}
+                                className="article__tag-link"
+                            >
                                 {tag.name}
                             </Link>
                         </div>

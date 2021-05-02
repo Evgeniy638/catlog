@@ -154,9 +154,10 @@
     content: '#';
 }
 
-.article__tag a:active, 
-.article__tag a:visited,
-.article__tag a:hover {
+.article__tag-link,
+.article__tag-link:active,
+.article__tag-link:visited,
+.article__tag-link:hover {
    color: #76674A;
    text-decoration: none;
 }
