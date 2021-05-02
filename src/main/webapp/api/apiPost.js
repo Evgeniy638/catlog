@@ -27,6 +27,11 @@ const apiPost = {
         return (await response).json();
     },
 
+    async findPostsByNickname(nickname) {
+        const response = fetch(`/posts/user/${nickname}`);
+        return (await response).json();
+    },
+
     async getAllPosts() {
         const response = await fetch("/posts");
         return await response.json();

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class IndexController {
 
     @RequestMapping(method = RequestMethod.GET,
-            value = {"/", "/home/*", "/home"},
+            value = {"/", "/home/*", "/home", "/user/*"},
             produces = "text/html")
     public String index() {
         return "/new_index.html";

@@ -34,6 +34,16 @@ const apiUser = {
     async getImage(nickname) {
         const response = await fetch(`/users/avatar/${nickname}`);
         return await response.text();
+    },
+
+    async getCountPosts(nickname) {
+        const response = await fetch(`/users/${nickname}/posts/count`);
+        return await response.text();
+    },
+
+    async getCountLikes(nickname) {
+        const response = await fetch(`/users/${nickname}/posts/likes/count`);
+        return await response.text();
     }
 }
 

@@ -7,8 +7,10 @@ import {userGetters} from "../../bll/reducers/reducerUser";
 
 const ArticleWrap = (props) => {
     useEffect( () => {
-        props.cleanPosts();
-        props.getPosts(props.authorization, props.tags);
+        props.getPosts(props.authorization, {
+            tags: props.tags,
+            nickname: props.nickname
+        });
     }, [props.tags]);
 
     useEffect(() => {
@@ -52,12 +54,8 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(postThunkCreators.getLikesInfo(authorization, postsIds));
     },
 
-    getPosts(authorization, tags) {
-        dispatch(postThunkCreators.getPosts(authorization, tags));
-    },
-
-    cleanPosts() {
-        return dispatch(postActionCreator.cleanPosts());
+    getPosts(authorization, {tags, nickname}) {
+        dispatch(postThunkCreators.getPosts(authorization, {tags, nickname}));
     }
 });
 

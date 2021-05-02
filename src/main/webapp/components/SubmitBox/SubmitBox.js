@@ -105,10 +105,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
     updateNewPosts(post) {
         dispatch(postActionCreator.updateNewPosts(post))
-    },
-
-    getPosts(){
-        dispatch(postThunkCreators.getPosts())
     }
 });
 

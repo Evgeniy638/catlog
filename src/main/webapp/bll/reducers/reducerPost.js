@@ -185,12 +185,14 @@ export const postActionCreator = {
     },
 
     cleanPosts() {
+        console.log("CLEAN")
         return {
             type: CLEAN_POSTS
         }
     },
 
     changePosts(posts) {
+        console.log("ADD NEW POSTS")
         return {
             type: CHANGE_POSTS,
             posts
@@ -247,11 +249,28 @@ export const postGetters = {
 }
 
 export const postThunkCreators = {
-    getPosts(authorization, tags) {
+    getPosts(authorization,
+             options = {tags: undefined, nickname: undefined},
+             isAllClean=true) {
         return async (dispatch) => {
-            const posts = tags
-                ?await apiPost.findPostsByTags(tags)
-                :await apiPost.getAllPosts();
+            if (isAllClean) {
+                dispatch(postActionCreator.cleanPosts());
+            }
+
+            let posts;
+
+            if (options.tags !== undefined) {
+                posts = await apiPost.findPostsByTags(options.tags);
+            } else if (options.nickname) {
+                posts = await apiPost.findPostsByNickname(options.nickname);
+            } else {
+                posts = await apiPost.getAllPosts();
+            }
+
+            if (isAllClean) {
+                dispatch(postActionCreator.cleanPosts());
+            }
+
             dispatch(postActionCreator.changePosts(posts));
 
             posts.forEach((post) => {
