@@ -34,6 +34,7 @@ const initialState = {
                     text: "reply",
                     authorNickname: "nick",
                     postId: 1,
+                    headCommentId: 12
                 }
             ]
         }
@@ -50,17 +51,35 @@ const ADD_IMAGES = "ADD_IMAGES";
 const ADD_INFO_ABOUT_COMMENTS_AND_LIKES = "ADD_INFO_ABOUT_COMMENTS_AND_LIKES";
 const ADD_AVATAR = "AVATAR";
 const ADD_NEW_COOMMENT = "ADD_NEW_COMMENT";
-const ADD_COMMENT_REPLY = "ADD_COMMENT_REPLY";
 
 
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
-
         case ADD_NEW_COOMMENT:
+            if (!action.comment.headCommentId) {
+                return {
+                    ...state,
+                    comments: [...state.comments, action.comment]
+                };
+            }
+
             return {
-              ...state,
-              comments: [...state.comments, action.comment]
-            };
+                ...state,
+                comments: state.comments.map(c => {
+                    if (c.id !== action.comment.headCommentId) {
+                        return c;
+                    }
+
+                    return {
+                        ...c,
+                        hasAnswers: true,
+                        replies: [
+                            action.comment,
+                            ...c.replies
+                        ]
+                    }
+                })
+            }
         case ADD_AVATAR:
             return {
                 ...state,
@@ -237,7 +256,6 @@ export const postActionCreator = {
         comment
       }
     }
-  
 }
 
 export const postGetters = {

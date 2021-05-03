@@ -37,7 +37,7 @@ const Comment = ({comment, sendComment}) => {
 
             {comment.hasAnswers ? comment.replies.map((reply) =>
                 (
-                    <div className="article__second-level-comment">
+                    <div key={reply.id} className="article__second-level-comment">
                         <div className="article__author">{reply.authorNickname}</div>
                         <div className="article__comment-content">{reply.text}</div>
                     </div>

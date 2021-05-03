@@ -40,7 +40,7 @@ const ListComments = (props) => {
         props.addNewComment(comment);
     };
 
-    const sendComment = (e) => {
+    const createSendComment = (headCommentId) => (e) => {
         e.preventDefault();
         let field = e.currentTarget;
         field.commentText.disabled = true;
@@ -51,26 +51,29 @@ const ListComments = (props) => {
             text: field.commentText.value,
             postId: props.postId,
             authorNickname: props.authorNickname,
-            headCommentId: props.headCommentId
+            headCommentId
         };
         field.commentText.value = "";
         stompClient.send("/app/comments", {}, JSON.stringify(comment));
         field.commentText.disabled = false;
     };
+
     return (
         <div className="article__comment-section">
             <div className="article__comments">
                 {
                     props.comments ? props.comments.map((comment) => (
-                        <Comment comment={comment}
-                                 sendComment={sendComment}
+                        <Comment
+                            key={comment.id}
+                            comment={comment}
+                            sendComment={createSendComment(comment.id)}
                         />
                     )) : null
                 }
             </div>
 
             <form
-                onSubmit={sendComment}
+                onSubmit={createSendComment()}
                 className="comment-area"
                 encType="multipart/form-data"
                 action="#"
