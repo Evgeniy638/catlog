@@ -24,20 +24,29 @@ const Header = (props) => {
             </div>
 
             <div className="header__child">
-                <div id="authorization-wrap" className="authorization">
-                    {
-                        props.avatar &&
-                        <img className="header__avatar" src={props.avatar}/>
-                    }
-                    {
-                        props.nickname
-                            ?props.nickname
-                            :<button
+                {
+                    props.nickname
+                        ?<Link
+                            to={`/user/${props.nickname}`}
+                            style={{textDecoration: "none"}}
+                        >
+
+                            <div id="authorization-wrap" className="authorization">
+                                {
+                                    props.avatar &&
+                                    <img className="header__avatar" src={props.avatar}/>
+                                }
+                                { props.nickname }
+                            </div>
+                        </Link>
+                        :
+                        <div id="authorization-wrap" className="authorization">
+                            <button
                                 onClick={props.toggleOpenLogin}
                                 className="authorization-button"
                             >Войти</button>
-                    }
-                </div>
+                        </div>
+                }
             </div>
         </header>
     );

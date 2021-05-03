@@ -60,6 +60,10 @@ const Post = (props) => {
    return(
        <div className="article">
             <div className="article__info">
+                <Link
+                    to={`/user/${props.authorNickname}`}
+                    style={{textDecoration: "none"}}
+                >
                 <div className="article__author-wrap">
                     {
                         props.avatar &&
@@ -67,6 +71,7 @@ const Post = (props) => {
                     }
                     <div className="article__author">{props.authorNickname}</div>
                 </div>
+                </Link>
                 <div className="article__time">{dd}.{mm}.{yyyy}</div>
             </div>
             <input type="checkbox" className="article__hiddenchecker" id={`article__hiddenchecker${props.id}`}/>
@@ -87,7 +92,11 @@ const Post = (props) => {
                     props.tags &&
                     props.tags.map((tag) => (
                         <div className="article__tag" key={tag.id}>
-                            <Link style={{ textDecoration: 'none' }} to={`/home/${tag.name}`}>
+                            <Link
+                                style={{ textDecoration: 'none' }}
+                                to={`/home/${tag.name}`}
+                                className="article__tag-link"
+                            >
                                 {tag.name}
                             </Link>
                         </div>

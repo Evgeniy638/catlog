@@ -34,10 +34,10 @@ const SearchInput = () => {
         window.removeEventListener("click", onBlur);
     }
 
-    const createOnClickByLink = (tag) => () => {
+    const onClickByLink = () => {
         setIsActive(false);
         window.removeEventListener("click", onBlur);
-        setTags(tag);
+        setTags("");
     }
 
     return (
@@ -59,7 +59,7 @@ const SearchInput = () => {
                             <Link
                                 className="search-input__item-link"
                                 to={`/home/${tag}`}
-                                onClick={createOnClickByLink(tag)}
+                                onClick={onClickByLink}
                             >
                                 {tag}
                             </Link>
@@ -69,7 +69,7 @@ const SearchInput = () => {
 
                 {
                     tagMatches.length === 0 && tags !== "" &&
-                    <li className="search-input__item-not-found">
+                    <li className="search-input__item-link search-input__item-not-found">
                         Ничего не найдено
                     </li>
                 }

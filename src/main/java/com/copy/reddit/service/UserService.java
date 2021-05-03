@@ -68,4 +68,12 @@ public class UserService {
     public String getAvatarImg(String nickname) {
         return userDAO.getAvatarImg(nickname);
     }
+
+    public Integer getCountPosts(String nickname) {
+        return userDAO.getCountPosts(nickname);
+    }
+
+    public Integer getCountLikes(String nickname) {
+        return userDAO.getCountLikes(nickname);
+    }
 }

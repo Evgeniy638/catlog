@@ -24,7 +24,9 @@ const createPost = (props, postForm, authorization) => {
     postForm.postTags.value = "";
 
     util.readFilesAsDataURL([...postForm.postFile.files], async (images) => {
-        props.updateNewPosts(await apiPost.createPost(text, tagList, images, authorization));
+        const post = await apiPost.createPost(text, tagList, images, authorization);
+        post.avatar = props.avatar;
+        props.updateNewPosts(post);
     });
 }
 
@@ -96,16 +98,13 @@ const SubmitBox = (props) => {
 
 const mapStateToProps = (state) => ({
     authorization: userGetters.getAuthorization(state),
-    nickname: userGetters.getNickname(state)
+    nickname: userGetters.getNickname(state),
+    avatar: userGetters.getAvatar(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
     updateNewPosts(post) {
         dispatch(postActionCreator.updateNewPosts(post))
-    },
-
-    getPosts(){
-        dispatch(postThunkCreators.getPosts())
     }
 });
 

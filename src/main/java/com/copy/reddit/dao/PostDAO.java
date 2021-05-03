@@ -141,20 +141,41 @@ public class PostDAO{
 
         String condition = "tag.name LIKE ? " + "OR tag.name LIKE ? ".repeat(tagsNames.size() - 1);
 
-        String SQL_SELECT = "SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM tag " +
-                "JOIN tagandpost ON tag.id = tagandpost.tagid " +
-                "JOIN post ON  post.id = tagandpost.postid " +
+        String SQL_SELECT = "SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post " +
                 "JOIN \"User\" on \"User\".id = post.userid " +
-                "where " +
+                "WHERE post.id IN ( " +
+                "    SELECT tagandpost.postid FROM tagandpost " +
+                "    JOIN tag ON tag.id = tagandpost.tagid " +
+                "    JOIN post on post.id = tagandpost.postid " +
+                "    WHERE "+
                 condition +
-                "ORDER BY post.\"time\" DESC ";
+                "    GROUP BY tagandpost.postid, post.time " +
+                "    HAVING COUNT(tagandpost.postid) >= " + tagsNames.size() + " " +
+                "    ORDER BY post.time DESC " +
+                "    LIMIT 2 OFFSET 0 " +
+                ") " +
+                "ORDER BY post.time DESC";
 
         List<Post> posts = jdbcTemplate.query(SQL_SELECT,
                 new BeanPropertyPost(),
                 tagsNames.stream().map(tag -> "%" + tag + "%").toArray());
 
         posts = addAdditionalInformationToPosts(posts, userId);
-        return filterPosts(new HashSet<>(posts), tagsNames);
+        return posts;
+    }
+
+    public List<Post> findByNickname(String nickname, Integer userId) {
+        String SQL_SELECT = "SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post " +
+                "JOIN \"User\" on \"User\".id = post.userid " +
+                "WHERE \"User\".nickname = ?"+
+                "ORDER BY post.time DESC";
+
+        List<Post> posts = jdbcTemplate.query(SQL_SELECT,
+                new BeanPropertyPost(),
+                nickname);
+
+        posts = addAdditionalInformationToPosts(posts, userId);
+        return posts;
     }
 
     public List<String> findMatchesByTags(List<String> tagsNames) {
@@ -171,18 +192,6 @@ public class PostDAO{
                 tagsNames.stream().map(tag -> "%" + tag + "%").toArray());
 
         return tagList.stream().map(Tag::getName).collect(Collectors.toList());
-    }
-
-    private List<Post> filterPosts(Set<Post> postSet, List<String> tagsNames) {
-        return postSet.stream().filter(post -> {
-            boolean flag = true;
-
-            for (String tagName :tagsNames) {
-                flag = flag && post.getTagList().stream().anyMatch(tag -> tag.getName().equals(tagName));
-            }
-
-            return flag;
-        }).collect(Collectors.toList());
     }
 
     /**

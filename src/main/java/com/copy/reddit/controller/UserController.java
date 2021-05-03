@@ -79,4 +79,14 @@ public class UserController {
     public ResponseEntity<String> getImageByNickname(@PathVariable("nickname") String nickname) {
         return new ResponseEntity<>(userService.getAvatarImg(nickname), HttpStatus.OK);
     }
+
+    @GetMapping(value = "/users/{nickname}/posts/count")
+    public ResponseEntity<Integer> getCountPosts(@PathVariable("nickname") String nickname) {
+        return new ResponseEntity<>(userService.getCountPosts(nickname), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/users/{nickname}/posts/likes/count")
+    public ResponseEntity<Integer> getCountLikes(@PathVariable("nickname") String nickname) {
+        return new ResponseEntity<>(userService.getCountLikes(nickname), HttpStatus.OK);
+    }
 }

@@ -1,0 +1,13 @@
+SELECT post.id, post.text, post.userid, post.time, "User".nickname FROM post
+JOIN "User" on "User".id = post.userid
+WHERE post.id IN (
+    SELECT tagandpost.postid FROM tagandpost
+    JOIN tag ON tag.id = tagandpost.tagid
+    JOIN post on post.id = tagandpost.postid
+    WHERE tag.name LIKE 'cat' or tag.name LIKE 'котики'
+    GROUP BY tagandpost.postid, post.time
+    HAVING COUNT(tagandpost.postid) >= 2
+    ORDER BY post.time DESC
+    LIMIT 2 OFFSET 1
+)
+ORDER BY post.time DESC

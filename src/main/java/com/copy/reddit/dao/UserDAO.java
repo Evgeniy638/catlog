@@ -56,4 +56,21 @@ public class UserDAO {
                 new BeanPropertyRowMapper<>(User.class), nickname
         ).get(0).getAvatar();
     }
+
+    public Integer getCountPosts(String nickname) {
+        String SQL_SELECT = "SELECT count(post.id) FROM \"User\" " +
+                "JOIN post ON post.userid = \"User\".id " +
+                "WHERE \"User\".nickname = ?";
+
+        return jdbcTemplate.queryForObject(SQL_SELECT, Integer.class, nickname);
+    }
+
+    public Integer getCountLikes(String nickname) {
+        String SQL_SELECT = "SELECT count(\"Like\".postid) FROM \"User\" " +
+                "JOIN post ON post.userid = \"User\".id " +
+                "JOIN \"Like\" ON post.id = \"Like\".postid " +
+                "WHERE \"User\".nickname = ?";
+
+        return jdbcTemplate.queryForObject(SQL_SELECT, Integer.class, nickname);
+    }
 }
