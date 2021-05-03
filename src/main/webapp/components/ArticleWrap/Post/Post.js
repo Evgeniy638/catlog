@@ -93,7 +93,7 @@ const Post = (props) => {
                         </div>
                     ))}
                 </div>
-            <div className="article__like-and-comment-area">{props.countComments} комментариев
+            <div className="article__like-and-comment-area">комментарии: {props.countComments}
                 <div>
                     <button className="article__comment-button" onClick={commentClick}>
                         <img src={CommentPic} alt="comment"/>

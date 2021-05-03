@@ -3,14 +3,13 @@ import * as SockJSClient from 'sockjs-client';
 import Post from "../Post";
 import {postActionCreator} from "../../../../bll/reducers/reducerPost";
 import { connect } from 'react-redux';
+import Comment from "./Comment";
 
 const SESSION_ITEM_COMMENTS = "SESSION_ITEM_COMMENTS";
 
 let stompClient = null;
 
 const ListComments = (props) => {
-    const [newComment, setNewComment] = useState("");
-
     useEffect(() => {
         connect();
         return () => {
@@ -63,23 +62,9 @@ const ListComments = (props) => {
             <div className="article__comments">
                 {
                     props.comments ? props.comments.map((comment) => (
-                        <>
-                        <div key={comment.id} className="article__first-level-comment">
-                            <div className="article__author">{comment.authorNickname}</div>
-                            <div className="article__comment-content">{comment.text}
-                            </div>
-                            <div style= {{display: "flex", justifyContent: "flex-end"}}>
-                                <button className="article__reply-button">Ответить</button>
-                            </div>
-                        </div>
-                            {comment.hasAnswers ? comment.replies.map((reply) =>
-                                (
-                                    <div className="article__second-level-comment">
-                                        <div className="article__author">{reply.authorNickname}</div>
-                                        <div className="article__comment-content">{reply.text}</div>
-                                    </div>
-                                )): null}
-                        </>
+                        <Comment comment={comment}
+                                 sendComment={sendComment}
+                        />
                     )) : null
                 }
             </div>

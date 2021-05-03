@@ -50,15 +50,17 @@ const ADD_IMAGES = "ADD_IMAGES";
 const ADD_INFO_ABOUT_COMMENTS_AND_LIKES = "ADD_INFO_ABOUT_COMMENTS_AND_LIKES";
 const ADD_AVATAR = "AVATAR";
 const ADD_NEW_COOMMENT = "ADD_NEW_COMMENT";
+const ADD_COMMENT_REPLY = "ADD_COMMENT_REPLY";
 
 
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
+
         case ADD_NEW_COOMMENT:
             return {
               ...state,
-              comments: [...state.comments, action.comment],
-            }
+              comments: [...state.comments, action.comment]
+            };
         case ADD_AVATAR:
             return {
                 ...state,
@@ -72,7 +74,7 @@ const reducerPost = (state=initialState, action) => {
                         avatar: action.avatar
                     }
                 })
-            }
+            };
         case ADD_INFO_ABOUT_COMMENTS_AND_LIKES:
             return {
                 ...state,
@@ -88,7 +90,7 @@ const reducerPost = (state=initialState, action) => {
                         hasLike: action.hasLike
                     }
                 })
-            }
+            };
         case ADD_IMAGES:
             return {
                 ...state,
@@ -102,23 +104,23 @@ const reducerPost = (state=initialState, action) => {
                         images: action.images
                     }
                 })
-            }
+            };
 
         case UPDATE_COMMENTS:
             return {
                 ...state,
                 comments: [...action.comments, ...state.comments.filter((c) => c.postId !== action.postId)]
-            }
+            };
         case CLEAN_POSTS:
             return {
                 ...state,
                 posts: []
-            }
+            };
         case UPDATE_NEW_POSTS:
             return {
                 ...state,
                 posts: [action.post, ...state.posts]
-            }
+            };
         case CHANGE_COUNT_LIKES:
             const newPosts = state.posts.map(p =>
                 p.id === action.postId
@@ -132,7 +134,7 @@ const reducerPost = (state=initialState, action) => {
             return {
                 ...state,
                 posts: newPosts
-            }
+            };
         case UPDATE_LIKES:
             const posts = state.posts.map(post=>{
                 const info = action.likesById.find(info => info.postId === post.id);
@@ -146,17 +148,17 @@ const reducerPost = (state=initialState, action) => {
             return {
                 ...state,
                 posts
-            }
+            };
         case CHANGE_POSTS:
             return {
                 ...state,
                 posts: [...state.posts, ...action.posts]
-            }
+            };
         default: {
             return state;
         }
     }
-}
+};
 
 export default reducerPost;
 
@@ -230,7 +232,7 @@ export const postActionCreator = {
     addNewComment(comment) {
       return {
         type: ADD_NEW_COOMMENT,
-        comment,
+        comment
       }
     }
   
