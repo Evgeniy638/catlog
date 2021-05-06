@@ -11,9 +11,9 @@ public interface PostService {
     Post create(Post post, String authorization);
     boolean update(String text, int id);
     boolean delete(int id);
-    List<Post> findByNickname(String nickname, Integer userId);
-    List<Post> findByTags(List<String> tagsNames, Integer userId);
-    List<Post> findAll(Integer userId);
+    List<Post> findByNickname(String nickname, Integer userId, Integer sinceId);
+    List<Post> findByTags(List<String> tagsNames, Integer userId, Integer sinceId);
+    List<Post> findAll(Integer userId, Integer sinceId);
     int createLike(int userId, int postId);
     int deleteLike(int userId, int postId);
     List<LikeByIdDTO> getLikesInfo(List<Integer> postsIds, int userId);

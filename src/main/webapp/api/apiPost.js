@@ -18,22 +18,22 @@ const apiPost = {
     },
 
     async findMatchesByTags(tagArr) {
-        const response = fetch(`/posts/tags/matches/${tagArr.join("+")}`);
-        return (await response).json();
+        const response = await fetch(`/posts/tags/matches/${tagArr.join("+")}`);
+        return await response.json();
     },
 
-    async findPostsByTags(tagArr) {
-        const response = fetch(`/posts/tags/${tagArr.join("+")}`);
-        return (await response).json();
+    async findPostsByTags(tagArr, sinceId) {
+        const response = await fetch(`/posts/tags/find/${tagArr.join("+")}?sinceId=${sinceId}`);
+        return await response.json();
     },
 
-    async findPostsByNickname(nickname) {
-        const response = fetch(`/posts/user/${nickname}`);
-        return (await response).json();
+    async findPostsByNickname(nickname, sinceId) {
+        const response = await fetch(`/posts/user/${nickname}/${sinceId}`);
+        return await response.json();
     },
 
-    async getAllPosts() {
-        const response = await fetch("/posts");
+    async getAllPosts(sinceId) {
+        const response = await fetch(`/posts/${sinceId}`);
         return await response.json();
     },
 
