@@ -56,15 +56,28 @@ const ADD_NEW_COOMMENT = "ADD_NEW_COMMENT";
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
         case ADD_NEW_COOMMENT:
+            const newStatePosts = state.posts.map(p => {
+                if (p.id !== action.comment.postId) {
+                    return p;
+                }
+
+                return {
+                    ...p,
+                    countComments: p.countComments + 1
+                }
+            });
+
             if (!action.comment.headCommentId) {
                 return {
                     ...state,
+                    posts: newStatePosts,
                     comments: [...state.comments, action.comment]
                 };
             }
 
             return {
                 ...state,
+                posts: newStatePosts,
                 comments: state.comments.map(c => {
                     if (c.id !== action.comment.headCommentId) {
                         return c;
