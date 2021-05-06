@@ -1,6 +1,6 @@
 const apiUser = {
     async login(nickname, password) {
-        const response = await fetch("/users/login", {
+        const response = await fetch("/users/my_login", {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
@@ -9,7 +9,7 @@ const apiUser = {
         });
 
         if (!response.ok) {
-            throw Error("неправильный логин или пароль");
+            throw Error("Неправильный логин или пароль");
         }
 
         return await response.json();
@@ -25,7 +25,7 @@ const apiUser = {
         });
 
         if (!response.ok) {
-            throw Error("такой пользователь уже есть");
+            throw Error("Пользователь с таким ником уже есть");
         }
 
         return await response.json();

@@ -6,15 +6,30 @@ import {connect} from "react-redux";
 import {userGetters} from "../../bll/reducers/reducerUser";
 import {postActionCreator, postThunkCreators} from "../../bll/reducers/reducerPost";
 import {util} from "../../util/util";
+import Alert from "@material-ui/lab/Alert";
 
+const MAX_SIZE_POST = 500;
 
-const createPost = (props, postForm, authorization) => {
+const createPost = (props, postForm, authorization, errors, setErrors) => {
+    const newErrors = {...errors};
+
     if(postForm.postText.value === ""){
-        let inputField = document.querySelector(".submit-box__post-field");
-        alert("Введите текст поста!");
-        inputField.placeholder = "Пост не может быть пустым";
+        newErrors.isEmptyPost = true;
+    }
+
+    if(postForm.postText.value.length > MAX_SIZE_POST){
+        newErrors.isMaxSizePost = true;
+    }
+
+    if (!postForm.postTags.value) {
+        newErrors.isEmptyTags = true;
+    }
+
+    if (!postForm.postText.value || !postForm.postTags.value || postForm.postText.value.length > MAX_SIZE_POST) {
+        setErrors(newErrors);
         return;
     }
+
     const text = postForm.postText.value;
 
     const tagList = postForm.postTags.value
@@ -31,6 +46,12 @@ const createPost = (props, postForm, authorization) => {
 }
 
 const SubmitBox = (props) => {
+    const [errors, setErrors] = useState({
+        isEmptyPost: false,
+        isEmptyTags: false,
+        isMaxSizePost: false
+    });
+
     const [imageNames, setImageNames] = useState([]);
 
     const onChangeImages = (e) => {
@@ -43,13 +64,29 @@ const SubmitBox = (props) => {
         let inputField = document.querySelector(".submit-box__post-field");
         button.disabled = true;
         inputField.disabled = true;
-        createPost(props, e.currentTarget, props.authorization);
+        createPost(props, e.currentTarget, props.authorization, errors, setErrors);
         button.disabled = false;
         inputField.disabled = false;
     }
 
     if (!props.authorization) {
         return null;
+    }
+
+    const onChangeText = (e) => {
+        if (errors.isMaxSizePost && e.target.value.length <= MAX_SIZE_POST) {
+            setErrors({...errors, isMaxSizePost: false});
+        }
+
+        if (errors.isEmptyPost && e.target.value) {
+            setErrors({...errors, isEmptyPost: false});
+        }
+    }
+
+    const onChangeTags = (e) => {
+        if (errors.isEmptyTags && e.target.value) {
+            setErrors({...errors, isEmptyTags: false});
+        }
     }
 
     return (
@@ -61,7 +98,21 @@ const SubmitBox = (props) => {
         >
             <div className="submit-box__author">{props.nickname}</div>
             <div>
-                <textarea name="postText" className="submit-box__post-field" placeholder="Введите текст..."></textarea>
+                <textarea
+                    name="postText"
+                    onChange={onChangeText}
+                    className={`
+                        submit-box__post-field 
+                        ${(errors.isEmptyPost || errors.isMaxSizePost) && "submit-box__post-field_error"}`
+                    }
+                    placeholder={errors.isEmptyPost ?"Пост не может быть пустым" :"Введите текст..."}>
+                </textarea>
+                {
+                    errors.isMaxSizePost &&
+                    <Alert severity="error">
+                        Размер поста не может быть больше {MAX_SIZE_POST} сисволов
+                    </Alert>
+                }
             </div>
             {
                 imageNames.length > 0 &&
@@ -87,9 +138,17 @@ const SubmitBox = (props) => {
                 </label>
                 <input
                     name="postTags"
-                    className="submit-box__tag-field"
+                    className={`
+                        submit-box__tag-field 
+                        ${errors.isEmptyTags && "submit-box__tag-field_error"}`
+                    }
                     type="text"
-                    placeholder="добавьте теги через пробел"/>
+                    onChange={onChangeTags}
+                    placeholder={
+                        errors.isEmptyTags
+                            ? "список тегов не может быть пустым"
+                            :"добавьте теги через пробел"
+                    }/>
                 <button className="submit-box__submit-button" type="submit">Опубликовать</button>
             </div>
         </form>

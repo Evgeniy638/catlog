@@ -28,7 +28,7 @@ public class DetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDAO.findByUsername(username);
         if (user == null){
-            throw new UsernameNotFoundException(username + " was not found");
+            return null;
         }
         return new org.springframework.security.core.userdetails.User(
                 user.getNickname(),

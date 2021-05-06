@@ -1,9 +1,10 @@
 import React from "react";
 import "../login.css";
-import {userThunkCreators} from "../../../bll/reducers/reducerUser";
+import {userActionCreator, userGetters, userThunkCreators} from "../../../bll/reducers/reducerUser";
 import {connect} from "react-redux";
+import TextField from "@material-ui/core/TextField";
 
-const LoginForm = ({isVisible, goToRegistrationForm, login}) => {
+const LoginForm = ({isVisible, goToRegistrationForm, login, loginError, deleteLoginError}) => {
     const onClickGoTo = (e) => {
         e.preventDefault();
         goToRegistrationForm();
@@ -13,6 +14,12 @@ const LoginForm = ({isVisible, goToRegistrationForm, login}) => {
         e.preventDefault();
         const loginForm = e.currentTarget;
         login(loginForm.elements.nickname.value, loginForm.elements.password.value);
+    }
+
+    const handlerDeleteLoginError = () => {
+        if (loginError) {
+            deleteLoginError();
+        }
     }
 
     return (
@@ -25,17 +32,26 @@ const LoginForm = ({isVisible, goToRegistrationForm, login}) => {
                 <h2 className="login__title">Войти</h2>
             </div>
 
-            <label className="login__form-element">
-                Логин:
-                <input className="login__input" name="nickname" placeholder="логин"/>
-            </label>
+            <TextField
+                label="Никнейм"
+                name="nickname"
+                error={!!loginError}
+                onChange={handlerDeleteLoginError}
+            />
 
-            <label className="login__form-element">
-                Пароль:
-                <input className="login__input" name="password" placeholder="пароль" type="password"/>
-            </label>
+            <TextField
+                label="Пароль"
+                name="password"
+                type="password"
+                error={!!loginError}
+                onChange={handlerDeleteLoginError}
+            />
 
-            <div className="login__error login__error_hidden"></div>
+            <div
+                className={`login__error ${!loginError && "login__error_hidden"}`}
+            >
+                {loginError}
+            </div>
 
             <div className="login__form-element">
                 <button className="login__main-button " type="submit">Войти</button>
@@ -49,12 +65,17 @@ const LoginForm = ({isVisible, goToRegistrationForm, login}) => {
     );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    loginError: userGetters.getLoginError(state)
+});
 
 const mapDispatchToProps = (dispatch) => ({
-   login(nickname, password) {
-       dispatch(userThunkCreators.login(nickname, password));
-   }
+    login(nickname, password) {
+        dispatch(userThunkCreators.login(nickname, password));
+    },
+    deleteLoginError() {
+        dispatch(userActionCreator.changeLoginError(""));
+    }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);

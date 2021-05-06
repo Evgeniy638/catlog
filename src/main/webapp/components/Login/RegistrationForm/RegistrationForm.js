@@ -1,9 +1,36 @@
-import React from "react";
-import {userThunkCreators} from "../../../bll/reducers/reducerUser";
+import React, {useEffect, useState} from "react";
+import {userActionCreator, userGetters, userThunkCreators} from "../../../bll/reducers/reducerUser";
 import {connect} from "react-redux";
 import {util} from "../../../util/util";
+import TextField from "@material-ui/core/TextField";
 
-const RegistrationForm = ({isVisible, goToLoginForm, registration}) => {
+const MIN_SIZE = 6;
+const MAX_SIZE = 50;
+
+const checkSize = (text) => {
+    if (text.length < MIN_SIZE) {
+        return `Минимальный размер ${MIN_SIZE} символов`;
+    }
+
+    if (text.length > MAX_SIZE) {
+        return `Максимальный размер ${MAX_SIZE} символов`;
+    }
+
+    return "";
+}
+
+const RegistrationForm = ({isVisible, goToLoginForm, registration,
+                              registrationError, deleteRegistrationError
+                          }) => {
+    const [errorNickname, setErrorNickname] = useState("");
+    const [sizeErrorPass1, setSizeErrorPass1] = useState("");
+    const [sizeErrorPass2, setSizeErrorPass2] = useState("");
+    const [errorNotSamePass, setErrorNotSamePass] = useState("");
+
+    useEffect(() => {
+        setErrorNickname(registrationError);
+    }, [registrationError]);
+
     const onClickGoTo = (e) => {
         e.preventDefault();
         goToLoginForm();
@@ -12,13 +39,73 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration}) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         const loginForm = e.currentTarget;
+
+        const newErrNick = checkSize(loginForm.elements.nickname.value);
+        const newErrPass1 = checkSize(loginForm.elements.password.value);
+        const newErrPass2 = checkSize(loginForm.elements.passwordAgain.value);
+
+        if (newErrNick) {
+            setErrorNickname(newErrNick);
+        }
+
+        if (newErrPass1) {
+            setSizeErrorPass1(newErrPass1);
+        }
+
+        if (newErrPass2) {
+            setSizeErrorPass2(newErrPass2);
+        }
+
+        if (newErrNick || newErrPass1 || newErrPass2) {
+            return;
+        }
+
+        if (loginForm.elements.password.value !== loginForm.elements.passwordAgain.value) {
+            setErrorNotSamePass("Пароли должны быть одинаковыми");
+            return;
+        }
+
         util.readFilesAsDataURL([...loginForm.elements.avatar.files], (results) => {
             registration(
                 loginForm.elements.nickname.value,
                 loginForm.elements.password.value,
-                results[0].src
+                results[0]?.src ?results[0].src :null
             );
         });
+    }
+
+    const handlerDeleteLoginError = () => {
+        if (registrationError) {
+            deleteRegistrationError();
+        }
+    }
+
+    const handlerNickname = (e) => {
+        handlerDeleteLoginError();
+
+        if (errorNickname) {
+            setErrorNickname(checkSize(e.target.value));
+        }
+    }
+
+    const handlerPass1 = (e) => {
+        if (errorNotSamePass) {
+            setErrorNotSamePass("");
+        }
+
+        if (sizeErrorPass1) {
+            setSizeErrorPass1(checkSize(e.target.value));
+        }
+    }
+
+    const handlerPass2 = (e) => {
+        if (errorNotSamePass) {
+            setErrorNotSamePass("");
+        }
+
+        if (sizeErrorPass2) {
+            setSizeErrorPass2(checkSize(e.target.value));
+        }
     }
 
     return (
@@ -32,27 +119,36 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration}) => {
                 <h2 className="login__title">Войти</h2>
             </div>
 
-            <label className="login__form-element">
-                Логин:
-                <input className="login__input" name="nickname" placeholder="логин"/>
-            </label>
+            <TextField
+                label="Никнейм"
+                name="nickname"
+                error={!!errorNickname}
+                onChange={handlerNickname}
+                helperText={errorNickname}
+            />
 
-            <label className="login__form-element">
-                Пароль:
-                <input className="login__input" name="password" placeholder="пароль" type="password"/>
-            </label>
+            <TextField
+                label="Пароль"
+                name="password"
+                type="password"
+                onChange={handlerPass1}
+                error={!!sizeErrorPass1 || !!errorNotSamePass}
+                helperText={sizeErrorPass1 || errorNotSamePass}
+            />
 
-            <label className="login__form-element">
-                Повторите пароль:
-                <input className="login__input" name="passwordAgain" placeholder="пароль" type="password"/>
-            </label>
+            <TextField
+                label="Повторите пароль"
+                name="passwordAgain"
+                type="password"
+                onChange={handlerPass2}
+                error={!!sizeErrorPass2 || !!errorNotSamePass}
+                helperText={sizeErrorPass2 || errorNotSamePass}
+            />
 
             <label>
                 Аватар:
                 <input name="avatar" type="file"/>
             </label>
-
-            <div className="login__error login__error_hidden"></div>
 
             <div className="login__form-element">
                 <button className="login__main-button" type="submit">Зарегистрироваться</button>
@@ -66,11 +162,16 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration}) => {
     );
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = (state) => ({
+    registrationError: userGetters.getRegistrationError(state)
+});
 
 const mapDispatchToProps = (dispatch) => ({
     registration(nickname, password, avatar) {
         dispatch(userThunkCreators.registration(nickname, password, avatar));
+    },
+    deleteRegistrationError() {
+        dispatch(userActionCreator.changeRegistrationError(""))
     }
 });
 

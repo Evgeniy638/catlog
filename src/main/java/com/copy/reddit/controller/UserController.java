@@ -48,7 +48,7 @@ public class UserController {
      * @param userDTO принимает nickname и password
      * @return возвращает authorization и nickname или HttpStatus.UNAUTHORIZED, если nickname или пароль неправильный
      */
-    @PostMapping(value = "/users/login")
+    @PostMapping(value = "/users/my_login")
     public ResponseEntity<LoginDTO> login(@RequestBody UserDTO userDTO){
         PasswordEncoder encoder = User.PASSWORD_ENCODER;
 
