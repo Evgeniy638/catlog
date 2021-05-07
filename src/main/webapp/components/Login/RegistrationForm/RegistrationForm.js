@@ -5,7 +5,7 @@ import {util} from "../../../util/util";
 import TextField from "@material-ui/core/TextField";
 
 const MIN_SIZE = 6;
-const MAX_SIZE = 50;
+const MAX_SIZE = 20;
 
 const checkSize = (text) => {
     if (text.length < MIN_SIZE) {

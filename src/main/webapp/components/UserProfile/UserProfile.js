@@ -6,7 +6,7 @@ import apiUser from "../../api/apiUser";
 import "./UserProfile.css";
 
 function UserProfile() {
-    // даннные о польователе
+    // даннные о пользователе
     const { nickname } = useParams();
     const [avatar, setAvatar] = useState();
     const [countPosts, setCountPosts] = useState();
@@ -25,20 +25,24 @@ function UserProfile() {
     }, []);
 
     return (
-        <div>
-            <div>
-                <div>
-                    <img src={avatar} alt="аватар"/>
-                </div>
-                <div>{nickname}</div>
-                <div>
-                    Количество лайков: {countLikes}
-                </div>
-                <div>
-                    Количество постов: {countPosts}
+        <div className="profile-page">
+            <ArticleWrap nickname={nickname}/>
+            <div className="profile-area">
+                <div className="profile-area__nickname">{nickname}</div>
+                <div className="profile-area__info">
+                    <img className="profile-area__avatar" src={avatar} alt="аватар"/>
+                    <div className="profile-area__likes">
+                        Лайки
+                        <br/>
+                        {countLikes}
+                    </div>
+                    <div className="profile-area__posts">
+                        Посты
+                        <br/>
+                        {countPosts}
+                    </div>
                 </div>
             </div>
-            <ArticleWrap nickname={nickname}/>
         </div>
     )
 }

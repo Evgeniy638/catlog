@@ -1,3 +1,63 @@
 .UserProfile {
 
 }
+
+.profile-page{
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+}
+
+.profile-area{
+    background: rgb(236, 205, 147);
+    padding: 5px 20px;
+    margin-top: 15px;
+    box-sizing: border-box;
+    border-radius: 10px;
+    font-family: "Favorit", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 365px;
+    position: sticky;
+    top: 5em;
+    min-height: 2em;
+}
+
+.profile-area__nickname{
+    margin: 15px;
+    font-weight: bold;
+    font-size: larger;
+}
+
+.profile-area__info{
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    align-items: center;
+    flex-direction: column;
+}
+
+.profile-area__info :not(.profile-area__avatar){
+    margin-top: 25px;
+    text-align: center;
+    font-size: larger;
+}
+
+.profile-area__avatar{
+    border-radius: 100%;
+    height: 120px;
+    width: 120px;
+}
+
+.profile-area__top{
+    background: #DFB882;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    padding: 25px;
+}
+
+.profile-area__bottom{
+    background: #F3D0A2;
+    border-radius: 0 0 10px 10px;
+    text-align: center;
+    padding: 25px;
+}
