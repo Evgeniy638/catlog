@@ -136,7 +136,7 @@ public class PostDAO{
      * @param userId id пользователя
      * @return Список постов, найденных по тегу
      */
-    public List<Post> findByTag(List<String> tagsNames, Integer userId) {
+    public List<Post> findByTag(List<String> tagsNames, Integer userId, Integer sinceId) {
         if (tagsNames.size() == 0) return new ArrayList<>();
 
         String condition = "tag.name LIKE ? " + "OR tag.name LIKE ? ".repeat(tagsNames.size() - 1);
@@ -147,32 +147,36 @@ public class PostDAO{
                 "    SELECT tagandpost.postid FROM tagandpost " +
                 "    JOIN tag ON tag.id = tagandpost.tagid " +
                 "    JOIN post on post.id = tagandpost.postid " +
-                "    WHERE "+
-                condition +
+                "    WHERE ("+
+                condition + ") AND post.id < ? " +
                 "    GROUP BY tagandpost.postid, post.time " +
                 "    HAVING COUNT(tagandpost.postid) >= " + tagsNames.size() + " " +
                 "    ORDER BY post.time DESC " +
-                "    LIMIT 2 OFFSET 0 " +
+                "    LIMIT 10 OFFSET 0 " +
                 ") " +
                 "ORDER BY post.time DESC";
 
+        List<Object> args = tagsNames.stream().map(tag -> "%" + tag + "%").collect(Collectors.toList());
+        args.add(sinceId);
+
         List<Post> posts = jdbcTemplate.query(SQL_SELECT,
                 new BeanPropertyPost(),
-                tagsNames.stream().map(tag -> "%" + tag + "%").toArray());
+                args.toArray());
 
         posts = addAdditionalInformationToPosts(posts, userId);
         return posts;
     }
 
-    public List<Post> findByNickname(String nickname, Integer userId) {
+    public List<Post> findByNickname(String nickname, Integer userId, Integer sinceId) {
         String SQL_SELECT = "SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post " +
                 "JOIN \"User\" on \"User\".id = post.userid " +
-                "WHERE \"User\".nickname = ?"+
-                "ORDER BY post.time DESC";
+                "WHERE \"User\".nickname = ? AND post.id < ?"+
+                "ORDER BY post.time DESC "+
+                "LIMIT 10 OFFSET 0";
 
         List<Post> posts = jdbcTemplate.query(SQL_SELECT,
                 new BeanPropertyPost(),
-                nickname);
+                nickname, sinceId);
 
         posts = addAdditionalInformationToPosts(posts, userId);
         return posts;
@@ -199,8 +203,13 @@ public class PostDAO{
      * @param userId id пользователя
      * @return Список постов
      */
-    public List<Post> findAll(Integer userId) {
-        List<Post> posts = jdbcTemplate.query("SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post JOIN \"User\" on \"User\".id = post.userid ORDER BY post.\"time\" DESC LIMIT ALL OFFSET 0",  new BeanPropertyPost());
+    public List<Post> findAll(Integer userId, Integer sinceId) {
+        String SQL_SELECT = "SELECT post.id, post.text, post.userid, post.time, \"User\".nickname FROM post " +
+                "JOIN \"User\" on \"User\".id = post.userid " +
+                "WHERE post.id < ? "+
+                "ORDER BY post.\"time\" DESC " +
+                "LIMIT 10 OFFSET 0";
+        List<Post> posts = jdbcTemplate.query(SQL_SELECT,  new BeanPropertyPost(), sinceId);
         return addAdditionalInformationToPosts(posts, userId);
     }
 

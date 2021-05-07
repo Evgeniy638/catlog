@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -58,8 +59,9 @@ public class PostController {
      * @param authorization Необязательный токен для авторизации
      * @return Статус о выполнении запроса и посты с данным тегом, если они есть
      */
-    @GetMapping(value = "/posts/tags/{tagsNames}")
+    @GetMapping(value = "/posts/tags/find/{tagsNames}")
     public ResponseEntity<?> findByTag(
+            @RequestParam(name = "sinceId") Integer sinceId,
             @PathVariable(name = "tagsNames") String tagsNames,
             @RequestHeader(value = "Authorization", required = false) String authorization
     ) throws UnsupportedEncodingException {
@@ -69,17 +71,22 @@ public class PostController {
             userId = userService.getUserByAuthorization(authorization).getId();
         }
 
+        if (sinceId < 0) {
+            sinceId = Integer.MAX_VALUE;
+        }
+
         List<String> listTags = Arrays.asList(tagsNames.split("\\+"));
-        final List<Post> posts = postServiceImpl.findByTags(listTags, userId);
+        final List<Post> posts = postServiceImpl.findByTags(listTags, userId, sinceId);
 
         return posts != null
                 ? new ResponseEntity<>(posts, HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping(value = "/posts/user/{nickname}")
+    @GetMapping(value = "/posts/user/{nickname}/{sinceId}")
     public ResponseEntity<?> findByNickname(
             @PathVariable(name = "nickname") String nickname,
+            @PathVariable(name = "sinceId") Integer sinceId,
             @RequestHeader(value = "Authorization", required = false) String authorization
     ) throws UnsupportedEncodingException {
         Integer userId = null;
@@ -88,7 +95,11 @@ public class PostController {
             userId = userService.getUserByAuthorization(authorization).getId();
         }
 
-        final List<Post> posts = postServiceImpl.findByNickname(nickname, userId);
+        if (sinceId < 0) {
+            sinceId = Integer.MAX_VALUE;
+        }
+
+        final List<Post> posts = postServiceImpl.findByNickname(nickname, userId, sinceId);
 
         return posts != null
                 ? new ResponseEntity<>(posts, HttpStatus.OK)
@@ -97,7 +108,7 @@ public class PostController {
 
     @GetMapping(value = "/posts/tags/matches/{tagsNames}")
     public ResponseEntity<?> findMatchesByTags(
-            @PathVariable(name = "tagsNames") String tagsNames
+            @PathVariable(name = "tagsNames", required = false) String tagsNames
     ) {
         List<String> foundTags = postServiceImpl.findMatchesByTags(Arrays.asList(tagsNames.split("\\+")));
         return new ResponseEntity<>(foundTags, HttpStatus.OK);
@@ -137,9 +148,10 @@ public class PostController {
      * @param authorization Необязательный токен для авторизации
      * @return Статус выполнения запроса и все посты, если они есть
      */
-    @GetMapping(value = "/posts")
+    @GetMapping(value = "/posts/{sinceId}")
     public ResponseEntity<List<Post>> read(
-            @RequestHeader(value = "Authorization", required = false) String authorization
+            @RequestHeader(value = "Authorization", required = false) String authorization,
+            @PathVariable("sinceId") Integer sinceId
     ) throws UnsupportedEncodingException {
         Integer userId = null;
 
@@ -147,7 +159,11 @@ public class PostController {
             userId = userService.getUserByAuthorization(authorization).getId();
         }
 
-        final List<Post> posts = postServiceImpl.findAll(userId);
+        if (sinceId < 0) {
+            sinceId = Integer.MAX_VALUE;
+        }
+
+        final List<Post> posts = postServiceImpl.findAll(userId, sinceId);
 
         return posts != null &&  !posts.isEmpty()
                 ? new ResponseEntity<>(posts, HttpStatus.OK)

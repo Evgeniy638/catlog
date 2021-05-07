@@ -62,7 +62,7 @@ const Post = (props) => {
             <div className="article__info">
                 <Link
                     to={`/user/${props.authorNickname}`}
-                    style={{textDecoration: "none"}}
+                    style={{textDecoration: "none", color: "var(--init-color)"}}
                 >
                 <div className="article__author-wrap">
                     {

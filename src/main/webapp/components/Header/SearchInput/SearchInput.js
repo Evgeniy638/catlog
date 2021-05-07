@@ -15,6 +15,10 @@ const SearchInput = () => {
 
     useEffect(() => {
         (async () => {
+            if (!tags) {
+                setTagMatches([]);
+                return;
+            }
             setTagMatches(await apiPost.findMatchesByTags(tags.split(" ")));
         })();
     }, [tags]);

@@ -55,8 +55,8 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<Post> findByNickname(String nickname, Integer userId) {
-        return postDAO.findByNickname(nickname, userId);
+    public List<Post> findByNickname(String nickname, Integer userId, Integer sinceId) {
+        return postDAO.findByNickname(nickname, userId, sinceId);
     }
 
     /**
@@ -66,8 +66,8 @@ public class PostServiceImpl implements PostService {
      * @return Список постов с данным тегом
      */
     @Override
-    public List<Post> findByTags(List<String> tagsNames, Integer userId) {
-        return postDAO.findByTag(tagsNames, userId);
+    public List<Post> findByTags(List<String> tagsNames, Integer userId, Integer sinceId) {
+        return postDAO.findByTag(tagsNames, userId, sinceId);
     }
 
     /**
@@ -76,8 +76,8 @@ public class PostServiceImpl implements PostService {
      * @return Список постов
      */
     @Override
-    public List<Post> findAll(Integer userId) {
-        return postDAO.findAll(userId);
+    public List<Post> findAll(Integer userId, Integer sinceId) {
+        return postDAO.findAll(userId, sinceId);
     }
 
     /**

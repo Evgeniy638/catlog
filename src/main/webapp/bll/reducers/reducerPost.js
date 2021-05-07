@@ -2,8 +2,10 @@ import apiPost from "../../api/apiPost";
 import Post from "../../components/ArticleWrap/Post/Post";
 import React from "react";
 import apiUser from "../../api/apiUser";
+import {LIMIT_POSTS} from "../../util/constants";
 
 const initialState = {
+    sinceId: -1,
     posts: [
         {
             id: 1,
@@ -50,12 +52,18 @@ const UPDATE_COMMENTS = "UPDATE_COMMENTS";
 const ADD_IMAGES = "ADD_IMAGES";
 const ADD_INFO_ABOUT_COMMENTS_AND_LIKES = "ADD_INFO_ABOUT_COMMENTS_AND_LIKES";
 const ADD_AVATAR = "AVATAR";
-const ADD_NEW_COOMMENT = "ADD_NEW_COMMENT";
+const ADD_NEW_COMMENT = "ADD_NEW_COMMENT";
+const CHANGE_SINCE_ID = "CHANGE_SINCE_ID";
 
 
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
-        case ADD_NEW_COOMMENT:
+        case CHANGE_SINCE_ID:
+            return {
+                ...state,
+                sinceId: action.sinceId
+            }
+        case ADD_NEW_COMMENT:
             const newStatePosts = state.posts.map(p => {
                 if (p.id !== action.comment.postId) {
                     return p;
@@ -195,6 +203,13 @@ const reducerPost = (state=initialState, action) => {
 export default reducerPost;
 
 export const postActionCreator = {
+    changeSinceId(sinceId) {
+        return {
+            type: CHANGE_SINCE_ID,
+            sinceId
+        }
+    },
+
     addAvatar(postId, avatar) {
         return {
             type: ADD_AVATAR,
@@ -264,10 +279,10 @@ export const postActionCreator = {
     },
 
     addNewComment(comment) {
-      return {
-        type: ADD_NEW_COOMMENT,
-        comment
-      }
+        return {
+            type: ADD_NEW_COMMENT,
+            comment
+        }
     }
 }
 
@@ -278,26 +293,33 @@ export const postGetters = {
 
     getComments(state) {
         return state.reducerPost.comments;
+    },
+
+    getSinceId(state) {
+        return state.reducerPost.sinceId;
     }
 }
 
 export const postThunkCreators = {
     getPosts(authorization,
+             sinceId,
+             isAllClean=true,
              options = {tags: undefined, nickname: undefined},
-             isAllClean=true) {
+             callback = () => {}) {
         return async (dispatch) => {
             if (isAllClean) {
                 dispatch(postActionCreator.cleanPosts());
+                dispatch(postActionCreator.changeSinceId(-1));
             }
 
             let posts;
 
             if (options.tags !== undefined) {
-                posts = await apiPost.findPostsByTags(options.tags);
+                posts = await apiPost.findPostsByTags(options.tags, sinceId);
             } else if (options.nickname) {
-                posts = await apiPost.findPostsByNickname(options.nickname);
+                posts = await apiPost.findPostsByNickname(options.nickname, sinceId);
             } else {
-                posts = await apiPost.getAllPosts();
+                posts = await apiPost.getAllPosts(sinceId);
             }
 
             if (isAllClean) {
@@ -305,6 +327,13 @@ export const postThunkCreators = {
             }
 
             dispatch(postActionCreator.changePosts(posts));
+
+            const newSinceId = Math.min(...posts.map(p => p.id));
+            dispatch(postActionCreator.changeSinceId(newSinceId));
+
+            if (posts.length === LIMIT_POSTS) {
+                callback(newSinceId);
+            }
 
             posts.forEach((post) => {
                 (async () => {
