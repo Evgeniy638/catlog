@@ -6,10 +6,6 @@ import Post from "./Post/Post";
 import {userGetters} from "../../bll/reducers/reducerUser";
 
 const ArticleWrap = (props) => {
-    useEffect( () => {
-
-    }, [props.sinceId]);
-
     useEffect(() => {
         let handler;
 

@@ -4,8 +4,11 @@ import ArticleWrap from "../ArticleWrap/ArticleWrap";
 import apiUser from "../../api/apiUser";
 
 import "./UserProfile.css";
+import {userThunkCreators} from "../../bll/reducers/reducerUser";
+import {connect} from "react-redux";
+import Button from "@material-ui/core/Button";
 
-function UserProfile() {
+function UserProfile(props) {
     // даннные о пользователе
     const { nickname } = useParams();
     const [avatar, setAvatar] = useState();
@@ -42,9 +45,20 @@ function UserProfile() {
                         {countPosts}
                     </div>
                 </div>
+                <div className="profile-area__logout">
+                    <Button onClick={props.logout} color="secondary">
+                        Выйти
+                    </Button>
+                </div>
             </div>
         </div>
     )
 }
 
-export default UserProfile;
+const mapDispatchToProps = (dispatch) => ({
+    logout() {
+        dispatch(userThunkCreators.logout());
+    }
+});
+
+export default connect(null, mapDispatchToProps)(UserProfile);

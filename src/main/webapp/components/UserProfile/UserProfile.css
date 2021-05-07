@@ -16,7 +16,7 @@
     font-family: "Favorit", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    height: 365px;
+    height: 385px;
     position: sticky;
     top: 5em;
     min-height: 2em;
@@ -60,4 +60,9 @@
     border-radius: 0 0 10px 10px;
     text-align: center;
     padding: 25px;
+}
+
+.profile-area__logout {
+    display: flex;
+    justify-content: center;
 }
