@@ -4,6 +4,7 @@ import Post from "../Post";
 import {postActionCreator} from "../../../../bll/reducers/reducerPost";
 import { connect } from 'react-redux';
 import Comment from "./Comment";
+import {loginActionCreators} from "../../../../bll/reducers/reducerLogin";
 
 const SESSION_ITEM_COMMENTS = "SESSION_ITEM_COMMENTS";
 
@@ -42,20 +43,25 @@ const ListComments = (props) => {
 
     const createSendComment = (headCommentId) => (e) => {
         e.preventDefault();
-        let field = e.currentTarget;
-        field.commentText.disabled = true;
-        if(field.commentText.value === ""){
-            return;
+        if(props.authorization) {
+            let field = e.currentTarget;
+            field.commentText.disabled = true;
+            if (field.commentText.value === "") {
+                return;
+            }
+            const comment = {
+                text: field.commentText.value,
+                postId: props.postId,
+                authorNickname: props.authorNickname,
+                headCommentId
+            };
+            field.commentText.value = "";
+            stompClient.send("/app/comments", {}, JSON.stringify(comment));
+            field.commentText.disabled = false;
         }
-        const comment = {
-            text: field.commentText.value,
-            postId: props.postId,
-            authorNickname: props.authorNickname,
-            headCommentId
-        };
-        field.commentText.value = "";
-        stompClient.send("/app/comments", {}, JSON.stringify(comment));
-        field.commentText.disabled = false;
+        else{
+            props.toggleOpenLogin();
+        }
     };
 
     return (
@@ -92,6 +98,10 @@ const ListComments = (props) => {
 const mapDispatchToProps = (dispatch) => ({
     addNewComment(comment) {
         dispatch(postActionCreator.addNewComment(comment));
+    },
+
+    toggleOpenLogin() {
+        dispatch(loginActionCreators.toggleOpen());
     }
 });
 
