@@ -135,6 +135,9 @@ export const userThunkCreators = {
                     .registration(nickname, password, avatar);
                 dispatch(userActionCreator.login(authorization, nickname, avatar));
                 dispatch(loginActionCreators.close());
+                localStorage.setItem(keysStorage.AUTHORIZATION, authorization);
+                localStorage.setItem(keysStorage.NICKNAME, nickname);
+                localStorage.setItem(keysStorage.AVATAR, avatar);
             } catch (e) {
                 dispatch(userActionCreator.changeRegistrationError(e.message));
             }

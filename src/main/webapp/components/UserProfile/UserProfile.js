@@ -4,9 +4,10 @@ import ArticleWrap from "../ArticleWrap/ArticleWrap";
 import apiUser from "../../api/apiUser";
 
 import "./UserProfile.css";
-import {userThunkCreators} from "../../bll/reducers/reducerUser";
+import {userGetters, userThunkCreators} from "../../bll/reducers/reducerUser";
 import {connect} from "react-redux";
 import Button from "@material-ui/core/Button";
+import SubmitBox from "../SubmitBox/SubmitBox";
 
 function UserProfile(props) {
     // даннные о пользователе
@@ -25,11 +26,17 @@ function UserProfile(props) {
         (async () => {
             setCountLikes(await apiUser.getCountLikes(nickname));
         })();
-    }, []);
+    }, [nickname]);
 
     return (
         <div className="profile-page">
-            <ArticleWrap nickname={nickname}/>
+            <div>
+                {
+                    props.nickname === nickname &&
+                    <SubmitBox/>
+                }
+                <ArticleWrap nickname={nickname}/>
+            </div>
             <div className="profile-area">
                 <div className="profile-area__nickname">{nickname}</div>
                 <div className="profile-area__info">
@@ -45,15 +52,22 @@ function UserProfile(props) {
                         {countPosts}
                     </div>
                 </div>
-                <div className="profile-area__logout">
-                    <Button onClick={props.logout} color="secondary">
-                        Выйти
-                    </Button>
-                </div>
+                {
+                    props.nickname === nickname &&
+                    <div className="profile-area__logout">
+                        <Button onClick={props.logout} color="secondary">
+                            Выйти
+                        </Button>
+                    </div>
+                }
             </div>
         </div>
     )
 }
+
+const mapStateToProps = (state) => ({
+    nickname: userGetters.getNickname(state)
+})
 
 const mapDispatchToProps = (dispatch) => ({
     logout() {
@@ -61,4 +75,4 @@ const mapDispatchToProps = (dispatch) => ({
     }
 });
 
-export default connect(null, mapDispatchToProps)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
