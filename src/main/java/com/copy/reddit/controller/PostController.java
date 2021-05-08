@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -228,40 +227,6 @@ public class PostController {
             @PathVariable(name = "commentId") Integer commentId
     ) {
         return new ResponseEntity<>(commentService.getAnswersByCommentId(commentId), HttpStatus.OK);
-    }
-
-    /**
-     * Добавление комментария
-     * @param authorization Токен для авторизации
-     * @param comment Комментарий со всей информацией о нём
-     * @return Статус выполнения запроса и количество комментариев к посту
-     */
-    @PostMapping(value = "posts/comments/create_comment")
-    public ResponseEntity<Integer> createComment(
-            @RequestHeader("Authorization") String authorization,
-            @RequestBody Comment comment
-    ) throws UnsupportedEncodingException {
-        comment.setHeadCommentId(null);
-        comment.setAuthorNickname(userService.getNameByAuthorization(authorization));
-        Integer countComments = commentService.createComment(comment);
-        return new ResponseEntity<>(countComments, HttpStatus.CREATED);
-    }
-
-    /**
-     * Добавления ответа к комментарию
-     * @param authorization Такен для авторизации
-     * @param comment Ответ к комментарию в виде комментария со всем информацией о нём
-     * @return Статус выполнения запроса и общее количество комментариев к посту
-     * @throws UnsupportedEncodingException
-     */
-    @PostMapping(value = "posts/comments/create_answer")
-    public ResponseEntity<Integer> createAnswers(
-            @RequestHeader("Authorization") String authorization,
-            @RequestBody Comment comment
-    ) throws UnsupportedEncodingException {
-        comment.setAuthorNickname(userService.getNameByAuthorization(authorization));
-        Integer countComments = commentService.createComment(comment);
-        return new ResponseEntity<>(countComments, HttpStatus.CREATED);
     }
 
     @PostMapping(value = "posts/likes/get_own")
