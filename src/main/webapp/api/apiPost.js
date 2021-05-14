@@ -84,7 +84,7 @@ const apiPost = {
     },
 
     async getCommentsByPostId(postId){
-        const response = await fetch(`posts/comments/${postId}`);
+        const response = await fetch(`/posts/comments/${postId}`);
         return await response.json();
     },
 
