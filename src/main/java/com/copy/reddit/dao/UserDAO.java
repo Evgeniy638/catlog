@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UserDAO {
     private final JdbcTemplate jdbcTemplate;
@@ -72,5 +74,46 @@ public class UserDAO {
                 "WHERE \"User\".nickname = ?";
 
         return jdbcTemplate.queryForObject(SQL_SELECT, Integer.class, nickname);
+    }
+
+    public void subscribe(String nickname, String following) {
+        String SQL_UPDATE = "INSERT INTO subscription (nickname, follower) VALUES (?, ?)";
+        jdbcTemplate.update(SQL_UPDATE, following, nickname);
+    }
+
+    public void unsubscribe(String nickname, String following) {
+        String SQL_DELETE = "DELETE FROM subscription WHERE nickname=? AND follower=?";
+        jdbcTemplate.update(SQL_DELETE, following, nickname);
+    }
+
+    public boolean isSubscribe(String nickname, String following) {
+        String SQL_SELECT = "SELECT COUNT(subscription.follower) FROM subscription " +
+                "WHERE subscription.nickname = ? AND subscription.follower = ?";
+
+        return jdbcTemplate.queryForObject(SQL_SELECT, Integer.class, following, nickname) > 0;
+    }
+
+    public Integer getCountFollowers(String nickname) {
+        String SQL_SELECT = "SELECT COUNT(subscription.follower) FROM subscription " +
+                "WHERE subscription.nickname = ?";
+        return jdbcTemplate.queryForObject(SQL_SELECT, Integer.class, nickname);
+    }
+
+    public Integer getCountFollowings(String nickname) {
+        String SQL_SELECT = "SELECT COUNT(subscription.nickname) FROM subscription " +
+                "WHERE subscription.follower = ?";
+        return jdbcTemplate.queryForObject(SQL_SELECT, Integer.class, nickname);
+    }
+
+    public List<String> getAllFollowers(String nickname) {
+        String SQL_SELECT = "SELECT subscription.follower FROM subscription " +
+                "WHERE subscription.nickname = ?";
+        return jdbcTemplate.queryForList(SQL_SELECT, String.class, nickname);
+    }
+
+    public List<String> getAllFollowings(String nickname) {
+        String SQL_SELECT = "SELECT subscription.nickname FROM subscription " +
+                "WHERE subscription.follower = ?";
+        return jdbcTemplate.queryForList(SQL_SELECT, String.class, nickname);
     }
 }

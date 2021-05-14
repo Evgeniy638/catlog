@@ -13,6 +13,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 //import java.util.Base64;
 import java.util.Collections;
+import java.util.List;
 
 @Service
 public class UserService {
@@ -75,5 +76,33 @@ public class UserService {
 
     public Integer getCountLikes(String nickname) {
         return userDAO.getCountLikes(nickname);
+    }
+
+    public void subscribe(String nickname, String following) {
+        userDAO.subscribe(nickname, following);
+    }
+
+    public void unsubscribe(String nickname, String following) {
+        userDAO.unsubscribe(nickname, following);
+    }
+
+    public boolean isSubscribe(String nickname, String following) {
+        return userDAO.isSubscribe(nickname, following);
+    }
+
+    public Integer getCountFollowers(String nickname) {
+        return userDAO.getCountFollowers(nickname);
+    }
+
+    public Integer getCountFollowings(String nickname) {
+        return userDAO.getCountFollowings(nickname);
+    }
+
+    public List<String> getAllFollowers(String nickname) {
+        return userDAO.getAllFollowers(nickname);
+    }
+
+    public List<String> getAllFollowings(String nickname) {
+        return userDAO.getAllFollowings(nickname);
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 @RestController
 public class UserController {
@@ -88,5 +89,72 @@ public class UserController {
     @GetMapping(value = "/users/{nickname}/posts/likes/count")
     public ResponseEntity<Integer> getCountLikes(@PathVariable("nickname") String nickname) {
         return new ResponseEntity<>(userService.getCountLikes(nickname), HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/subscription/{following}")
+    public ResponseEntity<Boolean> subscribe(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable String following
+    ) {
+        String nickname = null;
+        try {
+            nickname = userService.getNameByAuthorization(authorization);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        userService.subscribe(nickname, following);
+        return new ResponseEntity<>(userService.isSubscribe(nickname, following),HttpStatus.OK);
+    }
+
+    @DeleteMapping(value = "/subscription/{following}")
+    public ResponseEntity<Boolean> unsubscribe(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable String following
+    ) {
+        String nickname = null;
+        try {
+            nickname = userService.getNameByAuthorization(authorization);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        userService.unsubscribe(nickname, following);
+        return new ResponseEntity<>(userService.isSubscribe(nickname, following), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/subscription/{following}")
+    public ResponseEntity<Boolean> isSubscribe(
+            @RequestHeader("Authorization") String authorization,
+            @PathVariable String following
+    ) {
+        String nickname = null;
+        try {
+            nickname = userService.getNameByAuthorization(authorization);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        return new ResponseEntity<>(userService.isSubscribe(nickname, following), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/users/{nickname}/followers/count")
+    public ResponseEntity<Integer> getCountFollowers(@PathVariable String nickname) {
+        return new ResponseEntity<>(userService.getCountFollowers(nickname), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/users/{nickname}/followings/count")
+    public ResponseEntity<Integer> getCountFollowings(@PathVariable String nickname) {
+        return new ResponseEntity<>(userService.getCountFollowings(nickname), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/users/{nickname}/followers")
+    public ResponseEntity<List<String>> getAllFollowers(@PathVariable String nickname) {
+        return new ResponseEntity<>(userService.getAllFollowers(nickname), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/users/{nickname}/followings")
+    public ResponseEntity<List<String>> getAllFollowings(@PathVariable String nickname) {
+        return new ResponseEntity<>(userService.getAllFollowings(nickname), HttpStatus.OK);
     }
 }
