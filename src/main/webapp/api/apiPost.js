@@ -17,6 +17,12 @@ const apiPost = {
         return await response.json();
     },
 
+    async deletePost(postId){
+        const response = await fetch(`/posts/delete/${postId}`, {
+            method: "DELETE"
+        });
+    },
+
     async findMatchesByTags(tagArr) {
         const response = await fetch(`/posts/tags/matches/${tagArr.join("+")}`);
         return await response.json();

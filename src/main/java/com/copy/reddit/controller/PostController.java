@@ -118,7 +118,7 @@ public class PostController {
      * @param id id поста
      * @return Стату выполнения запроса
      */
-    @DeleteMapping(value = "/posts/{id}")
+    @DeleteMapping(value = "/posts/delete/{id}")
     public ResponseEntity<?> delete(@PathVariable(name = "id") int id) {
         final boolean deleted = postServiceImpl.delete(id);
 

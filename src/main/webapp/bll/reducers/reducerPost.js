@@ -54,10 +54,16 @@ const ADD_INFO_ABOUT_COMMENTS_AND_LIKES = "ADD_INFO_ABOUT_COMMENTS_AND_LIKES";
 const ADD_AVATAR = "AVATAR";
 const ADD_NEW_COMMENT = "ADD_NEW_COMMENT";
 const CHANGE_SINCE_ID = "CHANGE_SINCE_ID";
+const DELETE_POST = "DELETE_POST";
 
 
 const reducerPost = (state=initialState, action) => {
     switch (action.type) {
+        case DELETE_POST:
+            return {
+                ...state,
+                posts: state.posts.filter(post => post.id !== action.postId)
+            };
         case CHANGE_SINCE_ID:
             return {
                 ...state,
@@ -283,6 +289,13 @@ export const postActionCreator = {
             type: ADD_NEW_COMMENT,
             comment
         }
+    },
+
+    deletePost(postId) {
+        return {
+            type: DELETE_POST,
+            postId
+        }
     }
 }
 
@@ -361,6 +374,13 @@ export const postThunkCreators = {
         return async (dispatch) => {
             const comments = await apiPost.getCommentsByPostId(postId);
             dispatch(postActionCreator.updateComments(comments, postId));
+        }
+    },
+
+    deletePost(postId) {
+        return async (dispatch) => {
+            await apiPost.deletePost(postId);
+            dispatch(postActionCreator.deletePost(postId));
         }
     }
 }

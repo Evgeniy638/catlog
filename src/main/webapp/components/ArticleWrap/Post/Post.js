@@ -8,6 +8,11 @@ import {connect} from "react-redux";
 import ListComments from "./ListComments/ListComments";
 import {loginActionCreators} from "../../../bll/reducers/reducerLogin";
 import {Link} from "react-router-dom";
+import CloseIcon from '@material-ui/icons/Close';
+import Button from "@material-ui/core/Button";
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import CommentIcon from '@material-ui/icons/Comment';
 
 const likeCheck = async (post, authorization) => {
     let countLikes;
@@ -46,6 +51,10 @@ const Post = (props) => {
         }
     }
 
+    const deletePost = () => {
+        props.deletePost(props.id);
+    }
+
     const commentClick = () => {
         setIsActiveComment(!isActiveComment);
         props.getComments(props.id);
@@ -72,7 +81,16 @@ const Post = (props) => {
                     <div className="article__author">{props.authorNickname}</div>
                 </div>
                 </Link>
-                <div className="article__time">{dd}.{mm}.{yyyy}</div>
+                <div className="article__deletebutton">
+                    <div className="article__time">{dd}.{mm}.{yyyy}</div>
+                    {
+                        props.authorNickname === props.nickname ?
+                            <div>
+                                <Button onClick={deletePost}><CloseIcon/></Button>
+                            </div>
+                            : null
+                    }
+                </div>
             </div>
             <input type="checkbox" className="article__hiddenchecker" id={`article__hiddenchecker${props.id}`}/>
                 <div className="article__content" id={`article__content${props.id}`}>
@@ -101,16 +119,16 @@ const Post = (props) => {
                             </Link>
                         </div>
                     ))}
-                </div>
+            </div>
             <div className="article__like-and-comment-area">комментарии: {props.countComments}
                 <div>
-                    <button className="article__comment-button" onClick={commentClick}>
-                        <img src={CommentPic} alt="comment"/>
-                    </button>
-                    <button className="article__like-button" onClick={likeClick}>
-                        <span className={`article__like-span ${props.hasLike ? "article__like-button_has-like" : "article__like-button_no-like"}`}></span>
+                    <Button className="article__comment-button" onClick={commentClick}>
+                        <CommentIcon/>
+                    </Button>
+                    <Button className="article__like-button" onClick={likeClick}>
+                        <span className={`article__like-span`}>{props.hasLike ? <FavoriteIcon/>: <FavoriteBorderIcon/>}</span>
                         <span className="article__count-like-span">{props.countLikes}</span>
-                    </button>
+                    </Button>
                 </div>
             </div>
            {
@@ -127,7 +145,8 @@ const Post = (props) => {
 }
 
 const mapStateToProps = (state) => ({
-    authorization: userGetters.getAuthorization(state)
+    authorization: userGetters.getAuthorization(state),
+    nickname: userGetters.getNickname(state),
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -145,7 +164,11 @@ const mapDispatchToProps = (dispatch) => ({
 
     getComments(postId) {
         dispatch(postThunkCreators.getComments(postId));
-    }
+    },
+
+    deletePost(postId) {
+        dispatch(postThunkCreators.deletePost(postId));
+    },
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Post);

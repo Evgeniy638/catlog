@@ -11,6 +11,11 @@
     display: flex;
     justify-content: space-between;
     padding-top: 10px;
+
+}
+.article__deletebutton{
+    display: flex;
+    align-items: center;
 }
 
 .article__author-wrap {
@@ -72,24 +77,21 @@
     align-items: center;
 }
 
-.article__like-button_has-like{
-    background-image: url("./active_like.svg");
-    width: 35px; 
-    height: 35px;
+.article__count-like-span{
+    padding: 5px;
 }
 
-.article__like-button_no-like{
-    background-image: url("./void_like.svg");
-    width: 35px; 
-    height: 35px;
-}
+/*.article__like-button_has-like{*/
+/*    background-image: url("./active_like.svg");*/
+/*    width: 35px; */
+/*    height: 35px;*/
+/*}*/
 
-/* Отделяющая черта */
-.article hr{
-    background-color: #B07400;
-    border: none;
-    height: 1px;
-}
+/*.article__like-button_no-like{*/
+/*    background-image: url("./void_like.svg");*/
+/*    width: 35px; */
+/*    height: 35px;*/
+/*}*/
 
 
 /* Стили для кнопки "Читать дальше" и скрытие части поста */
