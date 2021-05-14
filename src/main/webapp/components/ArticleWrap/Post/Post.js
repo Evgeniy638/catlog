@@ -135,8 +135,9 @@ const Post = (props) => {
                isActiveComment &&
                <ListComments
                     postId={props.id}
+                    authorization={props.authorization}
                     comments={props.comments}
-                    authorNickname={props.authorNickname}
+                    authorNickname={props.nickname}
                     headCommentId={props.headCommentId}
                />
            }

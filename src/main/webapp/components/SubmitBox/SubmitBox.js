@@ -65,6 +65,7 @@ const SubmitBox = (props) => {
         button.disabled = true;
         inputField.disabled = true;
         createPost(props, e.currentTarget, props.authorization, errors, setErrors);
+        setImageNames([]);
         button.disabled = false;
         inputField.disabled = false;
     }

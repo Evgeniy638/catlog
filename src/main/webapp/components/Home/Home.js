@@ -12,7 +12,7 @@ const Home = (props) => {
 
     return (
         <>
-            {tags && <h2 className="Home__title">{tags.join(" ")}</h2>}
+            {tags && <h2 className="Home__title">Результаты поиска по {tags.join(" ")}</h2>}
             <SubmitBox/>
             <ArticleWrap tags={tags}/>
         </>

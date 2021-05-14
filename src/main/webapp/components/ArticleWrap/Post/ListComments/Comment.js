@@ -8,6 +8,11 @@ const Comment = ({comment, sendComment}) => {
         setActiveReply(!isActiveReplyButton);
     }
 
+    const send = (e) => {
+        showReplyField();
+        sendComment(e);
+    }
+
     return (
         <>
             <div className="article__first-level-comment">
@@ -21,7 +26,7 @@ const Comment = ({comment, sendComment}) => {
                 {
                     isActiveReplyButton &&
                     <form
-                        onSubmit={sendComment}
+                        onSubmit={send}
                         className="comment-area"
                         encType="multipart/form-data"
                         action="#"
