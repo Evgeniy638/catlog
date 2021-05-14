@@ -15,6 +15,9 @@ function UserProfile(props) {
     const [avatar, setAvatar] = useState();
     const [countPosts, setCountPosts] = useState();
     const [countLikes, setCountLikes] = useState();
+    const [countSubscribers, setCountSubscribers] = useState();
+    const [countSubscribes, setCountSubscribes] = useState();
+    const [isSubscribed, setIsSubscribed] = useState();
 
     useEffect(() => {
         (async () => {
@@ -26,7 +29,26 @@ function UserProfile(props) {
         (async () => {
             setCountLikes(await apiUser.getCountLikes(nickname));
         })();
+        (async () => {
+            setCountSubscribers(await apiUser.getCountSubsribers(nickname));
+        })();
+        (async () => {
+            setCountSubscribes(await apiUser.getCountSubsribes(nickname));
+        })();
+        (async () => {
+            setIsSubscribed(await apiUser.isSubscribed(nickname, props.authorization));
+        })();
     }, [nickname]);
+
+    const subscribe = async (e) => {
+        console.log(props.authorization);
+        if(isSubscribed){
+            setIsSubscribed(await apiUser.unSubscribe(nickname, props.authorization));
+        }
+        else{
+            setIsSubscribed(await apiUser.subscribe(nickname, props.authorization));
+        }
+    }
 
     return (
         <div className="profile-page">
@@ -37,36 +59,56 @@ function UserProfile(props) {
                 }
                 <ArticleWrap nickname={nickname}/>
             </div>
-            <div className="profile-area">
-                <div className="profile-area__nickname">{nickname}</div>
-                <div className="profile-area__info">
-                    <img className="profile-area__avatar" src={avatar} alt="аватар"/>
-                    <div className="profile-area__likes">
-                        Лайки
-                        <br/>
-                        {countLikes}
+            <div>
+                <div className="profile-area">
+                    <div className="profile-area__nickname">{nickname}</div>
+                    <div className="profile-area__info">
+                        <img className="profile-area__avatar" src={avatar} alt="аватар"/>
+                        <div className="profile-area__likes">
+                            Лайки
+                            <br/>
+                            {countLikes}
+                        </div>
+                        <div className="profile-area__posts">
+                            Посты
+                            <br/>
+                            {countPosts}
+                        </div>
+                        <div>
+                            Подписки
+                            <br/>
+                            {countSubscribes}
+                        </div>
+                        <div>
+                            Подписчики
+                            <br/>
+                            {countSubscribers}
+                        </div>
                     </div>
-                    <div className="profile-area__posts">
-                        Посты
-                        <br/>
-                        {countPosts}
-                    </div>
+                    {
+                        props.nickname === nickname &&
+                        <div className="profile-area__logout">
+                            <Button onClick={props.logout} color="secondary">
+                                Выйти
+                            </Button>
+                        </div>
+                    }
+                    {
+                        props.nickname !== nickname ?
+                            <div className={isSubscribed ? "profile-area__subscribe_hasnt" : "profile-area__subscribe_has"}>
+                                <Button onClick={subscribe}>{isSubscribed ? "Отписаться" : "Подписаться"}</Button>
+                            </div>
+                        : null
+                    }
                 </div>
-                {
-                    props.nickname === nickname &&
-                    <div className="profile-area__logout">
-                        <Button onClick={props.logout} color="secondary">
-                            Выйти
-                        </Button>
-                    </div>
-                }
             </div>
         </div>
     )
 }
 
 const mapStateToProps = (state) => ({
-    nickname: userGetters.getNickname(state)
+    nickname: userGetters.getNickname(state),
+    authorization: userGetters.getAuthorization(state)
 })
 
 const mapDispatchToProps = (dispatch) => ({

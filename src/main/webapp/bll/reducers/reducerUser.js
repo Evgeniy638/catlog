@@ -13,7 +13,7 @@ const initialState = {
 const LOGIN = "LOGIN";
 const LOGIN_ERROR = "LOGIN_ERROR";
 const REGISTRATION_ERROR = "REGISTRATION_ERROR";
-const LOGOUT = "LOGOUT"
+const LOGOUT = "LOGOUT";
 
 const reducerUser = (state=initialState, action) => {
     switch (action.type) {

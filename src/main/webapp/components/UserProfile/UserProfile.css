@@ -16,7 +16,6 @@
     font-family: "Favorit", "Helvetica Neue", "HelveticaNeue", Helvetica, Arial, sans-serif;
     display: flex;
     flex-direction: column;
-    height: 385px;
     position: sticky;
     top: 5em;
     min-height: 2em;
@@ -48,21 +47,24 @@
     width: 120px;
 }
 
-.profile-area__top{
-    background: #DFB882;
-    border-radius: 10px 10px 0 0;
-    text-align: center;
-    padding: 25px;
-}
-
-.profile-area__bottom{
-    background: #F3D0A2;
-    border-radius: 0 0 10px 10px;
-    text-align: center;
-    padding: 25px;
-}
-
 .profile-area__logout {
     display: flex;
     justify-content: center;
+    margin: 7px;
+}
+
+.profile-area__subscribe_has{
+    align-self: center;
+    margin: 15px;
+    background-color: #f39c12;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.profile-area__subscribe_hasnt{
+    align-self: center;
+    margin: 15px;
+    background-color: #A5A4A4;
+    border-radius: 10px;
+    padding: 5px;
 }
