@@ -17,7 +17,7 @@ function UserProfile(props) {
     const [countLikes, setCountLikes] = useState();
     const [countSubscribers, setCountSubscribers] = useState();
     const [countSubscribes, setCountSubscribes] = useState();
-    const [isSubscribed, setIsSubscribed] = useState();
+    const [isSubscribed, setIsSubscribed] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -38,7 +38,7 @@ function UserProfile(props) {
         (async () => {
             setIsSubscribed(await apiUser.isSubscribed(nickname, props.authorization));
         })();
-    }, [nickname]);
+    }, [nickname, props.authorization]);
 
     const subscribe = async (e) => {
         console.log(props.authorization);
