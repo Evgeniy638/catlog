@@ -92,6 +92,16 @@ const apiUser = {
         }
         return await response.text() === "true";
     },
+
+    async getAllFollowers(nickname) {
+        const response = await fetch(`/users/${nickname}/followers`);
+        return await response.json();
+    },
+
+    async getAllFollowings(nickname) {
+        const response = await fetch(`/users/${nickname}/followings`);
+        return await response.json();
+    }
 }
 
 export default apiUser;

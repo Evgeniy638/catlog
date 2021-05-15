@@ -8,6 +8,15 @@ import {userGetters, userThunkCreators} from "../../bll/reducers/reducerUser";
 import {connect} from "react-redux";
 import Button from "@material-ui/core/Button";
 import SubmitBox from "../SubmitBox/SubmitBox";
+import {Link, Route} from "react-router-dom";
+import ListUsers, {pathsListUsers} from "../ListUsers/ListUsers";
+import {Skeleton} from "@material-ui/lab";
+
+const styleLink = {
+    textDecoration: "none",
+    color: "inherit",
+    fontSize: "inherit"
+}
 
 function UserProfile(props) {
     // даннные о пользователе
@@ -57,32 +66,53 @@ function UserProfile(props) {
                     props.nickname === nickname &&
                     <SubmitBox/>
                 }
-                <ArticleWrap nickname={nickname}/>
+                <Route exact path="/user/:nickname">
+                    <ArticleWrap nickname={nickname}/>
+                </Route>
+                <Route exact path="/user/:nickname/:typeUsers">
+                    <ListUsers nickname={nickname}/>
+                </Route>
             </div>
             <div>
                 <div className="profile-area">
                     <div className="profile-area__nickname">{nickname}</div>
                     <div className="profile-area__info">
-                        <img className="profile-area__avatar" src={avatar} alt="аватар"/>
+                        {
+                            avatar
+                                ?<img className="profile-area__avatar" src={avatar} alt="аватар"/>
+                                :<Skeleton variant="circle" width={120} height={120}/>
+                        }
                         <div className="profile-area__likes">
                             Лайки
                             <br/>
                             {countLikes}
                         </div>
                         <div className="profile-area__posts">
-                            Посты
-                            <br/>
-                            {countPosts}
+                            <Link to={`/user/${nickname}`} style={styleLink}>
+                                Посты
+                                <br/>
+                                {countPosts}
+                            </Link>
                         </div>
                         <div>
-                            Подписки
-                            <br/>
-                            {countSubscribes}
+                            <Link
+                                to={`/user/${nickname}/${pathsListUsers.PATH_FOLLOWING}`}
+                                style={styleLink}
+                            >
+                                Подписки
+                                <br/>
+                                {countSubscribes}
+                            </Link>
                         </div>
                         <div>
-                            Подписчики
-                            <br/>
-                            {countSubscribers}
+                            <Link
+                                to={`/user/${nickname}/${pathsListUsers.PATH_FOLLOWERS}`}
+                                style={styleLink}
+                            >
+                                Подписчики
+                                <br/>
+                                {countSubscribers}
+                            </Link>
                         </div>
                     </div>
                     {
