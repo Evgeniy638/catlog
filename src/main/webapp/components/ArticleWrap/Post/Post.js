@@ -13,6 +13,7 @@ import Button from "@material-ui/core/Button";
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/Comment';
+import {Skeleton} from "@material-ui/lab";
 
 const likeCheck = async (post, authorization) => {
     let countLikes;
@@ -75,8 +76,9 @@ const Post = (props) => {
                 >
                 <div className="article__author-wrap">
                     {
-                        props.avatar &&
-                        <img className="article__avatar" src={props.avatar}/>
+                        props.avatar ?
+                        <img className="article__avatar" src={props.avatar}/> :
+                        <Skeleton variant="circle" width={30} height={30}/>
                     }
                     <div className="article__author">{props.authorNickname}</div>
                 </div>

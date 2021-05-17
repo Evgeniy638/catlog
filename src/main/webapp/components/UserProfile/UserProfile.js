@@ -12,7 +12,7 @@ import {Link, Route} from "react-router-dom";
 import ListUsers, {pathsListUsers} from "../ListUsers/ListUsers";
 import {Skeleton} from "@material-ui/lab";
 
-const styleLink = {
+export const styleLink = {
     textDecoration: "none",
     color: "inherit",
     fontSize: "inherit"
@@ -62,11 +62,11 @@ function UserProfile(props) {
     return (
         <div className="profile-page">
             <div>
-                {
-                    props.nickname === nickname &&
-                    <SubmitBox/>
-                }
                 <Route exact path="/user/:nickname">
+                    {
+                        props.nickname === nickname &&
+                        <SubmitBox/>
+                    }
                     <ArticleWrap nickname={nickname}/>
                 </Route>
                 <Route exact path="/user/:nickname/:typeUsers">

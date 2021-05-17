@@ -27,12 +27,12 @@
     display: block;
     width: 30px;
     height: 30px;
-    margin-right: 7px;
     border-radius: 100%;
 }
 
 .article__author {
     font-weight: bold;
+    margin-left: 7px;
 }
 
 .article__content{

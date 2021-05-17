@@ -1,0 +1,28 @@
+.list-users{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.list-users__row-user{
+    margin: 7px 35px;
+    background: #f0cf95;
+    border-radius: 10px;
+}
+
+.list-users__row-user-flex{
+    display: flex;
+    justify-content: flex-start;
+    padding: 13px;
+    align-items: center;
+}
+
+.list-users__row-user img{
+    height: 50px;
+    width: 50px;
+    border-radius: 100%;
+}
+
+.list-users__usernames{
+    margin-left: 15px;
+}

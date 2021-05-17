@@ -1,6 +1,9 @@
 import React, {useEffect, useState} from "react";
-import { useParams } from 'react-router-dom';
+import {Link, useParams} from 'react-router-dom';
 import apiUser from "../../api/apiUser";
+import "./ListUsers.css";
+import {Skeleton} from "@material-ui/lab";
+import {styleLink} from "../UserProfile/UserProfile";
 
 export const pathsListUsers = {
     PATH_FOLLOWERS: "followers",
@@ -48,15 +51,20 @@ const ListUsers = ({nickname}) => {
     }, [typeUsers, nickname]);
 
     return (
-        <div>
+        <div className="list-users">
             {
                 users.map(u => (
-                    <div key={u.nickname}>
-                        {
-                            u.avatar &&
-                            <img src={u.avatar} alt={u.nickname}/>
-                        }
-                        <p>{u.nickname}</p>
+                    <div key={u.nickname} className="list-users__row-user">
+                        <Link to={`/user/${u.nickname}`} style={styleLink}>
+                            <span className="list-users__row-user-flex">
+                                {
+                                    u.avatar
+                                        ?<img src={u.avatar} alt={u.nickname}/>
+                                        :<Skeleton variant="circle" width={50} height={50}/>
+                                }
+                                <span className="list-users__usernames">{u.nickname}</span>
+                            </span>
+                        </Link>
                     </div>
                 ))
             }
