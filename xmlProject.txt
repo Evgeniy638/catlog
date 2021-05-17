@@ -73,8 +73,7 @@
 </row>
 <row name="headCommentId" null="1" autoincrement="0">
 <datatype>INTEGER</datatype>
-<default>NULL</default><relation table="Comment" row="id" />
-</row>
+<default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
@@ -85,15 +84,22 @@
 <default>NULL</default></row>
 <row name="nickname" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
-<default>NULL</default></row>
+<default>NULL</default><relation table="subscription" row="follower" />
+</row>
 <row name="password" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="avatar" null="1" autoincrement="0">
 <datatype>VARCHAR</datatype>
 <default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
 </key>
+<key type="UNIQUE" name="">
+<part>nickname</part>
+</key>
 </table>
-<table x="189" y="174" name="Tag">
+<table x="350" y="36" name="Tag">
 <row name="id" null="1" autoincrement="1">
 <datatype>INTEGER</datatype>
 <default>NULL</default><relation table="TagAndPost" row="tagId" />
@@ -144,6 +150,19 @@
 <default>NULL</default></row>
 <key type="PRIMARY" name="">
 <part>id</part>
+</key>
+</table>
+<table x="929" y="330.80000001192093" name="subscription">
+<row name="nickname" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default><relation table="User" row="nickname" />
+</row>
+<row name="follower" null="0" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>'NULL'</default></row>
+<key type="PRIMARY" name="">
+<part>nickname</part>
+<part>follower</part>
 </key>
 </table>
 </sql>
