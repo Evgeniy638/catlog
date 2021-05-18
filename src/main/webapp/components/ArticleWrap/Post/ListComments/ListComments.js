@@ -20,7 +20,7 @@ const ListComments = (props) => {
 
     const connect = async () => {
         const Stomp = require("stompjs");
-        const SockJS = new SockJSClient("http://localhost:8080/ws");
+        const SockJS = new SockJSClient("/ws");
         stompClient = Stomp.over(SockJS);
         stompClient.connect({}, onConnected, onError);
     };
