@@ -18,6 +18,8 @@ const ListComments = (props) => {
         }
     }, []);
 
+    const [error, setError] = useState(false);
+
     const connect = async () => {
         const Stomp = require("stompjs");
         const SockJS = new SockJSClient("http://localhost:8080/ws");
@@ -45,10 +47,11 @@ const ListComments = (props) => {
         e.preventDefault();
         if(props.authorization) {
             let field = e.currentTarget;
-            field.commentText.disabled = true;
             if (field.commentText.value === "") {
+                setError(true);
                 return;
             }
+            field.commentText.disabled = true;
             const comment = {
                 text: field.commentText.value,
                 postId: props.postId,
@@ -63,6 +66,12 @@ const ListComments = (props) => {
             props.toggleOpenLogin();
         }
     };
+
+    const onChange = () => () => {
+        if(error){
+            setError(!error);
+        }
+    }
 
     return (
         <div className="article__comment-section">
@@ -84,9 +93,23 @@ const ListComments = (props) => {
                 encType="multipart/form-data"
                 action="#"
             >
-            <div className="article__comment-area">
-                <textarea name="commentText" className="article__comment-field"
-                          placeholder="введите комментарий">
+            <div className=
+                     {`
+                        article__comment-area
+                        ${error && "article__comment-area_error"}`
+                     }
+            >
+                <textarea name="commentText" className=
+                    {`
+                        article__comment-field
+                        ${error && "article__comment-field_error"}`
+                    }
+                    onChange={onChange}
+                    placeholder={
+                              error ? "комментарий не может быть пустым" :
+                              "введите комментарий"
+                    }
+                >
                 </textarea>
                 <button className="article__comment" type="submit">Отправить</button>
             </div>

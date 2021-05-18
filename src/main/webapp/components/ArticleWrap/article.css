@@ -234,6 +234,14 @@
     margin-left: 15px;
 }
 
+.article__comment-area_error {
+    border: 2px solid red;
+}
+
+.article__comment-field_error::placeholder {
+    color: #ff000088;
+}
+
 @media(max-width: 500px) {
     .article__info{
         flex-direction: column;
