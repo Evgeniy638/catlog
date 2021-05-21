@@ -19,7 +19,13 @@ const SearchInput = () => {
                 setTagMatches([]);
                 return;
             }
-            setTagMatches(await apiPost.findMatchesByTags(tags.split(" ")));
+
+            let newTagMatches = [];
+            try {
+                newTagMatches = await apiPost.findMatchesByTags(tags.split(" "));
+            } catch (e) {
+            }
+            setTagMatches(newTagMatches);
         })();
     }, [tags]);
 

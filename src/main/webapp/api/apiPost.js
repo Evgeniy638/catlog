@@ -25,6 +25,11 @@ const apiPost = {
 
     async findMatchesByTags(tagArr) {
         const response = await fetch(`/posts/tags/matches/${tagArr.join("+")}`);
+
+        if (!response.ok) {
+            throw Error(`ошибка при поиске ${tagArr}`);
+        }
+
         return await response.json();
     },
 
