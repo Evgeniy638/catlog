@@ -1,0 +1,58 @@
+version: 2.1
+
+orbs:
+  heroku: circleci/heroku@1.2.6
+
+jobs:
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - heroku/deploy-via-git:
+          branch:
+            main
+          force:
+            true
+
+  test:
+    docker:
+      - image: cimg/openjdk:16.0.0
+    steps:
+      - checkout
+      - run: chmod +x mvnw
+      - run: ./mvnw test
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results/
+
+  build:
+    docker:
+      - image: cimg/openjdk:16.0.0
+    steps:
+      - checkout
+      - run: chmod +x mvnw
+      - run: ./mvnw -Dmaven.test.skip=true package
+
+workflows:
+  version: 2          
+
+  main:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only: main
+
