@@ -1,23 +1,20 @@
 version: 2.1
 
-orbs:
-  heroku: circleci/heroku@1.2.6
+commands:
+  install-openjdk:
+    steps:
+      - run:
+          name: Install OpenJDK 11
+          command: |
+            sudo apt-get update && sudo apt-get install openjdk-11-jdk
+            sudo update-alternatives --set java /usr/lib/jvm/java-11-openjdk-amd64/bin/java
+            sudo update-alternatives --set javac /usr/lib/jvm/java-11-openjdk-amd64/bin/javac
+            java -version
 
 jobs:
-  deploy:
-    executor: heroku/default
-    steps:
-      - checkout
-      - heroku/install
-      - heroku/deploy-via-git:
-          branch:
-            main
-          force:
-            true
-
   test:
     docker:
-      - image: cimg/openjdk:16.0.0
+      - image: cimg/openjdk:11.0
     steps:
       - checkout
       - run: chmod +x mvnw
@@ -30,29 +27,46 @@ jobs:
           when: always
       - store_test_results:
           path: ~/test-results/
-
   build:
     docker:
-      - image: cimg/openjdk:16.0.0
+      - image: cimg/openjdk:11.0
     steps:
       - checkout
       - run: chmod +x mvnw
-      - run: ./mvnw -Dmaven.test.skip=true package
+      - run:
+          name: Package
+          command: ./mvnw -Dmaven.test.skip=true package
+  deploy-dev:
+    machine:
+      image: ubuntu-1604:202007-01
+    steps:
+      - checkout
+      - install-openjdk
+      - run: chmod +x mvnw
+      - run:
+          name: Package
+          command: ./mvnw -Dmaven.test.skip=true package
+      - run:
+          name: Build and push Docker image to Heroku
+          command: |
+            sudo curl https://cli-assets.heroku.com/install.sh | sh
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push --arg DB_URL=$DB_URL,DB_USERNAME=$DB_USERNAME,DB_PASSWORD=$DB_PASSWORD -a ${HEROKU_APP_NAME} web
+            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a ${HEROKU_APP_NAME} web
+
 
 workflows:
-  version: 2          
-
+  version: 2
   main:
     jobs:
       - build
       - test:
           requires:
             - build
-      - deploy:
-          requires:
-            - build
-            - test
-          filters:
-            branches:
-              only: main
-
+      - deploy-dev:
+            requires:
+              - build
+              - test
+            filters:
+              branches:
+                only: main
