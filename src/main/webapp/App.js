@@ -11,7 +11,6 @@ import {compose} from "redux";
 const App = (props) => {
     useLayoutEffect(() => {
         props.loginByLocalStorage();
-        console.log("Hello");
     }, []);
 
     if (props.location.pathname === "/") {

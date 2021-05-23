@@ -240,14 +240,12 @@ export const postActionCreator = {
     },
 
     cleanPosts() {
-        console.log("CLEAN")
         return {
             type: CLEAN_POSTS
         }
     },
 
     changePosts(posts) {
-        console.log("ADD NEW POSTS")
         return {
             type: CHANGE_POSTS,
             posts

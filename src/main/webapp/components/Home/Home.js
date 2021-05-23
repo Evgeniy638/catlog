@@ -8,8 +8,6 @@ const Home = (props) => {
     let tags = props.match.params.tags;
     tags = tags && tags.split("+");
 
-    console.log("TAGS", tags);
-
     return (
         <>
             {tags && <h2 className="Home__title">Результаты поиска по {tags.join(" ")}</h2>}
