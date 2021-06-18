@@ -1,6 +1,7 @@
 const path = require("path");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 require("babel-polyfill");
 
 module.exports = (env, argv) => ({
@@ -13,11 +14,17 @@ module.exports = (env, argv) => ({
     },
     devtool: 'inline-source-map',
     plugins: [
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify(argv.mode)
+        }),
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src', 'main', 'resources', 'static', 'new_index.html'),
             filename: path.join(__dirname, 'target', 'classes', 'static', 'new_index.html')
         })
     ],
+    optimization: {
+        minimizer: [new UglifyJsPlugin()],
+    },
     module: {
         rules: [
             {
