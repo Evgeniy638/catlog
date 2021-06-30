@@ -82,19 +82,19 @@ function UserProfile(props) {
                                 ?<img className="profile-area__avatar" src={avatar} alt="аватар"/>
                                 :<Skeleton variant="circle" width={120} height={120}/>
                         }
-                        <div className="profile-area__likes">
+                        <div className="profile-area__element profile-area__likes">
                             Лайки
                             <br/>
                             {countLikes}
                         </div>
-                        <div className="profile-area__posts">
+                        <div className="profile-area__element profile-area__posts">
                             <Link to={`/user/${nickname}`} style={styleLink}>
                                 Посты
                                 <br/>
                                 {countPosts}
                             </Link>
                         </div>
-                        <div>
+                        <div className="profile-area__element">
                             <Link
                                 to={`/user/${nickname}/${pathsListUsers.PATH_FOLLOWING}`}
                                 style={styleLink}
@@ -104,7 +104,7 @@ function UserProfile(props) {
                                 {countSubscribes}
                             </Link>
                         </div>
-                        <div>
+                        <div  className="profile-area__element">
                             <Link
                                 to={`/user/${nickname}/${pathsListUsers.PATH_FOLLOWERS}`}
                                 style={styleLink}

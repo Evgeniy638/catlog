@@ -68,3 +68,19 @@
     border-radius: 10px;
     padding: 5px;
 }
+
+.profile-area__element {
+    min-width: 110px;
+}
+
+@media (max-width: 768px) {
+    .profile-area{
+        margin-right: 8px;
+        margin-left: 8px;
+    }
+
+    .profile-page{
+        display: flex;
+        flex-direction: column-reverse;
+    }
+}

@@ -19,7 +19,7 @@ const Header = (props) => {
                 </Link>
             </div>
 
-            <div className="header__child header__child_grow">
+            <div className="header__child header__child_grow header__child_hidden-in-mobile">
                 <SearchInput/>
             </div>
 

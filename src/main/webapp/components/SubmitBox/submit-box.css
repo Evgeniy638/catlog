@@ -86,3 +86,10 @@
 .submit-box__post-field_error::placeholder {
     color: #ff000088;
 }
+
+@media (max-width: 768px) {
+    .submit-box{
+        padding: 5px 0;
+        margin: 15px 8px;
+    }
+}

@@ -45,3 +45,13 @@
     margin-right: 7px;
     border-radius: 100%;
 }
+
+@media (max-width: 768px) {
+    .header{
+        justify-content: space-between;
+    }
+
+    .header__child_hidden-in-mobile {
+        display: none;
+    }
+}

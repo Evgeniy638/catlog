@@ -4,8 +4,24 @@
     margin: calc(var(--height-header) + 30px) auto 0 auto;
 }
 
+.content__element {
+    margin: 15px 8px;
+    display: flex;
+    justify-content: center;
+}
+
+.content__element_visible-only-mobile {
+    display: none;
+}
+
 @media (min-width: 1000px) {
     .content {
         width: 900px;
+    }
+}
+
+@media (max-width: 768px) {
+    .content__element_visible-only-mobile {
+        display: flex;
     }
 }
