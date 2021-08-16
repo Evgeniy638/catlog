@@ -8,7 +8,8 @@
   "scripts": {
     "devserver": "webpack-dev-server",
     "start": "webpack --mode development --watch",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "test": "jest"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
@@ -19,6 +20,7 @@
     "css-loader": "^4.2.2",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
+    "jest": "^27.0.6",
     "style-loader": "^1.2.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.44.1",
@@ -29,6 +31,7 @@
     "@material-ui/core": "^4.11.4",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.58",
+    "@types/jest": "^27.0.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "react": "^16.13.1",
