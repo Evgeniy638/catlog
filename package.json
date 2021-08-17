@@ -9,7 +9,7 @@
     "devserver": "webpack-dev-server",
     "start": "webpack --mode development --watch",
     "build": "webpack --mode production",
-    "test": "jest"
+    "test": "jest --coverage"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
@@ -21,6 +21,7 @@
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "jest": "^27.0.6",
+    "redux-mock-store": "^1.5.4",
     "style-loader": "^1.2.1",
     "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.44.1",

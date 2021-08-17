@@ -34,5 +34,6 @@ build/
 
 ### JS ###
 node_modules/
+coverage/
 
 mvnw_install.txt
