@@ -1,17 +1,17 @@
-import React from "react";
-import "./header.css";
-import "./authorization.css";
-import {loginActionCreators} from "../../bll/reducers/reducerLogin";
-import {connect} from "react-redux";
-import {userGetters} from "../../bll/reducers/reducerUser";
-import SearchInput from "./SearchInput/SearchInput";
-import {Link} from "react-router-dom";
+import React from 'react';
+import './header.css';
+import './authorization.css';
+import {loginActionCreators} from '../../bll/reducers/reducerLogin';
+import {connect} from 'react-redux';
+import {userGetters} from '../../bll/reducers/reducerUser';
+import SearchInput from './SearchInput/SearchInput';
+import {Link} from 'react-router-dom';
 
 const Header = (props) => {
     return (
         <header className="header">
             <div className="header__child">
-                <Link style={{ textDecoration: 'none' }} to={"/home"}>
+                <Link style={{ textDecoration: 'none' }} to={'/home'}>
                     <div className="header__logo-wrap">
                         <div className="header__logo-image"></div>
                         <h1 className="header__title">Catlog</h1>
@@ -28,7 +28,7 @@ const Header = (props) => {
                     props.nickname
                         ?<Link
                             to={`/user/${props.nickname}`}
-                            style={{textDecoration: "none"}}
+                            style={{textDecoration: 'none'}}
                         >
 
                             <div id="authorization-wrap" className="authorization">
@@ -50,7 +50,7 @@ const Header = (props) => {
             </div>
         </header>
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     nickname: userGetters.getNickname(state),

@@ -1,30 +1,30 @@
-import React from "react";
-import "../login.css";
-import {userActionCreator, userGetters, userThunkCreators} from "../../../bll/reducers/reducerUser";
-import {connect} from "react-redux";
-import TextField from "@material-ui/core/TextField";
+import React from 'react';
+import '../login.css';
+import {userActionCreator, userGetters, userThunkCreators} from '../../../bll/reducers/reducerUser';
+import {connect} from 'react-redux';
+import TextField from '@material-ui/core/TextField';
 
 const LoginForm = ({isVisible, goToRegistrationForm, login, loginError, deleteLoginError}) => {
     const onClickGoTo = (e) => {
         e.preventDefault();
         goToRegistrationForm();
-    }
+    };
 
     const onSubmit = async (e) => {
         e.preventDefault();
         const loginForm = e.currentTarget;
         login(loginForm.elements.nickname.value, loginForm.elements.password.value);
-    }
+    };
 
     const handlerDeleteLoginError = () => {
         if (loginError) {
             deleteLoginError();
         }
-    }
+    };
 
     return (
         <form
-            className={`login__form ${!isVisible && "login__form_hidden"}`}
+            className={`login__form ${!isVisible && 'login__form_hidden'}`}
             onSubmit={onSubmit}
             action="#"
         >
@@ -48,7 +48,7 @@ const LoginForm = ({isVisible, goToRegistrationForm, login, loginError, deleteLo
             />
 
             <div
-                className={`login__error ${!loginError && "login__error_hidden"}`}
+                className={`login__error ${!loginError && 'login__error_hidden'}`}
             >
                 {loginError}
             </div>
@@ -63,7 +63,7 @@ const LoginForm = ({isVisible, goToRegistrationForm, login, loginError, deleteLo
             </div>
         </form>
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     loginError: userGetters.getLoginError(state)
@@ -74,7 +74,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(userThunkCreators.login(nickname, password));
     },
     deleteLoginError() {
-        dispatch(userActionCreator.changeLoginError(""));
+        dispatch(userActionCreator.changeLoginError(''));
     }
 });
 

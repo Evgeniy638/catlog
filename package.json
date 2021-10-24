@@ -9,7 +9,8 @@
     "devserver": "webpack-dev-server",
     "start": "webpack --mode development --watch",
     "build": "webpack --mode production",
-    "lint": "eslint --ext .jsx --ext .js src/main/webapp/"
+    "lint": "eslint --ext .jsx --ext .js src/main/webapp/",
+    "lint:fix": "eslint --fix --ext .jsx --ext .js src/main/webapp/"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",

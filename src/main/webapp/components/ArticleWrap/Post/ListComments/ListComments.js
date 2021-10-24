@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import * as SockJSClient from 'sockjs-client';
-import Post from "../Post";
-import {postActionCreator} from "../../../../bll/reducers/reducerPost";
+import Post from '../Post';
+import {postActionCreator} from '../../../../bll/reducers/reducerPost';
 import { connect } from 'react-redux';
-import Comment from "./Comment";
-import {loginActionCreators} from "../../../../bll/reducers/reducerLogin";
+import Comment from './Comment';
+import {loginActionCreators} from '../../../../bll/reducers/reducerLogin';
 
-const SESSION_ITEM_COMMENTS = "SESSION_ITEM_COMMENTS";
+const SESSION_ITEM_COMMENTS = 'SESSION_ITEM_COMMENTS';
 
 let stompClient = null;
 
@@ -15,21 +15,21 @@ const ListComments = (props) => {
         connect();
         return () => {
             stompClient.disconnect();
-        }
+        };
     }, []);
 
     const [error, setError] = useState(false);
 
     const connect = async () => {
-        const Stomp = require("stompjs");
-        const SockJS = new SockJSClient("/ws");
+        const Stomp = require('stompjs');
+        const SockJS = new SockJSClient('/ws');
         stompClient = Stomp.over(SockJS);
         stompClient.connect({}, onConnected, onError);
     };
 
     const onConnected = () => {
         stompClient.subscribe(
-            "/topic/" + props.postId + "/comments",
+            '/topic/' + props.postId + '/comments',
             onCommendReceived
         );
     };
@@ -47,7 +47,7 @@ const ListComments = (props) => {
         e.preventDefault();
         if(props.authorization) {
             let field = e.currentTarget;
-            if (field.commentText.value === "") {
+            if (field.commentText.value === '') {
                 setError(true);
                 return;
             }
@@ -58,8 +58,8 @@ const ListComments = (props) => {
                 authorNickname: props.authorNickname,
                 headCommentId
             };
-            field.commentText.value = "";
-            stompClient.send("/app/comments", {}, JSON.stringify(comment));
+            field.commentText.value = '';
+            stompClient.send('/app/comments', {}, JSON.stringify(comment));
             field.commentText.disabled = false;
         }
         else{
@@ -71,7 +71,7 @@ const ListComments = (props) => {
         if(error){
             setError(!error);
         }
-    }
+    };
 
     return (
         <div className="article__comment-section">
@@ -96,18 +96,18 @@ const ListComments = (props) => {
             <div className=
                      {`
                         article__comment-area
-                        ${error && "article__comment-area_error"}`
+                        ${error && 'article__comment-area_error'}`
                      }
             >
                 <textarea name="commentText" className=
                     {`
                         article__comment-field
-                        ${error && "article__comment-field_error"}`
+                        ${error && 'article__comment-field_error'}`
                     }
                     onChange={onChange}
                     placeholder={
-                              error ? "комментарий не может быть пустым" :
-                              "введите комментарий"
+                              error ? 'комментарий не может быть пустым' :
+                              'введите комментарий'
                     }
                 >
                 </textarea>

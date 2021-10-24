@@ -1,9 +1,9 @@
-import React, {useEffect} from "react";
-import "./article.css";
-import {postActionCreator, postGetters, postThunkCreators} from "../../bll/reducers/reducerPost";
-import {connect} from "react-redux";
-import Post from "./Post/Post";
-import {userGetters} from "../../bll/reducers/reducerUser";
+import React, {useEffect} from 'react';
+import './article.css';
+import {postActionCreator, postGetters, postThunkCreators} from '../../bll/reducers/reducerPost';
+import {connect} from 'react-redux';
+import Post from './Post/Post';
+import {userGetters} from '../../bll/reducers/reducerUser';
 
 const ArticleWrap = (props) => {
     useEffect(() => {
@@ -18,17 +18,17 @@ const ArticleWrap = (props) => {
                 );
 
                 if (window.pageYOffset + document.documentElement.clientHeight + 400 > scrollHeight) {
-                    window.removeEventListener("scroll", handler);
+                    window.removeEventListener('scroll', handler);
 
                     props.getPosts(props.authorization, sinceId, false, {
                         tags: props.tags,
                         nickname: props.nickname
                     }, callback);
                 }
-            }
+            };
 
-            window.addEventListener("scroll", handler);
-        }
+            window.addEventListener('scroll', handler);
+        };
 
 
 
@@ -38,8 +38,8 @@ const ArticleWrap = (props) => {
         }, callback);
 
         return () => {
-            window.removeEventListener("scroll", handler);
-        }
+            window.removeEventListener('scroll', handler);
+        };
     }, [props.tags, props.nickname]);
 
     useEffect(() => {
@@ -70,7 +70,7 @@ const ArticleWrap = (props) => {
             }
         </div>
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     posts: postGetters.getPosts(state),

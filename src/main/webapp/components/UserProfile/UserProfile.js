@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from "react";
-import { useParams } from "react-router";
-import ArticleWrap from "../ArticleWrap/ArticleWrap";
-import apiUser from "../../api/apiUser";
+import React, {useEffect, useState} from 'react';
+import { useParams } from 'react-router';
+import ArticleWrap from '../ArticleWrap/ArticleWrap';
+import apiUser from '../../api/apiUser';
 
-import "./UserProfile.css";
-import {userGetters, userThunkCreators} from "../../bll/reducers/reducerUser";
-import {connect} from "react-redux";
-import Button from "@material-ui/core/Button";
-import SubmitBox from "../SubmitBox/SubmitBox";
-import {Link, Route} from "react-router-dom";
-import ListUsers, {pathsListUsers} from "../ListUsers/ListUsers";
-import {Skeleton} from "@material-ui/lab";
+import './UserProfile.css';
+import {userGetters, userThunkCreators} from '../../bll/reducers/reducerUser';
+import {connect} from 'react-redux';
+import Button from '@material-ui/core/Button';
+import SubmitBox from '../SubmitBox/SubmitBox';
+import {Link, Route} from 'react-router-dom';
+import ListUsers, {pathsListUsers} from '../ListUsers/ListUsers';
+import {Skeleton} from '@material-ui/lab';
 
 export const styleLink = {
-    textDecoration: "none",
-    color: "inherit",
-    fontSize: "inherit"
-}
+    textDecoration: 'none',
+    color: 'inherit',
+    fontSize: 'inherit'
+};
 
 function UserProfile(props) {
     // даннные о пользователе
@@ -57,7 +57,7 @@ function UserProfile(props) {
         else{
             setIsSubscribed(await apiUser.subscribe(nickname, props.authorization));
         }
-    }
+    };
 
     return (
         <div className="profile-page">
@@ -125,21 +125,21 @@ function UserProfile(props) {
                     }
                     {
                         props.nickname !== nickname ?
-                            <div className={isSubscribed ? "profile-area__subscribe_hasnt" : "profile-area__subscribe_has"}>
-                                <Button onClick={subscribe}>{isSubscribed ? "Отписаться" : "Подписаться"}</Button>
+                            <div className={isSubscribed ? 'profile-area__subscribe_hasnt' : 'profile-area__subscribe_has'}>
+                                <Button onClick={subscribe}>{isSubscribed ? 'Отписаться' : 'Подписаться'}</Button>
                             </div>
                         : null
                     }
                 </div>
             </div>
         </div>
-    )
+    );
 }
 
 const mapStateToProps = (state) => ({
     nickname: userGetters.getNickname(state),
     authorization: userGetters.getAuthorization(state)
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
     logout() {

@@ -1,16 +1,16 @@
-import apiPost from "../../api/apiPost";
-import Post from "../../components/ArticleWrap/Post/Post";
-import React from "react";
-import apiUser from "../../api/apiUser";
-import {LIMIT_POSTS} from "../../util/constants";
+import apiPost from '../../api/apiPost';
+import Post from '../../components/ArticleWrap/Post/Post';
+import React from 'react';
+import apiUser from '../../api/apiUser';
+import {LIMIT_POSTS} from '../../util/constants';
 
 const initialState = {
     sinceId: -1,
     posts: [
         {
             id: 1,
-            text: "text",
-            authorNickname: "nick",
+            text: 'text',
+            authorNickname: 'nick',
             countLikes: 1,
             countComments: 2,
             hasLike: false,
@@ -18,7 +18,7 @@ const initialState = {
             images: [],
             tags: [
                 {
-                    name: "tag"
+                    name: 'tag'
                 }
             ],
         }
@@ -26,15 +26,15 @@ const initialState = {
     comments: [
         {
             id: 12,
-            text: "com",
-            authorNickname: "nick",
+            text: 'com',
+            authorNickname: 'nick',
             postId: 1,
             hasAnswers: true,
             replies: [
                 {
                     id: 13,
-                    text: "reply",
-                    authorNickname: "nick",
+                    text: 'reply',
+                    authorNickname: 'nick',
                     postId: 1,
                     headCommentId: 12
                 }
@@ -43,18 +43,18 @@ const initialState = {
     ]
 };
 
-const CLEAN_POSTS = "CLEAN_POSTS";
-const CHANGE_POSTS = "CHANGE_POSTS";
-const UPDATE_LIKES = "UPDATE_LIKES";
-const CHANGE_COUNT_LIKES = "CHANGE_COUNT_LIKES";
-const UPDATE_NEW_POSTS = "UPDATE_NEW_POSTS";
-const UPDATE_COMMENTS = "UPDATE_COMMENTS";
-const ADD_IMAGES = "ADD_IMAGES";
-const ADD_INFO_ABOUT_COMMENTS_AND_LIKES = "ADD_INFO_ABOUT_COMMENTS_AND_LIKES";
-const ADD_AVATAR = "AVATAR";
-const ADD_NEW_COMMENT = "ADD_NEW_COMMENT";
-const CHANGE_SINCE_ID = "CHANGE_SINCE_ID";
-const DELETE_POST = "DELETE_POST";
+const CLEAN_POSTS = 'CLEAN_POSTS';
+const CHANGE_POSTS = 'CHANGE_POSTS';
+const UPDATE_LIKES = 'UPDATE_LIKES';
+const CHANGE_COUNT_LIKES = 'CHANGE_COUNT_LIKES';
+const UPDATE_NEW_POSTS = 'UPDATE_NEW_POSTS';
+const UPDATE_COMMENTS = 'UPDATE_COMMENTS';
+const ADD_IMAGES = 'ADD_IMAGES';
+const ADD_INFO_ABOUT_COMMENTS_AND_LIKES = 'ADD_INFO_ABOUT_COMMENTS_AND_LIKES';
+const ADD_AVATAR = 'AVATAR';
+const ADD_NEW_COMMENT = 'ADD_NEW_COMMENT';
+const CHANGE_SINCE_ID = 'CHANGE_SINCE_ID';
+const DELETE_POST = 'DELETE_POST';
 
 
 const reducerPost = (state=initialState, action) => {
@@ -68,7 +68,7 @@ const reducerPost = (state=initialState, action) => {
             return {
                 ...state,
                 sinceId: action.sinceId
-            }
+            };
         case ADD_NEW_COMMENT:
             const newStatePosts = state.posts.map(p => {
                 if (p.id !== action.comment.postId) {
@@ -78,7 +78,7 @@ const reducerPost = (state=initialState, action) => {
                 return {
                     ...p,
                     countComments: p.countComments + 1
-                }
+                };
             });
 
             if (!action.comment.headCommentId) {
@@ -104,9 +104,9 @@ const reducerPost = (state=initialState, action) => {
                             action.comment,
                             ...c.replies
                         ]
-                    }
+                    };
                 })
-            }
+            };
         case ADD_AVATAR:
             return {
                 ...state,
@@ -118,7 +118,7 @@ const reducerPost = (state=initialState, action) => {
                     return {
                         ...post,
                         avatar: action.avatar
-                    }
+                    };
                 })
             };
         case ADD_INFO_ABOUT_COMMENTS_AND_LIKES:
@@ -134,7 +134,7 @@ const reducerPost = (state=initialState, action) => {
                         countLikes: action.countLikes,
                         countComments: action. countComments,
                         hasLike: action.hasLike
-                    }
+                    };
                 })
             };
         case ADD_IMAGES:
@@ -148,7 +148,7 @@ const reducerPost = (state=initialState, action) => {
                     return {
                         ...post,
                         images: action.images
-                    }
+                    };
                 })
             };
 
@@ -184,11 +184,11 @@ const reducerPost = (state=initialState, action) => {
         case UPDATE_LIKES:
             const posts = state.posts.map(post=>{
                 const info = action.likesById.find(info => info.postId === post.id);
-                const hasLike = info !== undefined ?info.hasLike :post.hasLike
+                const hasLike = info !== undefined ?info.hasLike :post.hasLike;
                 return {
                     ...post,
                     hasLike
-                }
+                };
             });
 
             return {
@@ -213,7 +213,7 @@ export const postActionCreator = {
         return {
             type: CHANGE_SINCE_ID,
             sinceId
-        }
+        };
     },
 
     addAvatar(postId, avatar) {
@@ -221,14 +221,14 @@ export const postActionCreator = {
             type: ADD_AVATAR,
             postId,
             avatar
-        }
+        };
     },
 
     getInfoAboutCommentsAndLikes(info) {
         return {
             type: ADD_INFO_ABOUT_COMMENTS_AND_LIKES,
             ...info
-        }
+        };
     },
 
     addImages(postId, images) {
@@ -236,27 +236,27 @@ export const postActionCreator = {
             type: ADD_IMAGES,
             postId,
             images
-        }
+        };
     },
 
     cleanPosts() {
         return {
             type: CLEAN_POSTS
-        }
+        };
     },
 
     changePosts(posts) {
         return {
             type: CHANGE_POSTS,
             posts
-        }
+        };
     },
 
     getLikesInfo(likesById) {
         return {
             type: UPDATE_LIKES,
             likesById
-        }
+        };
     },
 
     changeCountLikes(countLikes, postId) {
@@ -264,14 +264,14 @@ export const postActionCreator = {
             type: CHANGE_COUNT_LIKES,
             countLikes,
             postId
-        }
+        };
     },
 
     updateNewPosts(post){
         return {
             type: UPDATE_NEW_POSTS,
             post
-        }
+        };
     },
 
     updateComments(comments, postId){
@@ -279,23 +279,23 @@ export const postActionCreator = {
             type: UPDATE_COMMENTS,
             comments,
             postId
-        }
+        };
     },
 
     addNewComment(comment) {
         return {
             type: ADD_NEW_COMMENT,
             comment
-        }
+        };
     },
 
     deletePost(postId) {
         return {
             type: DELETE_POST,
             postId
-        }
+        };
     }
-}
+};
 
 export const postGetters = {
     getPosts(state) {
@@ -309,7 +309,7 @@ export const postGetters = {
     getSinceId(state) {
         return state.reducerPost.sinceId;
     }
-}
+};
 
 export const postThunkCreators = {
     getPosts(authorization,
@@ -358,27 +358,27 @@ export const postThunkCreators = {
                     dispatch(postActionCreator.getInfoAboutCommentsAndLikes(info));
                 })();
             });
-        }
+        };
     },
 
     getLikesInfo(authorization, postsIds) {
         return async (dispatch) => {
             const likesById = await apiPost.getLikesInfo(authorization, postsIds);
             dispatch(postActionCreator.getLikesInfo(likesById));
-        }
+        };
     },
 
     getComments(postId) {
         return async (dispatch) => {
             const comments = await apiPost.getCommentsByPostId(postId);
             dispatch(postActionCreator.updateComments(comments, postId));
-        }
+        };
     },
 
     deletePost(postId) {
         return async (dispatch) => {
             await apiPost.deletePost(postId);
             dispatch(postActionCreator.deletePost(postId));
-        }
+        };
     }
-}
+};
