@@ -1,6 +1,6 @@
-import apiPost from '../../api/apiPost';
-import apiUser from '../../api/apiUser';
-import {LIMIT_POSTS} from '../../util/constants';
+import apiPost from '../../api/apiPost.js';
+import apiUser from '../../api/apiUser.js';
+import {LIMIT_POSTS} from '../../util/constants.js';
 
 const initialState = {
     sinceId: -1,

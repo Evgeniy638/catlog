@@ -5,12 +5,14 @@
   "repository": "https://github.com/Evgeniy638/catlog.git",
   "author": "Evgeniy <56478221+Evgeniy638@users.noreply.github.com>",
   "license": "MIT",
+  "type": "module",
   "scripts": {
     "devserver": "webpack-dev-server",
     "start": "webpack --mode development --watch",
     "build": "webpack --mode production",
     "lint": "eslint --ext .jsx --ext .js src/main/webapp/",
-    "lint:fix": "eslint --fix --ext .jsx --ext .js src/main/webapp/"
+    "lint:fix": "eslint --fix --ext .jsx --ext .js src/main/webapp/",
+    "iroh": "node --experimental-modules src/main/webapp/iroh"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
@@ -35,6 +37,7 @@
     "@material-ui/lab": "^4.0.0-alpha.58",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "iroh": "^0.3.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",

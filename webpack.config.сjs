@@ -1,8 +1,8 @@
-const path = require("path");
-const webpack = require("webpack");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
-require("babel-polyfill");
+import path from "path";
+import webpack from "webpack";
+import HtmlWebpackPlugin from "html-webpack-plugin";
+import UglifyJsPlugin from 'uglifyjs-webpack-plugin';
+import "babel-polyfill";
 
 module.exports = (env, argv) => ({
     mode: argv.mode,
