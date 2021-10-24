@@ -1,6 +1,4 @@
 import apiPost from '../../api/apiPost';
-import Post from '../../components/ArticleWrap/Post/Post';
-import React from 'react';
 import apiUser from '../../api/apiUser';
 import {LIMIT_POSTS} from '../../util/constants';
 
@@ -69,7 +67,7 @@ const reducerPost = (state=initialState, action) => {
                 ...state,
                 sinceId: action.sinceId
             };
-        case ADD_NEW_COMMENT:
+        case ADD_NEW_COMMENT: {
             const newStatePosts = state.posts.map(p => {
                 if (p.id !== action.comment.postId) {
                     return p;
@@ -107,7 +105,8 @@ const reducerPost = (state=initialState, action) => {
                     };
                 })
             };
-        case ADD_AVATAR:
+        }
+        case ADD_AVATAR: {
             return {
                 ...state,
                 posts: state.posts.map(post => {
@@ -121,7 +120,8 @@ const reducerPost = (state=initialState, action) => {
                     };
                 })
             };
-        case ADD_INFO_ABOUT_COMMENTS_AND_LIKES:
+        }
+        case ADD_INFO_ABOUT_COMMENTS_AND_LIKES: {
             return {
                 ...state,
                 posts: state.posts.map(post => {
@@ -137,7 +137,8 @@ const reducerPost = (state=initialState, action) => {
                     };
                 })
             };
-        case ADD_IMAGES:
+        }
+        case ADD_IMAGES: {
             return {
                 ...state,
                 posts: state.posts.map(post => {
@@ -151,7 +152,7 @@ const reducerPost = (state=initialState, action) => {
                     };
                 })
             };
-
+        }
         case UPDATE_COMMENTS:
             return {
                 ...state,
@@ -167,7 +168,7 @@ const reducerPost = (state=initialState, action) => {
                 ...state,
                 posts: [action.post, ...state.posts]
             };
-        case CHANGE_COUNT_LIKES:
+        case CHANGE_COUNT_LIKES: {
             const newPosts = state.posts.map(p =>
                 p.id === action.postId
                     ?{
@@ -181,7 +182,8 @@ const reducerPost = (state=initialState, action) => {
                 ...state,
                 posts: newPosts
             };
-        case UPDATE_LIKES:
+        }
+        case UPDATE_LIKES: {
             const posts = state.posts.map(post=>{
                 const info = action.likesById.find(info => info.postId === post.id);
                 const hasLike = info !== undefined ?info.hasLike :post.hasLike;
@@ -195,6 +197,7 @@ const reducerPost = (state=initialState, action) => {
                 ...state,
                 posts
             };
+        }
         case CHANGE_POSTS:
             return {
                 ...state,

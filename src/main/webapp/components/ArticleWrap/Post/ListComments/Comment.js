@@ -1,5 +1,4 @@
-import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux';
+import React, {useState} from 'react';
 
 const Comment = ({comment, sendComment}) => {
     const [isActiveReplyButton, setActiveReply] = useState(false);

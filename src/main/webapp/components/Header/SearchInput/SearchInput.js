@@ -24,7 +24,9 @@ const SearchInput = () => {
             try {
                 newTagMatches = await apiPost.findMatchesByTags(tags.split(' '));
             } catch (e) {
+                console.error(e);
             }
+
             setTagMatches(newTagMatches);
         })();
     }, [tags]);

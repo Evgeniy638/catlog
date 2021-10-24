@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import '../article.css';
-import CommentPic from '../comment.svg';
 import apiPost from '../../../api/apiPost';
-import {postActionCreator, postGetters, postThunkCreators} from '../../../bll/reducers/reducerPost';
+import {postActionCreator, postThunkCreators} from '../../../bll/reducers/reducerPost';
 import {userGetters} from '../../../bll/reducers/reducerUser';
 import {connect} from 'react-redux';
 import ListComments from './ListComments/ListComments';

@@ -4,7 +4,7 @@ import photoCameraIcon from './photo-camera-icon.svg';
 import apiPost from '../../api/apiPost';
 import {connect} from 'react-redux';
 import {userGetters} from '../../bll/reducers/reducerUser';
-import {postActionCreator, postThunkCreators} from '../../bll/reducers/reducerPost';
+import {postActionCreator} from '../../bll/reducers/reducerPost';
 import {util} from '../../util/util';
 import Alert from '@material-ui/lab/Alert';
 
@@ -120,7 +120,7 @@ const SubmitBox = (props) => {
                 <p className="submit-box__image-names">
                     {
                         imageNames.map(n => (
-                            <span className="submit-box__image-name-span">{n}</span>
+                            <span key={n} className="submit-box__image-name-span">{n}</span>
                         ))
                     }
                 </p>

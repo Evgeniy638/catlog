@@ -18,7 +18,7 @@ const apiPost = {
     },
 
     async deletePost(postId){
-        const response = await fetch(`/posts/delete/${postId}`, {
+        await fetch(`/posts/delete/${postId}`, {
             method: 'DELETE'
         });
     },

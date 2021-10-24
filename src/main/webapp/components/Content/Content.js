@@ -5,7 +5,7 @@ import Home from '../Home/Home';
 import UserProfile from '../UserProfile/UserProfile';
 import SearchInput from '../Header/SearchInput/SearchInput';
 
-const Content = (props) => {
+const Content = () => {
     return (
         <section className="content">
             <div className="content__element content__element_visible-only-mobile">

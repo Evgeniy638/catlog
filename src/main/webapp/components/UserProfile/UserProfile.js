@@ -49,7 +49,7 @@ function UserProfile(props) {
         })();
     }, [nickname, props.authorization]);
 
-    const subscribe = async (e) => {
+    const subscribe = async () => {
         console.log(props.authorization);
         if(isSubscribed){
             setIsSubscribed(await apiUser.unSubscribe(nickname, props.authorization));

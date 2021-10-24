@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import './article.css';
-import {postActionCreator, postGetters, postThunkCreators} from '../../bll/reducers/reducerPost';
+import {postGetters, postThunkCreators} from '../../bll/reducers/reducerPost';
 import {connect} from 'react-redux';
 import Post from './Post/Post';
 import {userGetters} from '../../bll/reducers/reducerUser';

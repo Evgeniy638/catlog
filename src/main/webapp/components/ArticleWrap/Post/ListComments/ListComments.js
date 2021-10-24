@@ -1,12 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import * as SockJSClient from 'sockjs-client';
-import Post from '../Post';
 import {postActionCreator} from '../../../../bll/reducers/reducerPost';
 import { connect } from 'react-redux';
 import Comment from './Comment';
 import {loginActionCreators} from '../../../../bll/reducers/reducerLogin';
-
-const SESSION_ITEM_COMMENTS = 'SESSION_ITEM_COMMENTS';
+import Stomp from 'stompjs';
 
 let stompClient = null;
 
@@ -21,7 +19,6 @@ const ListComments = (props) => {
     const [error, setError] = useState(false);
 
     const connect = async () => {
-        const Stomp = require('stompjs');
         const SockJS = new SockJSClient('/ws');
         stompClient = Stomp.over(SockJS);
         stompClient.connect({}, onConnected, onError);
