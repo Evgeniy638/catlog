@@ -8,7 +8,8 @@
   "scripts": {
     "devserver": "webpack-dev-server",
     "start": "webpack --mode development --watch",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "lint": "eslint --ext .jsx --ext .js src/main/webapp/"
   },
   "devDependencies": {
     "@babel/core": "^7.11.4",
@@ -17,6 +18,8 @@
     "babel-loader": "^8.1.0",
     "babel-polyfill": "^6.26.0",
     "css-loader": "^4.2.2",
+    "eslint": "^8.1.0",
+    "eslint-plugin-react": "^7.26.1",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "style-loader": "^1.2.1",
