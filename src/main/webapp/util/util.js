@@ -1,5 +1,5 @@
 export const util = {
-    readFilesAsDataURL(arrFiles, callback=results=>{}) {
+    readFilesAsDataURL(arrFiles, callback) {
         const arrResults = [];
 
         if (arrFiles.length === 0) {
@@ -23,7 +23,7 @@ export const util = {
                         }))
                     );
                 }
-            }
+            };
         });
     }
-}
+};

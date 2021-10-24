@@ -1,19 +1,18 @@
-import React, {useEffect, useState} from "react";
-import "../article.css";
-import CommentPic from "../comment.svg";
-import apiPost from "../../../api/apiPost";
-import {postActionCreator, postGetters, postThunkCreators} from "../../../bll/reducers/reducerPost";
-import {userGetters} from "../../../bll/reducers/reducerUser";
-import {connect} from "react-redux";
-import ListComments from "./ListComments/ListComments";
-import {loginActionCreators} from "../../../bll/reducers/reducerLogin";
-import {Link} from "react-router-dom";
+import React, {useEffect, useState} from 'react';
+import '../article.css';
+import apiPost from '../../../api/apiPost';
+import {postActionCreator, postThunkCreators} from '../../../bll/reducers/reducerPost';
+import {userGetters} from '../../../bll/reducers/reducerUser';
+import {connect} from 'react-redux';
+import ListComments from './ListComments/ListComments';
+import {loginActionCreators} from '../../../bll/reducers/reducerLogin';
+import {Link} from 'react-router-dom';
 import CloseIcon from '@material-ui/icons/Close';
-import Button from "@material-ui/core/Button";
+import Button from '@material-ui/core/Button';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import CommentIcon from '@material-ui/icons/Comment';
-import {Skeleton} from "@material-ui/lab";
+import {Skeleton} from '@material-ui/lab';
 
 const likeCheck = async (post, authorization) => {
     let countLikes;
@@ -26,7 +25,7 @@ const likeCheck = async (post, authorization) => {
 
     post.getLikesInfo(authorization, [post.id]);
     post.changeCountLikes(countLikes, post.id);
-}
+};
 
 const Post = (props) => {
    const [isActiveComment, setIsActiveComment] = useState(false);
@@ -50,29 +49,29 @@ const Post = (props) => {
         else{
             props.toggleOpenLogin();
         }
-    }
+    };
 
     const deletePost = () => {
         props.deletePost(props.id);
-    }
+    };
 
     const commentClick = () => {
         setIsActiveComment(!isActiveComment);
         props.getComments(props.id);
-    }
+    };
 
    useEffect(() => {
        const heightContent = document.getElementById(`article__content${props.id}`).scrollHeight;
        if(heightContent > 350){
            setBottomVisible(true);
        }
-   }, [props.images])
+   }, [props.images]);
    return(
        <div className="article">
             <div className="article__info">
                 <Link
                     to={`/user/${props.authorNickname}`}
-                    style={{textDecoration: "none", color: "var(--init-color)"}}
+                    style={{textDecoration: 'none', color: 'var(--init-color)'}}
                 >
                 <div className="article__author-wrap">
                     {
@@ -128,7 +127,7 @@ const Post = (props) => {
                         <CommentIcon/>
                     </Button>
                     <Button className="article__like-button" onClick={likeClick}>
-                        <span className={`article__like-span`}>{props.hasLike ? <FavoriteIcon/>: <FavoriteBorderIcon/>}</span>
+                        <span className={'article__like-span'}>{props.hasLike ? <FavoriteIcon/>: <FavoriteBorderIcon/>}</span>
                         <span className="article__count-like-span">{props.countLikes}</span>
                     </Button>
                 </div>
@@ -145,7 +144,7 @@ const Post = (props) => {
            }
         </div>
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     authorization: userGetters.getAuthorization(state),
@@ -158,7 +157,7 @@ const mapDispatchToProps = (dispatch) => ({
     },
 
     changeCountLikes(countLikes, postId) {
-        dispatch(postActionCreator.changeCountLikes(countLikes, postId))
+        dispatch(postActionCreator.changeCountLikes(countLikes, postId));
     },
 
     toggleOpenLogin() {

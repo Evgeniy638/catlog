@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
-import apiUser from "../../api/apiUser";
-import "./ListUsers.css";
-import {Skeleton} from "@material-ui/lab";
-import {styleLink} from "../UserProfile/UserProfile";
+import apiUser from '../../api/apiUser';
+import './ListUsers.css';
+import {Skeleton} from '@material-ui/lab';
+import {styleLink} from '../UserProfile/UserProfile';
 
 export const pathsListUsers = {
-    PATH_FOLLOWERS: "followers",
-    PATH_FOLLOWING: "following"
+    PATH_FOLLOWERS: 'followers',
+    PATH_FOLLOWING: 'following'
 };
 
 const getUserAvatar = async (nickname, setUsers) => {
@@ -15,9 +15,9 @@ const getUserAvatar = async (nickname, setUsers) => {
     setUsers((users) => {
        return users.map(u => {
            return u.nickname === nickname ?{...u, avatar} :u;
-       })
+       });
     });
-}
+};
 
 const ListUsers = ({nickname}) => {
     const {typeUsers} = useParams();
@@ -69,7 +69,7 @@ const ListUsers = ({nickname}) => {
                 ))
             }
         </div>
-    )
-}
+    );
+};
 
 export default ListUsers;

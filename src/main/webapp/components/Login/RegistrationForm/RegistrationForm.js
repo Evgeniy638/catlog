@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
-import {userActionCreator, userGetters, userThunkCreators} from "../../../bll/reducers/reducerUser";
-import {connect} from "react-redux";
-import {util} from "../../../util/util";
-import TextField from "@material-ui/core/TextField";
+import React, {useEffect, useState} from 'react';
+import {userActionCreator, userGetters, userThunkCreators} from '../../../bll/reducers/reducerUser';
+import {connect} from 'react-redux';
+import {util} from '../../../util/util';
+import TextField from '@material-ui/core/TextField';
 
 const MIN_SIZE = 6;
 const MAX_SIZE = 20;
@@ -16,16 +16,16 @@ const checkSize = (text) => {
         return `Максимальный размер ${MAX_SIZE} символов`;
     }
 
-    return "";
-}
+    return '';
+};
 
 const RegistrationForm = ({isVisible, goToLoginForm, registration,
                               registrationError, deleteRegistrationError
                           }) => {
-    const [errorNickname, setErrorNickname] = useState("");
-    const [sizeErrorPass1, setSizeErrorPass1] = useState("");
-    const [sizeErrorPass2, setSizeErrorPass2] = useState("");
-    const [errorNotSamePass, setErrorNotSamePass] = useState("");
+    const [errorNickname, setErrorNickname] = useState('');
+    const [sizeErrorPass1, setSizeErrorPass1] = useState('');
+    const [sizeErrorPass2, setSizeErrorPass2] = useState('');
+    const [errorNotSamePass, setErrorNotSamePass] = useState('');
 
     useEffect(() => {
         setErrorNickname(registrationError);
@@ -34,7 +34,7 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration,
     const onClickGoTo = (e) => {
         e.preventDefault();
         goToLoginForm();
-    }
+    };
 
     const onSubmit = async (e) => {
         e.preventDefault();
@@ -61,7 +61,7 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration,
         }
 
         if (loginForm.elements.password.value !== loginForm.elements.passwordAgain.value) {
-            setErrorNotSamePass("Пароли должны быть одинаковыми");
+            setErrorNotSamePass('Пароли должны быть одинаковыми');
             return;
         }
 
@@ -72,13 +72,13 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration,
                 results[0]?.src ?results[0].src :null
             );
         });
-    }
+    };
 
     const handlerDeleteLoginError = () => {
         if (registrationError) {
             deleteRegistrationError();
         }
-    }
+    };
 
     const handlerNickname = (e) => {
         handlerDeleteLoginError();
@@ -86,32 +86,32 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration,
         if (errorNickname) {
             setErrorNickname(checkSize(e.target.value));
         }
-    }
+    };
 
     const handlerPass1 = (e) => {
         if (errorNotSamePass) {
-            setErrorNotSamePass("");
+            setErrorNotSamePass('');
         }
 
         if (sizeErrorPass1) {
             setSizeErrorPass1(checkSize(e.target.value));
         }
-    }
+    };
 
     const handlerPass2 = (e) => {
         if (errorNotSamePass) {
-            setErrorNotSamePass("");
+            setErrorNotSamePass('');
         }
 
         if (sizeErrorPass2) {
             setSizeErrorPass2(checkSize(e.target.value));
         }
-    }
+    };
 
     return (
         <form
             onSubmit={onSubmit}
-            className={`login__form ${!isVisible && "login__form_hidden"}`}
+            className={`login__form ${!isVisible && 'login__form_hidden'}`}
             id="registrationForm"
             action="#"
         >
@@ -160,7 +160,7 @@ const RegistrationForm = ({isVisible, goToLoginForm, registration,
             </div>
         </form>
     );
-}
+};
 
 const mapStateToProps = (state) => ({
     registrationError: userGetters.getRegistrationError(state)
@@ -171,7 +171,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(userThunkCreators.registration(nickname, password, avatar));
     },
     deleteRegistrationError() {
-        dispatch(userActionCreator.changeRegistrationError(""))
+        dispatch(userActionCreator.changeRegistrationError(''));
     }
 });
 

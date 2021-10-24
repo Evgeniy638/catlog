@@ -1,31 +1,31 @@
 const apiUser = {
     async login(nickname, password) {
-        const response = await fetch("/users/my_login", {
+        const response = await fetch('/users/my_login', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({nickname, password})
         });
 
         if (!response.ok) {
-            throw Error("Неправильный логин или пароль");
+            throw Error('Неправильный логин или пароль');
         }
 
         return await response.json();
     },
 
     async registration(nickname, password, avatar) {
-        const response = await fetch("/users/registration", {
+        const response = await fetch('/users/registration', {
             method: 'POST',
             headers: {
-                "Content-Type": "application/json"
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({nickname, password, avatar})
         });
 
         if (!response.ok) {
-            throw Error("Пользователь с таким ником уже есть");
+            throw Error('Пользователь с таким ником уже есть');
         }
 
         return await response.json();
@@ -59,38 +59,38 @@ const apiUser = {
     async isSubscribed(nicknameFollowing, authorization) {
         const response = await fetch(`/subscription/${nicknameFollowing}`, {
             headers: {
-                "Authorization": authorization
+                'Authorization': authorization
             }
         });
-        return await response.text() === "true";
+        return await response.text() === 'true';
     },
 
     async subscribe(nicknameFollowing, authorization) {
         const response = await fetch(`/subscription/${nicknameFollowing}`, {
             method: 'POST',
             headers: {
-                "Authorization": authorization
+                'Authorization': authorization
             }
         });
 
         if (!response.ok) {
-            throw Error("Ошибка");
+            throw Error('Ошибка');
         }
-        return await response.text() === "true";
+        return await response.text() === 'true';
     },
 
     async unSubscribe(nicknameFollowing, authorization) {
         const response = await fetch(`/subscription/${nicknameFollowing}`, {
             method: 'DELETE',
             headers: {
-                "Authorization": authorization
+                'Authorization': authorization
             }
         });
 
         if (!response.ok) {
-            throw Error("Ошибка");
+            throw Error('Ошибка');
         }
-        return await response.text() === "true";
+        return await response.text() === 'true';
     },
 
     async getAllFollowers(nickname) {
@@ -102,6 +102,6 @@ const apiUser = {
         const response = await fetch(`/users/${nickname}/followings`);
         return await response.json();
     }
-}
+};
 
 export default apiUser;

@@ -1,10 +1,10 @@
 const apiPost = {
     async createPost(text, tagList, images, authorization) {
-        const response = await fetch("/posts", {
-            method: "POST",
+        const response = await fetch('/posts', {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": authorization
+                'Content-Type': 'application/json',
+                'Authorization': authorization
             },
             body: JSON.stringify({
                 text,
@@ -18,13 +18,13 @@ const apiPost = {
     },
 
     async deletePost(postId){
-        const response = await fetch(`/posts/delete/${postId}`, {
-            method: "DELETE"
+        await fetch(`/posts/delete/${postId}`, {
+            method: 'DELETE'
         });
     },
 
     async findMatchesByTags(tagArr) {
-        const response = await fetch(`/posts/tags/matches/${tagArr.join("+")}`);
+        const response = await fetch(`/posts/tags/matches/${tagArr.join('+')}`);
 
         if (!response.ok) {
             throw Error(`ошибка при поиске ${tagArr}`);
@@ -34,7 +34,7 @@ const apiPost = {
     },
 
     async findPostsByTags(tagArr, sinceId) {
-        const response = await fetch(`/posts/tags/find/${tagArr.join("+")}?sinceId=${sinceId}`);
+        const response = await fetch(`/posts/tags/find/${tagArr.join('+')}?sinceId=${sinceId}`);
         return await response.json();
     },
 
@@ -55,9 +55,9 @@ const apiPost = {
 
     async createLike(authorization, postId){
         const response = await fetch(`/posts/likes/${postId}`, {
-            method: "POST",
+            method: 'POST',
             headers: {
-                "Authorization": authorization
+                'Authorization': authorization
             }
         });
 
@@ -66,9 +66,9 @@ const apiPost = {
 
     async deleteLike(authorization, postId){
         const response = await fetch(`/posts/likes/${postId}`, {
-            method: "DELETE",
+            method: 'DELETE',
             headers: {
-                "Authorization": authorization
+                'Authorization': authorization
             }
         });
 
@@ -76,11 +76,11 @@ const apiPost = {
     },
 
     async getLikesInfo(authorization, postsIds){
-        const response = await fetch(`/posts/likes/get_own`, {
-            method: "POST",
+        const response = await fetch('/posts/likes/get_own', {
+            method: 'POST',
             headers: {
-                "Content-Type": "application/json",
-                "Authorization" : authorization
+                'Content-Type': 'application/json',
+                'Authorization' : authorization
             },
             body: JSON.stringify(postsIds)
         });
@@ -101,11 +101,11 @@ const apiPost = {
     async getInfoAboutCommentsAndLikes(postId, authorization) {
         const response = await fetch(`/posts/info_about_comments_and_likes/${postId}`, {
             headers: {
-                "Authorization": authorization
+                'Authorization': authorization
             }
         });
         return await response.json();
     }
-}
+};
 
 export default apiPost;

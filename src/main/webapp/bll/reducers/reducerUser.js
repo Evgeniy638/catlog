@@ -1,19 +1,19 @@
-import apiUser from "../../api/apiUser";
-import {loginActionCreators} from "./reducerLogin";
-import {keysStorage} from "../../util/constants";
+import apiUser from '../../api/apiUser';
+import {loginActionCreators} from './reducerLogin';
+import {keysStorage} from '../../util/constants';
 
 const initialState = {
-    authorization: "",
-    nickname: "",
+    authorization: '',
+    nickname: '',
     avatar: undefined,
-    loginError: "",
-    registrationError: ""
+    loginError: '',
+    registrationError: ''
 };
 
-const LOGIN = "LOGIN";
-const LOGIN_ERROR = "LOGIN_ERROR";
-const REGISTRATION_ERROR = "REGISTRATION_ERROR";
-const LOGOUT = "LOGOUT";
+const LOGIN = 'LOGIN';
+const LOGIN_ERROR = 'LOGIN_ERROR';
+const REGISTRATION_ERROR = 'REGISTRATION_ERROR';
+const LOGOUT = 'LOGOUT';
 
 const reducerUser = (state=initialState, action) => {
     switch (action.type) {
@@ -23,29 +23,29 @@ const reducerUser = (state=initialState, action) => {
                 avatar: initialState.avatar,
                 nickname: initialState.nickname,
                 authorization: initialState.authorization
-            }
+            };
         case REGISTRATION_ERROR:
             return {
                 ...state,
                 registrationError: action.registrationError
-            }
+            };
         case LOGIN_ERROR:
             return {
                 ...state,
                 loginError: action.loginError
-            }
+            };
         case LOGIN:
             return {
                 ...state,
                 authorization: action.authorization,
                 nickname: action.nickname,
                 avatar: action.avatar
-            }
+            };
         default: {
             return state;
         }
     }
-}
+};
 
 export default reducerUser;
 
@@ -54,13 +54,13 @@ export const userActionCreator = {
         return {
             type: LOGIN_ERROR,
             loginError
-        }
+        };
     },
     changeRegistrationError (registrationError) {
         return {
             type: REGISTRATION_ERROR,
             registrationError
-        }
+        };
     },
     login(authorization, nickname, avatar) {
         return {
@@ -68,12 +68,12 @@ export const userActionCreator = {
             authorization,
             nickname,
             avatar
-        }
+        };
     },
     logout() {
-        return {type: LOGOUT}
+        return {type: LOGOUT};
     }
-}
+};
 
 export const userGetters = {
     getLoginError(state) {
@@ -93,7 +93,7 @@ export const userGetters = {
     getAvatar(state) {
         return state.reducerUser.avatar;
     }
-}
+};
 
 export const userThunkCreators = {
     loginByLocalStorage() {
@@ -102,7 +102,7 @@ export const userThunkCreators = {
             const nickname = localStorage.getItem(keysStorage.NICKNAME);
             const avatar = localStorage.getItem(keysStorage.AVATAR);
             dispatch(userActionCreator.login(authorization, nickname, avatar));
-        }
+        };
     },
     logout() {
         return (dispatch) => {
@@ -110,7 +110,7 @@ export const userThunkCreators = {
             localStorage.removeItem(keysStorage.AVATAR);
             localStorage.removeItem(keysStorage.NICKNAME);
             localStorage.removeItem(keysStorage.AUTHORIZATION);
-        }
+        };
     },
     login(nickname, password) {
         return async (dispatch) => {
@@ -125,7 +125,7 @@ export const userThunkCreators = {
             } catch (e) {
                 dispatch(userActionCreator.changeLoginError(e.message));
             }
-        }
+        };
     },
 
     registration(nickname, password, avatar) {
@@ -141,6 +141,6 @@ export const userThunkCreators = {
             } catch (e) {
                 dispatch(userActionCreator.changeRegistrationError(e.message));
             }
-        }
+        };
     }
-}
+};

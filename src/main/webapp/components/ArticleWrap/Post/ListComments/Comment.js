@@ -1,17 +1,16 @@
-import React, {useEffect, useState} from "react";
-import {connect} from "react-redux";
+import React, {useState} from 'react';
 
 const Comment = ({comment, sendComment}) => {
     const [isActiveReplyButton, setActiveReply] = useState(false);
 
     const showReplyField = () => {
         setActiveReply(!isActiveReplyButton);
-    }
+    };
 
     const send = (e) => {
         showReplyField();
         sendComment(e);
-    }
+    };
 
     return (
         <>
@@ -19,7 +18,7 @@ const Comment = ({comment, sendComment}) => {
                 <div className="article__author">{comment.authorNickname}</div>
                 <div className="article__comment-content">{comment.text}
                 </div>
-                <div style={{display: "flex", justifyContent: "flex-end"}}>
+                <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                     <button className="article__reply-button" onClick={showReplyField}>Ответить</button>
                 </div>
             </div>
